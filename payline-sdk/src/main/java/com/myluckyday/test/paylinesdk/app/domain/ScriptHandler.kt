@@ -1,10 +1,8 @@
-package com.myluckyday.test.paylinesdk.app
+package com.myluckyday.test.paylinesdk.app.javascript
 
 import android.webkit.JavascriptInterface
-
-internal enum class WidgetState {
-    PAYMENT_METHODS_LIST
-}
+import android.webkit.ValueCallback
+import android.webkit.WebView
 
 internal data class ScriptHandler(private var listener: (WidgetState)->Unit) {
 
@@ -24,6 +22,4 @@ internal data class ScriptHandler(private var listener: (WidgetState)->Unit) {
     fun finalStateHasBeenReached(payload: Map<String,Any>) {
 
     }
-
-
 }
