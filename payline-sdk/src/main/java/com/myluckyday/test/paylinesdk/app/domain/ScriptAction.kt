@@ -1,7 +1,13 @@
-package com.myluckyday.test.paylinesdk.app.javascript
+package com.myluckyday.test.paylinesdk.app.domain
 
-interface ScriptAction {
+internal interface ScriptAction {
+
+    companion object {
+
+        fun commandWrapper(command: String): String {
+            return "Payline.Api.$command;"
+        }
+    }
 
     val command: String
-
 }

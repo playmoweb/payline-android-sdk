@@ -3,7 +3,8 @@
 
     <application>
 
-        <activity android:name=".app.WebActivity"/>
+        <activity android:name=".payment.presentation.PaymentActivity"/>
+        <activity android:name=".wallet.presentation.WalletActivity"/>
 
     </application>
 

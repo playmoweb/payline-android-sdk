@@ -1,10 +1,10 @@
-package com.myluckyday.test.paylinesdk.app.javascript
+package com.myluckyday.test.paylinesdk.app.domain
 
 import android.webkit.JavascriptInterface
-import android.webkit.ValueCallback
 import android.webkit.WebView
+import org.json.JSONObject
 
-internal data class ScriptHandler(private var listener: (WidgetState)->Unit) {
+internal data class ScriptHandler(private val listener: (ScriptEvent)->Unit) {
 
     @JavascriptInterface
     override fun toString(): String {
@@ -12,14 +12,22 @@ internal data class ScriptHandler(private var listener: (WidgetState)->Unit) {
     }
 
     @JavascriptInterface
-    fun didShowState(payload: Map<String,Any>) {
-        val state = payload["state"] as? String ?: return
+    fun didShowState(payload: String?) {
+        val json = JSONObject(payload)
+        val state = json.optString("state") ?: return
         val wState = WidgetState.valueOf(state)
-        listener(wState)
+        listener(ScriptEvent.DidShowState(wState))
     }
 
     @JavascriptInterface
-    fun finalStateHasBeenReached(payload: Map<String,Any>) {
+    fun finalStateHasBeenReached(payload: String?) {
+        val json = JSONObject(payload)
+        val state = json.optString("state") ?: return
+        val wState = WidgetState.valueOf(state)
+        listener(ScriptEvent.FinalStateHasBeenReached(wState))
+    }
 
+    fun execute(action: ScriptAction, inWebView: WebView, callback: (String)->Unit) {
+        inWebView.evaluateJavascript(action.command, callback)
     }
 }
