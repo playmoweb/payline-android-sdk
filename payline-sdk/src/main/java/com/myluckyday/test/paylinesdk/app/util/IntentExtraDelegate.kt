@@ -5,8 +5,7 @@ import android.net.Uri
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-internal sealed class IntentExtraDelegate<T>(protected val key: String):
-    ReadWriteProperty<Intent, T> {
+internal sealed class IntentExtraDelegate<T>(protected val key: String): ReadWriteProperty<Intent, T> {
 
     class Uri(key: String): IntentExtraDelegate<android.net.Uri?>(key) {
         override fun getValue(thisRef: Intent, property: KProperty<*>): android.net.Uri? = thisRef.getParcelableExtra(key)

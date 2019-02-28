@@ -5,17 +5,25 @@ import android.os.Parcelable
 import org.json.JSONArray
 import org.json.JSONObject
 
-class ParcelableJsonElement: ParcelableEither<JSONObject,JSONArray> {
+/**
+ * TODO: docs
+ */
+class ParcelableJsonElement: Parcelable {
 
     enum class Type {
         OBJECT, ARRAY
     }
 
     private var type: Type = Type.OBJECT
-    private var obj: JSONObject? = null
-    private var array: JSONArray? = null
 
-    constructor(obj: Any?) : super() {
+    var obj: JSONObject? = null
+    var array: JSONArray? = null
+
+    constructor(jsonObject: JSONObject): this(jsonObject as Any)
+
+    constructor(jsonArray: JSONArray): this(jsonArray as Any)
+
+    private constructor(obj: Any?) : super() {
         when(obj) {
             is JSONObject -> {
                 this.type = Type.OBJECT
@@ -27,9 +35,6 @@ class ParcelableJsonElement: ParcelableEither<JSONObject,JSONArray> {
             }
         }
     }
-
-    override val one: JSONObject? = obj
-    override val other: JSONArray? = array
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeString(type.name)
