@@ -53,7 +53,7 @@ class PaymentController {
     }
 
     /**
-     * Affiche la liste des moyens de paiment
+     * Affiche la liste des moyens de paiement
      */
     fun showPaymentForm(token: String, uri: Uri) {
         val c = context ?: return
@@ -63,7 +63,7 @@ class PaymentController {
     }
 
     /**
-     * Ferme la liste des moyens de paiment
+     * Ferme la liste des moyens de paiement sans avoir effectué ou sélectionné un moyen paiement
      */
     fun cancelPaymentForm() {
         endToken(true)

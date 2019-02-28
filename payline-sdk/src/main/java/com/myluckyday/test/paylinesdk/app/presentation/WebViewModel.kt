@@ -29,6 +29,15 @@ internal class WebViewModel(app: Application): AndroidViewModel(app) {
                             }
                         )
                     }
+                    WidgetState.PAYMENT_FAILURE_WITH_RETRY -> {
+
+                    }
+                    WidgetState.PAYMENT_METHOD_NEEDS_MORE_INFOS -> {
+
+                    }
+                    WidgetState.PAYMENT_REDIRECT_NO_RESPONSE -> {
+
+                    }
                     WidgetState.MANAGE_WEB_WALLET -> {
                         LocalBroadcastManager.getInstance(getApplication()).sendBroadcast(
                             Intent(SdkResult.BROADCAST_SDK_RESULT).apply {
@@ -36,7 +45,49 @@ internal class WebViewModel(app: Application): AndroidViewModel(app) {
                             }
                         )
                     }
+                    WidgetState.ACTIVE_WAITING -> {
+
+                    }
+                    WidgetState.PAYMENT_CANCELED_WITH_RETRY -> {
+
+                    }
+                    WidgetState.PAYMENT_METHODS_LIST_SHORTCUT -> {
+
+                    }
+                    WidgetState.PAYMENT_TRANSITIONAL_SHORTCUT -> {
+
+                    }
+
                 }
+            }
+
+            is ScriptEvent.FinalStateHasBeenReached -> {
+
+                when(it.state) {
+
+                    WidgetState.PAYMENT_CANCELED -> {
+
+                    }
+                    WidgetState.PAYMENT_SUCCESS -> {
+
+                    }
+                    WidgetState.PAYMENT_FAILURE -> {
+
+                    }
+                    WidgetState.TOKEN_EXPIRED -> {
+
+                    }
+                    WidgetState.BROWSER_NOT_SUPPORTED -> {
+
+                    }
+                    WidgetState.PAYMENT_ONHOLD_PARTNER -> {
+
+                    }
+                    WidgetState.PAYMENT_SUCCESS_FORCE_TICKET_DISPLAY -> {
+
+                    }
+                }
+
             }
         }
     }
