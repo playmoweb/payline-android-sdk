@@ -35,7 +35,7 @@ class PaymentController {
     }
 
     /**
-     * TODO: doc
+     * S'inscris au broadcast qui permet de communiquer avec la webView
      */
     fun registerListener(listener: PaymentControllerListener, context: Context) {
         this.listener = listener
@@ -44,7 +44,7 @@ class PaymentController {
     }
 
     /**
-     * TODO: doc
+     * Se désinscris du broadcast qui permet de communiquer avec la webView
      */
     fun unregisterListener() {
         bman?.unregisterReceiver(broadcastReceiver)
@@ -53,7 +53,7 @@ class PaymentController {
     }
 
     /**
-     * TODO: doc
+     * Affiche la liste des moyens de paiment
      */
     fun showPaymentForm(token: String, uri: Uri) {
         val c = context ?: return
@@ -63,56 +63,57 @@ class PaymentController {
     }
 
     /**
-     * TODO: doc
+     * Ferme la liste des moyens de paiment
      */
     fun cancelPaymentForm() {
         endToken(true)
     }
 
     /**
-     * TODO: doc
+     * Mise à jour des informations de la session de paiement (adresses, montant,...) après l'initialisation du widget
+     * et avant la finalisation du paiement.
      */
     fun updateWebPaymentData(data: JSONObject) {
         broadcastAction(PaymentSdkAction.UpdateWebPaymentData(data))
     }
 
     /**
-     * TODO: doc
+     * Permet de connaitre l’environnement : production ou homologation. La fonction retourne true ou false.
      */
     fun getIsSandbox() {
         broadcastAction(PaymentSdkAction.IsSandbox())
     }
 
     /**
-     * TODO: doc
+     * Met fin à la vie du jeton de session web
      */
     fun endToken(handledByMerchant: Boolean) {
         broadcastAction(PaymentSdkAction.EndToken(handledByMerchant))
     }
 
     /**
-     * TODO: doc
+     * Renvoie la clé du language du widget (passé dans la trame DoWebPayment)
      */
     fun getLanguage() {
         broadcastAction(PaymentSdkAction.GetLanguage())
     }
 
     /**
-     * TODO: doc
+     * Renvoie une information du contexte grâce à sa clé
      */
     fun getContextInfo(key: String?) {
         broadcastAction(PaymentSdkAction.GetContextInfo(key))
     }
 
     /**
-     * TODO: doc
+     * Déclenche la finalisation du paiement ShortCut (à appeler en context.state PAYMENT_TRANSITIONAL_SHORTCUT)
      */
     fun finalizeShortCut() {
         broadcastAction(PaymentSdkAction.FinalizeShortCut())
     }
 
     /**
-     * TODO: doc
+     * Renvoie un objet complexe contenant les données de l'acheteur provenant du partenaire shortcut.
      */
     fun getBuyerShortCut() {
         broadcastAction(PaymentSdkAction.GetBuyerShortCut())

@@ -6,6 +6,9 @@ import org.json.JSONObject
 
 interface PaymentControllerListener {
 
+    /**
+     * La liste des moyens de paiment a été affiché
+     */
     fun didShowPaymentForm()
     fun didCancelPaymentForm()
     fun didFinishPaymentForm()
