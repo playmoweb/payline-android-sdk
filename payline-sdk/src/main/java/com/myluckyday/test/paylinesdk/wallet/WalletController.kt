@@ -16,7 +16,11 @@ class WalletController {
 
     private val broadcastReceiver = object: BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            // TODO: ??
+            val sdkResult = intent.getParcelableExtra<WalletSdkResult>(SdkResult.EXTRA_SDK_RESULT)
+            when(sdkResult){
+                is WalletSdkResult.DidShowWebWallet -> listener?.didShowManageWebWallet()
+                is WalletSdkResult.DidFinishWebWallet -> listener?.didFinishManageWebWallet()
+            }
         }
     }
 

@@ -25,8 +25,11 @@ class PaymentController {
             val sdkResult = intent.getParcelableExtra<PaymentSdkResult>(SdkResult.EXTRA_SDK_RESULT)
             when(sdkResult) {
                 is PaymentSdkResult.DidShowPaymentForm -> listener?.didShowPaymentForm()
+                is PaymentSdkResult.DidCancelPaymentForm -> listener?.didCancelPaymentForm()
+                is PaymentSdkResult.DidFinishPaymentForm -> listener?.didFinishPaymentForm()
                 is PaymentSdkResult.DidGetLanguage -> listener?.didGetLanguage(sdkResult.language)
                 is PaymentSdkResult.DidGetIsSandbox -> listener?.didGetIsSandbox(sdkResult.isSandbox)
+                is PaymentSdkResult.DidGetBuyerShortCut -> listener?.didGetBuyerShortCut(sdkResult.buyer)
             }
         }
     }
