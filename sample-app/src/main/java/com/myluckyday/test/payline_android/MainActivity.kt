@@ -7,13 +7,14 @@ import android.util.Log
 import com.myluckyday.test.payline_android.data.FetchTokenParams
 import com.myluckyday.test.payline_android.data.FetchTokenResult
 import com.myluckyday.test.payline_android.domain.TokenFetcher
-import com.myluckyday.test.paylinesdk.app.util.Either
+import com.myluckyday.test.paylinesdk.app.util.ParcelableJsonElement
 import com.myluckyday.test.paylinesdk.payment.PaymentController
 import com.myluckyday.test.paylinesdk.payment.PaymentControllerListener
 import com.myluckyday.test.paylinesdk.wallet.WalletControllerListener
 import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONArray
 import org.json.JSONObject
+import java.util.*
 
 class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletControllerListener {
 
@@ -53,7 +54,7 @@ class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletContr
     private fun fetchToken() {
         TokenFetcher(fetchTokenCallback).execute(
             FetchTokenParams(
-                orderRef = "00001",
+                orderRef = UUID.randomUUID().toString(),
                 amount = 5,
                 currencyCode = "EUR"
             )
@@ -81,7 +82,7 @@ class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletContr
         Log.e("MainActivity", "got language: $language")
     }
 
-    override fun didGetContextInfo(info: Either<JSONObject, JSONArray>) {
+    override fun didGetContextInfo(info: ParcelableJsonElement) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
