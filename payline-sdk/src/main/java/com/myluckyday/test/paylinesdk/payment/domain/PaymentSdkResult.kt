@@ -3,6 +3,7 @@ package com.myluckyday.test.paylinesdk.payment.domain
 import android.os.Parcel
 import android.os.Parcelable
 import com.myluckyday.test.paylinesdk.app.domain.SdkResult
+import com.myluckyday.test.paylinesdk.app.util.ParcelableJsonElement
 import org.json.JSONArray
 import org.json.JSONObject
 

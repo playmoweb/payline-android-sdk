@@ -10,12 +10,13 @@ import com.myluckyday.test.payline_android.domain.TokenFetcher
 import com.myluckyday.test.paylinesdk.app.util.ParcelableJsonElement
 import com.myluckyday.test.paylinesdk.payment.PaymentController
 import com.myluckyday.test.paylinesdk.payment.PaymentControllerListener
+import com.myluckyday.test.paylinesdk.wallet.WalletControllerListener
 import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
 
-class MainActivity : AppCompatActivity(), PaymentControllerListener {
+class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletControllerListener {
 
     private lateinit var paymentController: PaymentController
 
@@ -86,6 +87,14 @@ class MainActivity : AppCompatActivity(), PaymentControllerListener {
     }
 
     override fun didGetBuyerShortCut(buyer: JSONObject) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun didShowManageWebWallet() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun didFinishManageWebWallet() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
