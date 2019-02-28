@@ -4,8 +4,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,15 +14,28 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.myluckyday.test.paylinesdk.R
-import com.myluckyday.test.paylinesdk.app.domain.ScriptAction
 import com.myluckyday.test.paylinesdk.app.domain.SdkAction
 import com.myluckyday.test.paylinesdk.app.domain.SdkResult
+import com.myluckyday.test.paylinesdk.app.util.BundleDelegate
 import com.myluckyday.test.paylinesdk.payment.domain.PaymentScriptAction
 import com.myluckyday.test.paylinesdk.payment.domain.PaymentSdkAction
 import com.myluckyday.test.paylinesdk.payment.domain.PaymentSdkResult
 import kotlinx.android.synthetic.main.fragment_web.*
 
 internal class WebFragment: Fragment() {
+
+    companion object {
+
+        private var Bundle.uri by BundleDelegate.Uri("EXTRA_URI")
+
+        fun createInstance(uri: Uri): WebFragment {
+            return WebFragment().apply {
+                arguments = Bundle().apply {
+                    this.uri = uri
+                }
+            }
+        }
+    }
 
     private lateinit var viewModel: WebViewModel
 
@@ -49,9 +62,9 @@ internal class WebFragment: Fragment() {
         val actionFilter = IntentFilter(SdkAction.BROADCAST_SDK_ACTION)
         LocalBroadcastManager.getInstance(activity!!).registerReceiver(actionReceiver, actionFilter)
 
-        viewModel.uri.observe(this, Observer {
+        arguments?.uri?.let {
             web_view.loadUrl(it.toString())
-        })
+        }
     }
 
     override fun onDestroyView() {

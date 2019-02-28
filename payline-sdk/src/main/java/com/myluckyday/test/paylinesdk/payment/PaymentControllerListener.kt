@@ -1,6 +1,6 @@
 package com.myluckyday.test.paylinesdk.payment
 
-import com.myluckyday.test.paylinesdk.app.util.Either
+import com.myluckyday.test.paylinesdk.app.util.ParcelableJsonElement
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -11,7 +11,7 @@ interface PaymentControllerListener {
     fun didFinishPaymentForm()
     fun didGetIsSandbox(isSandbox: Boolean)
     fun didGetLanguage(language: String)
-    fun didGetContextInfo(info: Either<JSONObject, JSONArray>)
+    fun didGetContextInfo(info: ParcelableJsonElement)
     fun didGetBuyerShortCut(buyer: JSONObject)
 
 }
