@@ -14,28 +14,21 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.myluckyday.test.paylinesdk.R
 import com.myluckyday.test.paylinesdk.app.presentation.WebFragment
 import com.myluckyday.test.paylinesdk.app.presentation.WebViewModel
+import com.myluckyday.test.paylinesdk.app.util.IntentExtraDelegate
 import kotlinx.android.synthetic.main.activity_payment.*
 
 internal class PaymentActivity: AppCompatActivity() {
 
-    private data class TypedParams(val uri: Uri)
-
     companion object {
 
-        private const val EXTRA_URI = "EXTRA_URI"
+        private var Intent.uri by IntentExtraDelegate.Uri("EXTRA_URI")
         private const val BOTTOM_SHEET_ANIM_DURATION = 150
 
         fun buildIntent(context: Context, uri: Uri): Intent {
             return Intent(context, PaymentActivity::class.java).apply {
-                putExtra(EXTRA_URI, uri)
+                this.uri = uri
             }
         }
-
-        private fun Intent.getTypedParams(): TypedParams {
-            val uri: Uri = getParcelableExtra(EXTRA_URI)
-            return TypedParams(uri)
-        }
-
     }
 
     private val bottomSheetBehavior: BottomSheetBehavior<FrameLayout> by lazy {
@@ -47,9 +40,7 @@ internal class PaymentActivity: AppCompatActivity() {
     private var bottomSheetValueAnimator: ValueAnimator? = null
     private var targetPeekHeight = 0
 
-    private val viewModel: WebViewModel by lazy {
-        ViewModelProviders.of(this).get(WebViewModel::class.java)
-    }
+    private lateinit var viewModel: WebViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +48,7 @@ internal class PaymentActivity: AppCompatActivity() {
         setContentView(R.layout.activity_payment)
 //        overridePendingTransition(0, 0)
 
-        viewModel.uri.value = intent.getTypedParams().uri
+        viewModel = ViewModelProviders.of(this).get(WebViewModel::class.java)
 
         bottomSheet.viewTreeObserver.addOnGlobalLayoutListener {
 
@@ -106,7 +97,8 @@ internal class PaymentActivity: AppCompatActivity() {
         val fragmentManager = supportFragmentManager
         fragmentManager.executePendingTransactions()
 
-        val webFragment = WebFragment()
+        val uri = intent.uri ?: return
+        val webFragment = WebFragment.createInstance(uri)
         fragmentManager
             .beginTransaction()
             .replace(R.id.frameLayout_fragmentContainer, webFragment, WebFragment::class.java.name)
