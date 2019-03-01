@@ -12,6 +12,7 @@ import com.myluckyday.test.paylinesdk.app.data.ContextInfoKey
 import com.myluckyday.test.paylinesdk.app.data.ContextInfoResult
 import com.myluckyday.test.paylinesdk.payment.PaymentController
 import com.myluckyday.test.paylinesdk.payment.PaymentControllerListener
+import com.myluckyday.test.paylinesdk.wallet.WalletController
 import com.myluckyday.test.paylinesdk.wallet.WalletControllerListener
 import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONObject
@@ -20,6 +21,7 @@ import java.util.*
 class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletControllerListener {
 
     private lateinit var paymentController: PaymentController
+    private lateinit var walletController: WalletController
 
     private var token: String? = null
     private var uri: Uri? = null
@@ -43,6 +45,9 @@ class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletContr
         paymentController = PaymentController()
         paymentController.registerListener(this, this)
 
+        walletController = WalletController()
+        walletController.registerListener(this, this)
+
         tokenButton.setOnClickListener {
             fetchToken()
         }
@@ -54,13 +59,16 @@ class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletContr
         }
 
         walletButton.setOnClickListener {
-            // TODO:
+            token ?: return@setOnClickListener
+            uri ?: return@setOnClickListener
+            walletController.showManageWallet(token!!, uri!!)
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
         paymentController.unregisterListener()
+        walletController.unregisterListener(this)
     }
 
     private fun fetchToken() {
