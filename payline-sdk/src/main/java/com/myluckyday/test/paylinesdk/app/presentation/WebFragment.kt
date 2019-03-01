@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -93,6 +94,10 @@ internal class WebFragment: Fragment() {
                     }
                     is PaymentSdkAction.IsSandbox -> viewModel.scriptHandler.execute(PaymentScriptAction.IsSandbox, web_view) { result ->
                         broadcast(PaymentSdkResult.DidGetIsSandbox(result.toBoolean()))
+                    }
+                    is PaymentSdkAction.GetContextInfo -> viewModel.scriptHandler.execute(PaymentScriptAction.GetContextInfo(action.key), web_view) { what ->
+                        broadcast(PaymentSdkResult.DidGetContextInfo(what))
+                        Log.e("WebFragment", what)
                     }
                 }
             }

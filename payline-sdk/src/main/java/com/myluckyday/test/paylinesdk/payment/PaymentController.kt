@@ -8,6 +8,7 @@ import android.content.IntentFilter
 import android.net.Uri
 import androidx.core.app.ActivityOptionsCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.myluckyday.test.paylinesdk.app.data.ContextInfoKey
 import com.myluckyday.test.paylinesdk.app.domain.SdkAction
 import com.myluckyday.test.paylinesdk.app.domain.SdkResult
 import com.myluckyday.test.paylinesdk.app.util.IntentExtraDelegate
@@ -102,7 +103,7 @@ class PaymentController {
     /**
      * Renvoie une information du contexte grâce à sa clé
      */
-    fun getContextInfo(key: String?) {
+    fun getContextInfo(key: ContextInfoKey) {
         broadcastAction(PaymentSdkAction.GetContextInfo(key))
     }
 

@@ -1,5 +1,6 @@
 package com.myluckyday.test.paylinesdk.payment.domain
 
+import com.myluckyday.test.paylinesdk.app.data.ContextInfoKey
 import com.myluckyday.test.paylinesdk.app.domain.ScriptAction
 import org.json.JSONObject
 
@@ -32,13 +33,10 @@ internal sealed class PaymentScriptAction: ScriptAction {
             get() = ScriptAction.commandWrapper("getLanguage()")
     }
 
-    data class GetContextInfo(val key: String?): PaymentScriptAction() {
+    data class GetContextInfo(val key: ContextInfoKey): PaymentScriptAction() {
 
         override val command: String
-            get() {
-                val k = key ?: "null"
-                return ScriptAction.commandWrapper("getContextInfo('$k')")
-            }
+            get() = ScriptAction.commandWrapper("getContextInfo('${key.value}')")
     }
 
     object FinalizeShortCut: PaymentScriptAction() {

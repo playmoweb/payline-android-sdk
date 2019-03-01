@@ -97,21 +97,21 @@ internal sealed class PaymentSdkResult: SdkResult {
         }
     }
 
-    data class DidGetContextInfoObject(val contextInfo: JSONObject): PaymentSdkResult() {
+    data class DidGetContextInfo(val contextInfo: String): PaymentSdkResult() {
 
         override fun writeToParcel(dest: Parcel, flags: Int) {
-            dest.writeString(contextInfo.toString())
+            dest.writeString(contextInfo)
         }
 
-        private constructor(parcel: Parcel): this(JSONObject(parcel.readString()))
+        private constructor(parcel: Parcel): this(parcel.readString())
 
         override fun describeContents(): Int = 0
 
         companion object {
             @JvmField
-            val CREATOR = object: Parcelable.Creator<DidGetContextInfoObject> {
-                override fun createFromParcel(source: Parcel): DidGetContextInfoObject = DidGetContextInfoObject(source)
-                override fun newArray(size: Int): Array<DidGetContextInfoObject?> = arrayOfNulls(size)
+            val CREATOR = object: Parcelable.Creator<DidGetContextInfo> {
+                override fun createFromParcel(source: Parcel): DidGetContextInfo = DidGetContextInfo(source)
+                override fun newArray(size: Int): Array<DidGetContextInfo?> = arrayOfNulls(size)
             }
         }
     }

@@ -4,9 +4,11 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import com.myluckyday.test.payline_android.data.FetchTokenParams
 import com.myluckyday.test.payline_android.data.FetchTokenResult
 import com.myluckyday.test.payline_android.domain.TokenFetcher
+import com.myluckyday.test.paylinesdk.app.data.ContextInfoKey
 import com.myluckyday.test.paylinesdk.app.data.ContextInfoResult
 import com.myluckyday.test.paylinesdk.payment.PaymentController
 import com.myluckyday.test.paylinesdk.payment.PaymentControllerListener
@@ -26,6 +28,11 @@ class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletContr
         token = result?.token
         result?.redirectUrl?.let {
             uri = Uri.parse(it)
+        }
+        if(token == null) {
+            Toast.makeText(this@MainActivity, "Couldn't get new token", Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(this@MainActivity, "Got new token: $token", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -69,6 +76,10 @@ class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletContr
     override fun didShowPaymentForm() {
         paymentController.getLanguage()
         paymentController.getIsSandbox()
+        paymentController.getContextInfo(ContextInfoKey.CURRENCY_CODE)
+        paymentController.getContextInfo(ContextInfoKey.AMOUNT_SMALLEST_UNIT)
+        paymentController.getContextInfo(ContextInfoKey.CURRENCY_DIGITS)
+        paymentController.getContextInfo(ContextInfoKey.ORDER_DETAILS)
     }
 
     override fun didCancelPaymentForm() {

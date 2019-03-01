@@ -2,6 +2,7 @@ package com.myluckyday.test.paylinesdk.payment.domain
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.myluckyday.test.paylinesdk.app.data.ContextInfoKey
 import com.myluckyday.test.paylinesdk.app.domain.SdkAction
 import org.json.JSONObject
 
@@ -79,13 +80,13 @@ internal sealed class PaymentSdkAction: SdkAction {
         }
     }
 
-    data class GetContextInfo(val key: String?): PaymentSdkAction() {
+    data class GetContextInfo(val key: ContextInfoKey): PaymentSdkAction() {
 
         override fun writeToParcel(dest: Parcel, flags: Int) {
-            dest.writeString(key)
+            dest.writeString(key.name)
         }
 
-        private constructor(parcel: Parcel): this(parcel.readString())
+        private constructor(parcel: Parcel): this(ContextInfoKey.valueOf(parcel.readString()))
 
         override fun describeContents(): Int = 0
 
