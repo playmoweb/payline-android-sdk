@@ -31,6 +31,7 @@ class PaymentController {
                 is PaymentSdkResult.DidFinishPaymentForm -> listener?.didFinishPaymentForm()
                 is PaymentSdkResult.DidGetLanguage -> listener?.didGetLanguage(sdkResult.language)
                 is PaymentSdkResult.DidGetIsSandbox -> listener?.didGetIsSandbox(sdkResult.isSandbox)
+                is PaymentSdkResult.DidGetContextInfo -> listener?.didGetContextInfo(sdkResult.contextInfo)
                 is PaymentSdkResult.DidGetBuyerShortCut -> listener?.didGetBuyerShortCut(sdkResult.buyer)
             }
         }

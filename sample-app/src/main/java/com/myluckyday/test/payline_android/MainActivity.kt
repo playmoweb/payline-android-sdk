@@ -91,15 +91,15 @@ class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletContr
     }
 
     override fun didGetIsSandbox(isSandbox: Boolean) {
-        Log.e("MainActivity", "got isSandbox: $isSandbox")
+        Toast.makeText(this, "got isSandbox: $isSandbox", Toast.LENGTH_SHORT).show()
     }
 
     override fun didGetLanguage(language: String) {
-        Log.e("MainActivity", "got language: $language")
+        Toast.makeText(this, "got language: $language", Toast.LENGTH_SHORT).show()
     }
 
-    override fun didGetContextInfo(info: ContextInfoResult) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun didGetContextInfo(info: String) {
+        Toast.makeText(this, "got ContextInfo: $info", Toast.LENGTH_SHORT).show()
     }
 
     override fun didGetBuyerShortCut(buyer: JSONObject) {
