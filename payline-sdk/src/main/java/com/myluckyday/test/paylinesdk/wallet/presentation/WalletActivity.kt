@@ -19,7 +19,7 @@ internal class WalletActivity: AppCompatActivity() {
         private var Intent.uri by IntentExtraDelegate.Uri("EXTRA_URI")
 
         fun buildIntent(context: Context, uri: Uri): Intent {
-            return Intent(context, PaymentActivity::class.java).apply {
+            return Intent(context, WalletActivity::class.java).apply {
                 this.uri = uri
             }
         }
@@ -31,8 +31,9 @@ internal class WalletActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_wallet)
+
+        showWebFragment()
     }
 
     private fun showWebFragment() {

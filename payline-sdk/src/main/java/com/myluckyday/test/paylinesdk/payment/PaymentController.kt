@@ -32,7 +32,6 @@ class PaymentController {
                 is PaymentSdkResult.DidGetLanguage -> listener?.didGetLanguage(sdkResult.language)
                 is PaymentSdkResult.DidGetIsSandbox -> listener?.didGetIsSandbox(sdkResult.isSandbox)
                 is PaymentSdkResult.DidGetContextInfo -> listener?.didGetContextInfo(sdkResult.contextInfo)
-                is PaymentSdkResult.DidGetBuyerShortCut -> listener?.didGetBuyerShortCut(sdkResult.buyer)
             }
         }
     }
@@ -66,10 +65,10 @@ class PaymentController {
     }
 
     /**
-     * Ferme la liste des moyens de paiement sans avoir effectué ou sélectionné un moyen paiement
+     * Ferme la liste des moyens de paiement
      */
-    fun cancelPaymentForm() {
-        endToken(true)
+    fun finishPaymentForm() {
+        //TODO
     }
 
     /**
@@ -106,20 +105,6 @@ class PaymentController {
      */
     fun getContextInfo(key: ContextInfoKey) {
         broadcastAction(PaymentSdkAction.GetContextInfo(key))
-    }
-
-    /**
-     * Déclenche la finalisation du paiement ShortCut (à appeler en context.state PAYMENT_TRANSITIONAL_SHORTCUT)
-     */
-    fun finalizeShortCut() {
-        broadcastAction(PaymentSdkAction.FinalizeShortCut())
-    }
-
-    /**
-     * Renvoie un objet complexe contenant les données de l'acheteur provenant du partenaire shortcut.
-     */
-    fun getBuyerShortCut() {
-        broadcastAction(PaymentSdkAction.GetBuyerShortCut())
     }
 
     private val bman: LocalBroadcastManager?

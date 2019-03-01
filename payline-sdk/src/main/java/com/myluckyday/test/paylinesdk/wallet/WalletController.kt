@@ -51,8 +51,7 @@ class WalletController {
     fun showManageWallet(token: String, uri: Uri){
         val c = context ?: return
         val intent = WalletActivity.buildIntent(c, uri)
-        val opts = ActivityOptionsCompat.makeCustomAnimation(c, 0, 0).toBundle()
-        c.startActivity(intent, opts)
+        c.startActivity(intent)
     }
 
     fun finishManageWallet(){

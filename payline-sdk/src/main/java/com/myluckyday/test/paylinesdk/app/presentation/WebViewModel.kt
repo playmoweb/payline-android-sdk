@@ -65,15 +65,6 @@ internal class WebViewModel(app: Application): AndroidViewModel(app) {
                             }
                         )
                     }
-                    WidgetState.PAYMENT_METHODS_LIST_SHORTCUT -> {
-                        Log.d("TAG", "PAYMENT_METHODS_LIST_SHORTCUT")
-                        // TODO:
-                    }
-                    WidgetState.PAYMENT_TRANSITIONAL_SHORTCUT -> {
-                        Log.d("TAG", "PAYMENT_TRANSITIONAL_SHORTCUT")
-                        // TODO:
-                    }
-
                 }
             }
 

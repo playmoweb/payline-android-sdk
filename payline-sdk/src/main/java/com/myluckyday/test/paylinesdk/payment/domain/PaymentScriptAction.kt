@@ -38,17 +38,4 @@ internal sealed class PaymentScriptAction: ScriptAction {
         override val command: String
             get() = ScriptAction.commandWrapper("getContextInfo('${key.value}')")
     }
-
-    object FinalizeShortCut: PaymentScriptAction() {
-
-        override val command: String
-            get() = ScriptAction.commandWrapper("finalizeShortCut()")
-    }
-
-    object GetBuyerShortCut: PaymentScriptAction() {
-
-        override val command: String
-            get() = ScriptAction.commandWrapper("getBuyerShortCut()")
-    }
-
 }

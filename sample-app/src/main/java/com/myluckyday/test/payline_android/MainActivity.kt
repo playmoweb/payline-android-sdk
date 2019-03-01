@@ -110,10 +110,6 @@ class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletContr
         Toast.makeText(this, "got ContextInfo: $info", Toast.LENGTH_SHORT).show()
     }
 
-    override fun didGetBuyerShortCut(buyer: JSONObject) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     override fun didShowManageWebWallet() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

@@ -98,38 +98,4 @@ internal sealed class PaymentSdkAction: SdkAction {
             }
         }
     }
-
-    class FinalizeShortCut(): PaymentSdkAction() {
-
-        override fun writeToParcel(dest: Parcel, flags: Int) {}
-
-        private constructor(parcel: Parcel): this()
-
-        override fun describeContents(): Int = 0
-
-        companion object {
-            @JvmField
-            val CREATOR = object: Parcelable.Creator<FinalizeShortCut> {
-                override fun createFromParcel(source: Parcel): FinalizeShortCut = FinalizeShortCut(source)
-                override fun newArray(size: Int): Array<FinalizeShortCut?> = arrayOfNulls(size)
-            }
-        }
-    }
-
-    class GetBuyerShortCut(): PaymentSdkAction() {
-
-        override fun writeToParcel(dest: Parcel, flags: Int) {}
-
-        private constructor(parcel: Parcel): this()
-
-        override fun describeContents(): Int = 0
-
-        companion object {
-            @JvmField
-            val CREATOR = object: Parcelable.Creator<GetBuyerShortCut> {
-                override fun createFromParcel(source: Parcel): GetBuyerShortCut = GetBuyerShortCut(source)
-                override fun newArray(size: Int): Array<GetBuyerShortCut?> = arrayOfNulls(size)
-            }
-        }
-    }
 }

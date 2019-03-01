@@ -115,42 +115,4 @@ internal sealed class PaymentSdkResult: SdkResult {
             }
         }
     }
-
-    data class DidGetContextInfoArray(val contextInfo: JSONArray): PaymentSdkResult() {
-
-        override fun writeToParcel(dest: Parcel, flags: Int) {
-            dest.writeString(contextInfo.toString())
-        }
-
-        private constructor(parcel: Parcel): this(JSONArray(parcel.readString()))
-
-        override fun describeContents(): Int = 0
-
-        companion object {
-            @JvmField
-            val CREATOR = object: Parcelable.Creator<DidGetContextInfoArray> {
-                override fun createFromParcel(source: Parcel): DidGetContextInfoArray = DidGetContextInfoArray(source)
-                override fun newArray(size: Int): Array<DidGetContextInfoArray?> = arrayOfNulls(size)
-            }
-        }
-    }
-
-    data class DidGetBuyerShortCut(val buyer: JSONObject): PaymentSdkResult() {
-
-        override fun writeToParcel(dest: Parcel, flags: Int) {
-            dest.writeString(buyer.toString())
-        }
-
-        private constructor(parcel: Parcel): this(JSONObject(parcel.readString()))
-
-        override fun describeContents(): Int = 0
-
-        companion object {
-            @JvmField
-            val CREATOR = object: Parcelable.Creator<DidGetBuyerShortCut> {
-                override fun createFromParcel(source: Parcel): DidGetBuyerShortCut = DidGetBuyerShortCut(source)
-                override fun newArray(size: Int): Array<DidGetBuyerShortCut?> = arrayOfNulls(size)
-            }
-        }
-    }
 }

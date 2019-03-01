@@ -35,9 +35,4 @@ interface PaymentControllerListener {
      */
     fun didGetContextInfo(info: String)
 
-    /**
-     * Appelée lorsque l'objet contenant les données de l'acheteur a été récupéré
-     */
-    fun didGetBuyerShortCut(buyer: JSONObject)
-
 }
