@@ -10,7 +10,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.myluckyday.test.paylinesdk.app.domain.ScriptEvent
 import com.myluckyday.test.paylinesdk.app.domain.ScriptHandler
 import com.myluckyday.test.paylinesdk.app.domain.SdkResult
-import com.myluckyday.test.paylinesdk.app.domain.WidgetState
+import com.myluckyday.test.paylinesdk.app.data.WidgetState
 import com.myluckyday.test.paylinesdk.payment.domain.PaymentSdkResult
 import com.myluckyday.test.paylinesdk.wallet.domain.WalletSdkResult
 

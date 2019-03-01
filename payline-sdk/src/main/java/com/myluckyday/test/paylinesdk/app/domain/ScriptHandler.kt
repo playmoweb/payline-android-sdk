@@ -2,6 +2,7 @@ package com.myluckyday.test.paylinesdk.app.domain
 
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
+import com.myluckyday.test.paylinesdk.app.data.WidgetState
 import org.json.JSONObject
 
 internal data class ScriptHandler(private val listener: (ScriptEvent)->Unit) {
