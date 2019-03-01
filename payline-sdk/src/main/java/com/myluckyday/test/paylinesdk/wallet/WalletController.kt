@@ -48,12 +48,19 @@ class WalletController {
         LocalBroadcastManager.getInstance(context).unregisterReceiver(broadcastReceiver)
     }
 
+    /**
+     * TODO: docs
+     */
     fun showManageWallet(token: String, uri: Uri){
+        //LocalBroadcastManager.getInstance()
         val c = context ?: return
         val intent = WalletActivity.buildIntent(c, uri)
         c.startActivity(intent)
     }
 
+    /**
+     * TODO: docs
+     */
     fun finishManageWallet(){
         //TODO
     }

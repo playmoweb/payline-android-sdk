@@ -3,13 +3,11 @@ package com.myluckyday.test.payline_android
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import com.myluckyday.test.payline_android.data.FetchTokenParams
 import com.myluckyday.test.payline_android.data.FetchTokenResult
 import com.myluckyday.test.payline_android.domain.TokenFetcher
 import com.myluckyday.test.paylinesdk.app.data.ContextInfoKey
-import com.myluckyday.test.paylinesdk.app.data.ContextInfoResult
 import com.myluckyday.test.paylinesdk.payment.PaymentController
 import com.myluckyday.test.paylinesdk.payment.PaymentControllerListener
 import com.myluckyday.test.paylinesdk.wallet.WalletController
@@ -44,15 +42,13 @@ class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletContr
 
         paymentController = PaymentController()
         paymentController.registerListener(this, this)
-
         walletController = WalletController()
         walletController.registerListener(this, this)
 
-        tokenButton.setOnClickListener {
-            fetchToken()
-        }
+        paymentTokenButton.setOnClickListener { fetchTokenForPayment() }
+        walletTokenButton.setOnClickListener { fetchTokenForWallet() }
 
-        payButton.setOnClickListener {
+        paymentButton.setOnClickListener {
             token ?: return@setOnClickListener
             uri ?: return@setOnClickListener
             paymentController.showPaymentForm(token!!, uri!!)
@@ -71,12 +67,43 @@ class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletContr
         walletController.unregisterListener(this)
     }
 
-    private fun fetchToken() {
+    private fun fetchTokenForPayment() {
         TokenFetcher(fetchTokenCallback).execute(
             FetchTokenParams(
-                orderRef = UUID.randomUUID().toString(),
-                amount = 5,
-                currencyCode = "EUR"
+                type = FetchTokenParams.Type.PAYMENT,
+                data = JSONObject().apply {
+                    put("orderRef", UUID.randomUUID().toString())
+                    put("amount", 5)
+                    put("currencyCode", "EUR")
+                }
+            )
+        )
+    }
+
+    private fun fetchTokenForWallet() {
+        TokenFetcher(fetchTokenCallback).execute(
+            FetchTokenParams(
+                type = FetchTokenParams.Type.WALLET,
+                data = JSONObject().apply {
+                    put("buyer", JSONObject().apply {
+                        put("email", "John.Doe@gmail.com")
+                        put("firstname", "John")
+                        put("lastname", "Doe")
+                        put("mobilePhone", "0123456789")
+                        put("shippingAddress", JSONObject().apply {
+                            put("city", "Aix-en-Provence")
+                            put("country", "FR")
+                            put("firstname", "John")
+                            put("lastname", "Doe")
+                            put("phone", "0123456789")
+                            put("street1", "15 rue de Rue")
+//                                put("street2", "example")
+                            put("zipCode", "69002")
+                        })
+                        put("walletId", "12342414-DFD-13434141")
+                    })
+                    put("updatePersonalDetails", false)
+                }
             )
         )
     }

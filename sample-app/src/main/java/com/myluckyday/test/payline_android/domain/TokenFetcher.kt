@@ -21,15 +21,17 @@ class TokenFetcher(callback: (FetchTokenResult?)->Unit): AsyncTask<FetchTokenPar
 
         try {
 
-            val json = JSONObject()
-            json.put("orderRef", params.orderRef)
-            json.put("amount", params.amount)
-            json.put("currencyCode", params.currencyCode)
+            val json = params.data
 
             val uri = Uri.Builder()
                 .scheme("https")
                 .authority("demo-sdk-merchant-server.ext.dev.payline.com")
-                .path("init-web-pay")
+                .apply {
+                    when(params.type) {
+                        FetchTokenParams.Type.PAYMENT -> path("init-web-pay")
+                        FetchTokenParams.Type.WALLET -> path("init-manage-wallet")
+                    }
+                }
                 .build()
 
             val conn = URL(uri.toString()).openConnection() as HttpURLConnection
