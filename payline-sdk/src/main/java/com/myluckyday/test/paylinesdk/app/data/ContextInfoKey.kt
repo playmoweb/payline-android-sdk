@@ -21,5 +21,5 @@ enum class ContextInfoKey(val value: String) {
     ORDER_REF("PaylineOrderRef"),
     ORDER_DELIVERY_MODE("PaylineOrderDeliveryMode"),
     ORDER_DELIVERY_TIME("PaylineOrderDeliveryTime"),
-    ORDER_DETAILS("PaylineOrderDetails"),
+    ORDER_DETAILS("PaylineOrderDetails")
 }
