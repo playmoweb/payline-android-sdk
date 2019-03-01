@@ -33,7 +33,7 @@ interface PaymentControllerListener {
     /**
      * Appelée lorsque l'information du contexte est connue
      */
-    fun didGetContextInfo(info: ContextInfoResult)
+    fun didGetContextInfo(info: String)
 
     /**
      * Appelée lorsque l'objet contenant les données de l'acheteur a été récupéré

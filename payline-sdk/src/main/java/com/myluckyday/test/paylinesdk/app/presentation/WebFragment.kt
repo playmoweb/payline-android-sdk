@@ -97,7 +97,6 @@ internal class WebFragment: Fragment() {
                     }
                     is PaymentSdkAction.GetContextInfo -> viewModel.scriptHandler.execute(PaymentScriptAction.GetContextInfo(action.key), web_view) { what ->
                         broadcast(PaymentSdkResult.DidGetContextInfo(what))
-                        Log.e("WebFragment", what)
                     }
                 }
             }
