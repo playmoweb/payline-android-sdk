@@ -10,7 +10,6 @@ import java.lang.ref.WeakReference
 import java.net.HttpURLConnection
 import java.net.URL
 import java.nio.charset.Charset
-import java.util.*
 
 class TokenFetcher(callback: (FetchTokenResult?)->Unit): AsyncTask<FetchTokenParams, Void, FetchTokenResult?>() {
 
