@@ -1,40 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".MainActivity">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/tokenButton"
+        android:id="@+id/paymentTokenButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Generate Token"
-        app:layout_constraintBottom_toTopOf="@+id/payButton"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:text="Generate Payment Token"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/paymentButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintBottom_toTopOf="@+id/walletTokenButton"/>
 
     <Button
-        android:id="@+id/payButton"
+        android:text="Pay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Payment"
-        app:layout_constraintBottom_toTopOf="@+id/walletButton"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tokenButton"/>
+        android:id="@+id/paymentButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/paymentTokenButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintTop_toTopOf="@+id/paymentTokenButton"
+        app:layout_constraintBottom_toBottomOf="@+id/paymentTokenButton"/>
+
+    <Button
+        android:id="@+id/walletTokenButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Generate Wallet Token"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/paymentTokenButton" app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintEnd_toStartOf="@+id/walletButton"/>
 
     <Button
         android:id="@+id/walletButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Manage Wallet"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/payButton"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/walletTokenButton" app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintTop_toTopOf="@+id/walletTokenButton"
+        app:layout_constraintBottom_toBottomOf="@+id/walletTokenButton"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

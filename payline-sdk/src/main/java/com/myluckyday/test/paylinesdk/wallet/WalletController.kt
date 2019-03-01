@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.net.Uri
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.myluckyday.test.paylinesdk.app.domain.SdkResult
 import com.myluckyday.test.paylinesdk.wallet.domain.WalletSdkResult
@@ -40,5 +41,12 @@ class WalletController {
     fun unregisterListener(context: Context) {
         this.listener = null
         LocalBroadcastManager.getInstance(context).unregisterReceiver(broadcastReceiver)
+    }
+
+    /**
+     * TODO: docs
+     */
+    fun showWebWallet(token: String, uri: Uri) {
+//        LocalBroadcastManager.getInstance()
     }
 }
