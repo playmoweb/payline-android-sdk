@@ -1,19 +1,16 @@
 package com.myluckyday.test.paylinesdk.app.data
 
+import android.os.Bundle
 import android.os.Parcel
 import android.os.Parcelable
 import org.json.JSONArray
 
-sealed class ContextInfoResult<T>(protected val payload: T): Parcelable {
+sealed class ContextInfoResult: Parcelable {
 
-    fun get(): T {
-        return payload
-    }
-
-    class Int(value: kotlin.Int): ContextInfoResult<kotlin.Int>(value) {
+    class Int(val value: kotlin.Int): ContextInfoResult() {
 
         override fun writeToParcel(dest: Parcel, flags: kotlin.Int) {
-            dest.writeInt(payload)
+            dest.writeInt(value)
         }
 
         private constructor(parcel: Parcel): this(parcel.readInt())
@@ -29,10 +26,10 @@ sealed class ContextInfoResult<T>(protected val payload: T): Parcelable {
         }
     }
 
-    class String(value: kotlin.String): ContextInfoResult<kotlin.String>(value) {
+    class String(val value: kotlin.String): ContextInfoResult() {
 
         override fun writeToParcel(dest: Parcel, flags: kotlin.Int) {
-            dest.writeString(payload)
+            dest.writeString(value)
         }
 
         private constructor(parcel: Parcel): this(parcel.readString()!!)
@@ -49,10 +46,10 @@ sealed class ContextInfoResult<T>(protected val payload: T): Parcelable {
 
     }
 
-    class ObjectArray(value: JSONArray): ContextInfoResult<JSONArray>(value) {
+    class ObjectArray(val value: JSONArray): ContextInfoResult() {
 
         override fun writeToParcel(dest: Parcel, flags: kotlin.Int) {
-            dest.writeString(payload.toString())
+            dest.writeString(value.toString())
         }
 
         private constructor(parcel: Parcel): this(JSONArray(parcel.readString()))

@@ -1,7 +1,6 @@
 package com.myluckyday.test.paylinesdk.payment
 
-import com.myluckyday.test.paylinesdk.app.util.ParcelableJsonElement
-import org.json.JSONArray
+import com.myluckyday.test.paylinesdk.app.data.ContextInfoResult
 import org.json.JSONObject
 
 interface PaymentControllerListener {
@@ -34,7 +33,7 @@ interface PaymentControllerListener {
     /**
      * Appelée lorsque l'information du contexte est connue
      */
-    fun didGetContextInfo(info: ParcelableJsonElement)
+    fun didGetContextInfo(info: ContextInfoResult)
 
     /**
      * Appelée lorsque l'objet contenant les données de l'acheteur a été récupéré

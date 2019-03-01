@@ -7,12 +7,11 @@ import android.util.Log
 import com.myluckyday.test.payline_android.data.FetchTokenParams
 import com.myluckyday.test.payline_android.data.FetchTokenResult
 import com.myluckyday.test.payline_android.domain.TokenFetcher
-import com.myluckyday.test.paylinesdk.app.util.ParcelableJsonElement
+import com.myluckyday.test.paylinesdk.app.data.ContextInfoResult
 import com.myluckyday.test.paylinesdk.payment.PaymentController
 import com.myluckyday.test.paylinesdk.payment.PaymentControllerListener
 import com.myluckyday.test.paylinesdk.wallet.WalletControllerListener
 import kotlinx.android.synthetic.main.activity_main.*
-import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
 
@@ -37,13 +36,19 @@ class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletContr
         paymentController = PaymentController()
         paymentController.registerListener(this, this)
 
+        tokenButton.setOnClickListener {
+            fetchToken()
+        }
+
         payButton.setOnClickListener {
             token ?: return@setOnClickListener
             uri ?: return@setOnClickListener
             paymentController.showPaymentForm(token!!, uri!!)
         }
 
-        fetchToken()
+        walletButton.setOnClickListener {
+            // TODO:
+        }
     }
 
     override fun onDestroy() {
@@ -82,7 +87,7 @@ class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletContr
         Log.e("MainActivity", "got language: $language")
     }
 
-    override fun didGetContextInfo(info: ParcelableJsonElement) {
+    override fun didGetContextInfo(info: ContextInfoResult) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
