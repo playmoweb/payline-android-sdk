@@ -3,13 +3,11 @@ package com.myluckyday.test.payline_android
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import com.myluckyday.test.payline_android.data.FetchTokenParams
 import com.myluckyday.test.payline_android.data.FetchTokenResult
 import com.myluckyday.test.payline_android.domain.TokenFetcher
 import com.myluckyday.test.paylinesdk.app.data.ContextInfoKey
-import com.myluckyday.test.paylinesdk.app.data.ContextInfoResult
 import com.myluckyday.test.paylinesdk.payment.PaymentController
 import com.myluckyday.test.paylinesdk.payment.PaymentControllerListener
 import com.myluckyday.test.paylinesdk.wallet.WalletController
@@ -47,20 +45,19 @@ class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletContr
         walletController = WalletController()
         walletController.registerListener(this, this)
 
-        tokenButton.setOnClickListener {
-//            fetchTokenForPayment()
-            fetchTokenForWallet()
-        }
-
-        payButton.setOnClickListener {
-            token ?: return@setOnClickListener
-            uri ?: return@setOnClickListener
-            paymentController.showPaymentForm(token!!, uri!!)
-        }
+        paymentTokenButton.setOnClickListener { fetchTokenForPayment() }
+        walletTokenButton.setOnClickListener { fetchTokenForWallet() }
 
         walletButton.setOnClickListener {
             token ?: return@setOnClickListener
             uri ?: return@setOnClickListener
+            walletController.showWebWallet(token!!, uri!!)
+        }
+
+        paymentButton.setOnClickListener {
+            token ?: return@setOnClickListener
+            uri ?: return@setOnClickListener
+            paymentController.showPaymentForm(token!!, uri!!)
         }
     }
 
