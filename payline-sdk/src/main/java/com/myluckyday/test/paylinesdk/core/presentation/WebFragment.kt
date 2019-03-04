@@ -1,4 +1,4 @@
-package com.myluckyday.test.paylinesdk.app.presentation
+package com.myluckyday.test.paylinesdk.core.presentation
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -6,18 +6,16 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.myluckyday.test.paylinesdk.R
-import com.myluckyday.test.paylinesdk.app.domain.SdkAction
-import com.myluckyday.test.paylinesdk.app.domain.SdkResult
-import com.myluckyday.test.paylinesdk.app.util.BundleDelegate
+import com.myluckyday.test.paylinesdk.core.domain.SdkAction
+import com.myluckyday.test.paylinesdk.core.domain.SdkResult
+import com.myluckyday.test.paylinesdk.core.util.BundleDelegate
 import com.myluckyday.test.paylinesdk.payment.domain.PaymentScriptAction
 import com.myluckyday.test.paylinesdk.payment.domain.PaymentSdkAction
 import com.myluckyday.test.paylinesdk.payment.domain.PaymentSdkResult
@@ -95,7 +93,10 @@ internal class WebFragment: Fragment() {
                     is PaymentSdkAction.IsSandbox -> viewModel.scriptHandler.execute(PaymentScriptAction.IsSandbox, web_view) { result ->
                         broadcast(PaymentSdkResult.DidGetIsSandbox(result.toBoolean()))
                     }
-                    is PaymentSdkAction.GetContextInfo -> viewModel.scriptHandler.execute(PaymentScriptAction.GetContextInfo(action.key), web_view) { what ->
+                    is PaymentSdkAction.GetContextInfo -> viewModel.scriptHandler.execute(PaymentScriptAction.GetContextInfo(action.key), web_view) { contextInfoData ->
+
+                        val parsed =
+
                         broadcast(PaymentSdkResult.DidGetContextInfo(what))
                     }
                 }

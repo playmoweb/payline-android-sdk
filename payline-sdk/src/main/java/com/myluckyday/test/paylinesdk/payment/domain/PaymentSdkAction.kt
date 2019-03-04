@@ -2,8 +2,8 @@ package com.myluckyday.test.paylinesdk.payment.domain
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.myluckyday.test.paylinesdk.app.data.ContextInfoKey
-import com.myluckyday.test.paylinesdk.app.domain.SdkAction
+import com.myluckyday.test.paylinesdk.core.data.ContextInfoKey
+import com.myluckyday.test.paylinesdk.core.domain.SdkAction
 import org.json.JSONObject
 
 internal sealed class PaymentSdkAction: SdkAction {
@@ -44,7 +44,7 @@ internal sealed class PaymentSdkAction: SdkAction {
         }
     }
 
-    data class EndToken(val handledByMerchant: Boolean): PaymentSdkAction() {
+    data class EndToken(val handledByMerchant: Boolean, val additionalData: JSONObject): PaymentSdkAction() {
 
         override fun writeToParcel(dest: Parcel, flags: Int) {
             dest.writeInt(if(handledByMerchant) 1 else 0)

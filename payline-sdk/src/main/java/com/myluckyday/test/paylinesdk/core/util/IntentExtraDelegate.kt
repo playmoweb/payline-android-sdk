@@ -1,8 +1,6 @@
-package com.myluckyday.test.paylinesdk.app.util
+package com.myluckyday.test.paylinesdk.core.util
 
 import android.content.Intent
-import android.net.Uri
-import com.myluckyday.test.paylinesdk.payment.domain.PaymentSdkResult
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 

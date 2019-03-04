@@ -7,10 +7,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import com.myluckyday.test.paylinesdk.R
-import com.myluckyday.test.paylinesdk.app.presentation.WebFragment
-import com.myluckyday.test.paylinesdk.app.presentation.WebViewModel
-import com.myluckyday.test.paylinesdk.app.util.IntentExtraDelegate
-import com.myluckyday.test.paylinesdk.payment.presentation.PaymentActivity
+import com.myluckyday.test.paylinesdk.core.presentation.WebFragment
+import com.myluckyday.test.paylinesdk.core.presentation.WebViewModel
+import com.myluckyday.test.paylinesdk.core.util.IntentExtraDelegate
 
 internal class WalletActivity: AppCompatActivity() {
 

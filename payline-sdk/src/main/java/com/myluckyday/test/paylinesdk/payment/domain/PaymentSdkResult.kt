@@ -2,9 +2,8 @@ package com.myluckyday.test.paylinesdk.payment.domain
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.myluckyday.test.paylinesdk.app.domain.SdkResult
-import org.json.JSONArray
-import org.json.JSONObject
+import com.myluckyday.test.paylinesdk.core.data.ContextInfoResult
+import com.myluckyday.test.paylinesdk.core.domain.SdkResult
 
 internal sealed class PaymentSdkResult: SdkResult {
 
@@ -97,10 +96,10 @@ internal sealed class PaymentSdkResult: SdkResult {
         }
     }
 
-    data class DidGetContextInfo(val contextInfo: String): PaymentSdkResult() {
+    data class DidGetContextInfo(val result: ContextInfoResult): PaymentSdkResult() {
 
         override fun writeToParcel(dest: Parcel, flags: Int) {
-            dest.writeString(contextInfo)
+            dest.writeParcelable(result, 0)
         }
 
         private constructor(parcel: Parcel): this(parcel.readString())

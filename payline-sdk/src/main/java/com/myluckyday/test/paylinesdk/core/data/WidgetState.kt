@@ -1,4 +1,4 @@
-package com.myluckyday.test.paylinesdk.app.data
+package com.myluckyday.test.paylinesdk.core.data
 
 internal enum class WidgetState {
     PAYMENT_METHODS_LIST,

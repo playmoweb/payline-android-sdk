@@ -1,8 +1,9 @@
-package com.myluckyday.test.paylinesdk.app.domain
+package com.myluckyday.test.paylinesdk.core.domain
 
+import android.util.Log
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
-import com.myluckyday.test.paylinesdk.app.data.WidgetState
+import com.myluckyday.test.paylinesdk.core.data.WidgetState
 import org.json.JSONObject
 
 internal data class ScriptHandler(private val listener: (ScriptEvent)->Unit) {
@@ -18,6 +19,11 @@ internal data class ScriptHandler(private val listener: (ScriptEvent)->Unit) {
         val state = json.optString("state") ?: return
         val wState = WidgetState.valueOf(state)
         listener(ScriptEvent.DidShowState(wState))
+    }
+
+    @JavascriptInterface
+    fun didEndToken() {
+        Log.e("ScriptHandler", "didEndToken()")
     }
 
     @JavascriptInterface

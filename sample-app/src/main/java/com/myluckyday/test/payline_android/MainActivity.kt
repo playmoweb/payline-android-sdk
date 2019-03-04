@@ -7,7 +7,7 @@ import android.widget.Toast
 import com.myluckyday.test.payline_android.data.FetchTokenParams
 import com.myluckyday.test.payline_android.data.FetchTokenResult
 import com.myluckyday.test.payline_android.domain.TokenFetcher
-import com.myluckyday.test.paylinesdk.app.data.ContextInfoKey
+import com.myluckyday.test.paylinesdk.core.data.ContextInfoKey
 import com.myluckyday.test.paylinesdk.payment.PaymentController
 import com.myluckyday.test.paylinesdk.payment.PaymentControllerListener
 import com.myluckyday.test.paylinesdk.wallet.WalletController

@@ -1,8 +1,8 @@
-package com.myluckyday.test.paylinesdk.app.domain
+package com.myluckyday.test.paylinesdk.core.domain
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.myluckyday.test.paylinesdk.app.data.WidgetState
+import com.myluckyday.test.paylinesdk.core.data.WidgetState
 
 internal sealed class ScriptEvent: Parcelable {
 
@@ -23,6 +23,10 @@ internal sealed class ScriptEvent: Parcelable {
                 override fun newArray(size: Int): Array<DidShowState?> = arrayOfNulls(size)
             }
         }
+    }
+
+    data class DidEndToken(): ScriptEvent() {
+
     }
 
     data class FinalStateHasBeenReached(val state: WidgetState): ScriptEvent() {
