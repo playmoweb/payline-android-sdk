@@ -7,10 +7,13 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.myluckyday.test.paylinesdk.R
+import com.myluckyday.test.paylinesdk.core.domain.SdkAction
 import com.myluckyday.test.paylinesdk.core.presentation.WebFragment
 import com.myluckyday.test.paylinesdk.core.presentation.WebViewModel
 import com.myluckyday.test.paylinesdk.core.util.IntentExtraDelegate
+import com.myluckyday.test.paylinesdk.payment.domain.PaymentSdkAction
 import kotlinx.android.synthetic.main.activity_payment.*
 
 internal class PaymentActivity: AppCompatActivity() {
@@ -52,7 +55,9 @@ internal class PaymentActivity: AppCompatActivity() {
         }
 
         b_cancel_payment_activity.setOnClickListener {
-            viewModel.cancelPaymentForm.value = true
+            LocalBroadcastManager.getInstance(this).sendBroadcast(Intent(SdkAction.BROADCAST_SDK_ACTION).apply {
+                putExtra(SdkAction.EXTRA_SDK_ACTION, PaymentSdkAction.EndToken(false, null))
+            })
         }
     }
 

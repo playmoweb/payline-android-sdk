@@ -86,10 +86,6 @@ internal class WebViewModel(app: Application): AndroidViewModel(app) {
         }
     }
 
-    val cancelPaymentForm = MutableLiveData<Boolean>().apply {
-        value = false
-    }
-
     val finishUi = MutableLiveData<Boolean>().apply {
         value = false
     }
