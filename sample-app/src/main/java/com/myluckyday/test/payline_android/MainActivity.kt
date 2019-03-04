@@ -8,6 +8,7 @@ import com.myluckyday.test.payline_android.data.FetchTokenParams
 import com.myluckyday.test.payline_android.data.FetchTokenResult
 import com.myluckyday.test.payline_android.domain.TokenFetcher
 import com.myluckyday.test.paylinesdk.core.data.ContextInfoKey
+import com.myluckyday.test.paylinesdk.core.data.ContextInfoResult
 import com.myluckyday.test.paylinesdk.payment.PaymentController
 import com.myluckyday.test.paylinesdk.payment.PaymentControllerListener
 import com.myluckyday.test.paylinesdk.wallet.WalletController
@@ -147,15 +148,11 @@ class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletContr
         Toast.makeText(this, "got language: $language", Toast.LENGTH_SHORT).show()
     }
 
-    override fun didGetContextInfo(info: String) {
+    override fun didGetContextInfo(info: ContextInfoResult) {
         Toast.makeText(this, "got ContextInfo: $info", Toast.LENGTH_SHORT).show()
     }
 
     override fun didShowManageWebWallet() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun didFinishManageWebWallet() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

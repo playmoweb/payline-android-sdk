@@ -48,9 +48,10 @@ internal sealed class PaymentSdkAction: SdkAction {
 
         override fun writeToParcel(dest: Parcel, flags: Int) {
             dest.writeInt(if(handledByMerchant) 1 else 0)
+            dest.writeString(additionalData.toString())
         }
 
-        private constructor(parcel: Parcel): this(parcel.readInt() == 1)
+        private constructor(parcel: Parcel): this(parcel.readInt() == 1, JSONObject(parcel.readString()))
 
         override fun describeContents(): Int = 0
 

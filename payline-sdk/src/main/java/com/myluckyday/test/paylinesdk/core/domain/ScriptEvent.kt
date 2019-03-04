@@ -25,8 +25,23 @@ internal sealed class ScriptEvent: Parcelable {
         }
     }
 
-    data class DidEndToken(): ScriptEvent() {
+    data class DidEndToken(val code: Int): ScriptEvent() {
 
+        override fun writeToParcel(dest: Parcel, flags: Int) {
+            dest.writeInt(code)
+        }
+
+        private constructor(parcel: Parcel): this(parcel.readInt())
+
+        override fun describeContents(): Int = 0
+
+        companion object {
+            @JvmField
+            val CREATOR = object: Parcelable.Creator<DidEndToken> {
+                override fun createFromParcel(source: Parcel): DidEndToken = DidEndToken(source)
+                override fun newArray(size: Int): Array<DidEndToken?> = arrayOfNulls(size)
+            }
+        }
     }
 
     data class FinalStateHasBeenReached(val state: WidgetState): ScriptEvent() {

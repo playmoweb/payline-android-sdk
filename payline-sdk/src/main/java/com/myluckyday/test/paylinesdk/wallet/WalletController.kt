@@ -24,7 +24,6 @@ class WalletController {
             val sdkResult = intent.getParcelableExtra<WalletSdkResult>(SdkResult.EXTRA_SDK_RESULT)
             when(sdkResult){
                 is WalletSdkResult.DidShowWebWallet -> listener?.didShowManageWebWallet()
-                is WalletSdkResult.DidFinishWebWallet -> listener?.didFinishManageWebWallet()
             }
         }
     }

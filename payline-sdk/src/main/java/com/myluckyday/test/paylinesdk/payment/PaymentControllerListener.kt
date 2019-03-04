@@ -1,5 +1,7 @@
 package com.myluckyday.test.paylinesdk.payment
 
+import com.myluckyday.test.paylinesdk.core.data.ContextInfoResult
+
 interface PaymentControllerListener {
 
     /**
@@ -30,6 +32,6 @@ interface PaymentControllerListener {
     /**
      * Appelée lorsque l'information du contexte est connue
      */
-    fun didGetContextInfo(info: String)
+    fun didGetContextInfo(info: ContextInfoResult)
 
 }

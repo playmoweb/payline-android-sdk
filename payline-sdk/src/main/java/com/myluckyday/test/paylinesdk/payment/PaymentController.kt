@@ -29,7 +29,7 @@ class PaymentController {
                 is PaymentSdkResult.DidFinishPaymentForm -> listener?.didFinishPaymentForm()
                 is PaymentSdkResult.DidGetLanguage -> listener?.didGetLanguage(sdkResult.language)
                 is PaymentSdkResult.DidGetIsSandbox -> listener?.didGetIsSandbox(sdkResult.isSandbox)
-                is PaymentSdkResult.DidGetContextInfo -> listener?.didGetContextInfo(sdkResult.contextInfo)
+                is PaymentSdkResult.DidGetContextInfo -> listener?.didGetContextInfo(sdkResult.result)
             }
         }
     }
@@ -88,7 +88,7 @@ class PaymentController {
      * Met fin à la vie du jeton de session web
      */
     fun endToken(handledByMerchant: Boolean, additionalData: JSONObject) {
-        broadcastAction(PaymentSdkAction.EndToken(handledByMerchant))
+        broadcastAction(PaymentSdkAction.EndToken(handledByMerchant, additionalData))
     }
 
     /**

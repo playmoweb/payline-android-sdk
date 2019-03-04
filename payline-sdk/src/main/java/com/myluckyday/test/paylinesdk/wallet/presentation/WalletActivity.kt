@@ -10,6 +10,7 @@ import com.myluckyday.test.paylinesdk.R
 import com.myluckyday.test.paylinesdk.core.presentation.WebFragment
 import com.myluckyday.test.paylinesdk.core.presentation.WebViewModel
 import com.myluckyday.test.paylinesdk.core.util.IntentExtraDelegate
+import kotlinx.android.synthetic.main.activity_wallet.*
 
 internal class WalletActivity: AppCompatActivity() {
 
@@ -46,6 +47,10 @@ internal class WalletActivity: AppCompatActivity() {
             .beginTransaction()
             .replace(R.id.frameLayout_fragmentContainer_wallet, webFragment, WebFragment::class.java.name)
             .commit()
+
+        b_cancel_wallet_activity.setOnClickListener {
+
+        }
     }
 
 }

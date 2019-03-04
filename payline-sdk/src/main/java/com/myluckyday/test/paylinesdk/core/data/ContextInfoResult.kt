@@ -9,6 +9,7 @@ sealed class ContextInfoResult: Parcelable {
     class Int(val key: ContextInfoKey, val value: kotlin.Int): ContextInfoResult() {
 
         override fun writeToParcel(dest: Parcel, flags: kotlin.Int) {
+            dest.writeString(key.toString())
             dest.writeInt(value)
         }
 
@@ -25,9 +26,10 @@ sealed class ContextInfoResult: Parcelable {
         }
     }
 
-    class String(val value: kotlin.String): ContextInfoResult() {
+    class String(val key: ContextInfoKey, val value: kotlin.String): ContextInfoResult() {
 
         override fun writeToParcel(dest: Parcel, flags: kotlin.Int) {
+            dest.writeString(key.toString())
             dest.writeString(value)
         }
 
@@ -45,9 +47,10 @@ sealed class ContextInfoResult: Parcelable {
 
     }
 
-    class ObjectArray(val value: JSONArray): ContextInfoResult() {
+    class ObjectArray(val key: ContextInfoKey, val value: JSONArray): ContextInfoResult() {
 
         override fun writeToParcel(dest: Parcel, flags: kotlin.Int) {
+            dest.writeString(key.toString())
             dest.writeString(value.toString())
         }
 

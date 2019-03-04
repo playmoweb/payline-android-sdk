@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
+import android.util.JsonReader
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.myluckyday.test.paylinesdk.R
+import com.myluckyday.test.paylinesdk.core.data.ContextInfoKey
+import com.myluckyday.test.paylinesdk.core.data.ContextInfoResult
 import com.myluckyday.test.paylinesdk.core.domain.SdkAction
 import com.myluckyday.test.paylinesdk.core.domain.SdkResult
 import com.myluckyday.test.paylinesdk.core.util.BundleDelegate
@@ -20,6 +23,8 @@ import com.myluckyday.test.paylinesdk.payment.domain.PaymentScriptAction
 import com.myluckyday.test.paylinesdk.payment.domain.PaymentSdkAction
 import com.myluckyday.test.paylinesdk.payment.domain.PaymentSdkResult
 import kotlinx.android.synthetic.main.fragment_web.*
+import org.json.JSONArray
+import org.json.JSONObject
 
 internal class WebFragment: Fragment() {
 
@@ -95,10 +100,19 @@ internal class WebFragment: Fragment() {
                     }
                     is PaymentSdkAction.GetContextInfo -> viewModel.scriptHandler.execute(PaymentScriptAction.GetContextInfo(action.key), web_view) { contextInfoData ->
 
-                        val parsed =
+                        val parsed = when(action.key){
+                            ContextInfoKey.AMOUNT_SMALLEST_UNIT -> ContextInfoResult.Int(action.key, contextInfoData.toInt())
+                            ContextInfoKey.CURRENCY_DIGITS -> ContextInfoResult.Int(action.key, contextInfoData.toInt())
+                            ContextInfoKey.ORDER_DETAILS -> ContextInfoResult.ObjectArray(action.key, JSONArray(contextInfoData))
+                            else -> ContextInfoResult.String(action.key, contextInfoData)
+                        }
 
-                        broadcast(PaymentSdkResult.DidGetContextInfo(what))
+                        broadcast(PaymentSdkResult.DidGetContextInfo(parsed))
                     }
+                    is PaymentSdkAction.EndToken -> viewModel.scriptHandler.execute(PaymentScriptAction.EndToken(action.handledByMerchant, action.additionalData), web_view){ result ->
+                        broadcast(PaymentSdkResult.DidCancelPaymentForm())
+                    }
+                    is PaymentSdkAction.UpdateWebPaymentData -> viewModel.scriptHandler.execute(PaymentScriptAction.UpdateWebPaymentData(action.paymentData), web_view){ }
                 }
             }
         }
