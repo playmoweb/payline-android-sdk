@@ -25,13 +25,11 @@ internal sealed class ScriptEvent: Parcelable {
         }
     }
 
-    data class DidEndToken(val code: Int): ScriptEvent() {
+    class DidEndToken(): ScriptEvent() {
 
-        override fun writeToParcel(dest: Parcel, flags: Int) {
-            dest.writeInt(code)
-        }
+        override fun writeToParcel(dest: Parcel, flags: Int) {}
 
-        private constructor(parcel: Parcel): this(parcel.readInt())
+        private constructor(parcel: Parcel): this()
 
         override fun describeContents(): Int = 0
 

@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
-import android.util.JsonReader
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +23,6 @@ import com.myluckyday.test.paylinesdk.payment.domain.PaymentSdkAction
 import com.myluckyday.test.paylinesdk.payment.domain.PaymentSdkResult
 import kotlinx.android.synthetic.main.fragment_web.*
 import org.json.JSONArray
-import org.json.JSONObject
 
 internal class WebFragment: Fragment() {
 
@@ -103,16 +101,19 @@ internal class WebFragment: Fragment() {
                         val parsed = when(action.key){
                             ContextInfoKey.AMOUNT_SMALLEST_UNIT -> ContextInfoResult.Int(action.key, contextInfoData.toInt())
                             ContextInfoKey.CURRENCY_DIGITS -> ContextInfoResult.Int(action.key, contextInfoData.toInt())
-                            ContextInfoKey.ORDER_DETAILS -> ContextInfoResult.ObjectArray(action.key, JSONArray(contextInfoData))
+                            ContextInfoKey.ORDER_DETAILS -> {
+                                if(contextInfoData == "null") {
+                                    ContextInfoResult.ObjectArray(action.key, JSONArray())
+                                } else {
+                                    ContextInfoResult.ObjectArray(action.key, JSONArray(contextInfoData))
+                                }
+                            }
                             else -> ContextInfoResult.String(action.key, contextInfoData)
                         }
 
                         broadcast(PaymentSdkResult.DidGetContextInfo(parsed))
                     }
-                    is PaymentSdkAction.EndToken -> viewModel.scriptHandler.execute(PaymentScriptAction.EndToken(action.handledByMerchant, action.additionalData), web_view){ result ->
-                        broadcast(PaymentSdkResult.DidCancelPaymentForm())
-                    }
-                    is PaymentSdkAction.UpdateWebPaymentData -> viewModel.scriptHandler.execute(PaymentScriptAction.UpdateWebPaymentData(action.paymentData), web_view){ }
+                    is PaymentSdkAction.EndToken -> viewModel.scriptHandler.execute(PaymentScriptAction.EndToken(action.handledByMerchant, action.additionalData), web_view) {}
                 }
             }
         }

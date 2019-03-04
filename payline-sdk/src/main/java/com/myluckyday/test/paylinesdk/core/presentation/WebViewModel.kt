@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.myluckyday.test.paylinesdk.core.domain.ScriptEvent
@@ -73,13 +74,24 @@ internal class WebViewModel(app: Application): AndroidViewModel(app) {
                     }
                 }
             }
+
+            is ScriptEvent.DidEndToken -> {
+                LocalBroadcastManager.getInstance(getApplication()).sendBroadcast(
+                    Intent(SdkResult.BROADCAST_SDK_RESULT).apply {
+                        putExtra(SdkResult.EXTRA_SDK_RESULT, PaymentSdkResult.DidCancelPaymentForm())
+                    }
+                )
+                finishUi.postValue(true)
+            }
         }
     }
 
-    internal fun cancelCurrentOperation() {
-        // TODO:
+    val cancelPaymentForm = MutableLiveData<Boolean>().apply {
+        value = false
     }
 
-    val uri = MutableLiveData<Uri>()
+    val finishUi = MutableLiveData<Boolean>().apply {
+        value = false
+    }
 
 }

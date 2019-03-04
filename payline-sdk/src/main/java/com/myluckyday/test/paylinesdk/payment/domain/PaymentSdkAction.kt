@@ -44,7 +44,9 @@ internal sealed class PaymentSdkAction: SdkAction {
         }
     }
 
-    data class EndToken(val handledByMerchant: Boolean, val additionalData: JSONObject): PaymentSdkAction() {
+    class EndToken(val handledByMerchant: Boolean, additionalData: JSONObject?): PaymentSdkAction() {
+
+        val additionalData: JSONObject = additionalData ?: JSONObject()
 
         override fun writeToParcel(dest: Parcel, flags: Int) {
             dest.writeInt(if(handledByMerchant) 1 else 0)

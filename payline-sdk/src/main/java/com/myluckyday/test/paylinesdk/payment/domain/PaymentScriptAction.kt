@@ -22,8 +22,8 @@ internal sealed class PaymentScriptAction: ScriptAction {
 
         override val command: String
             get() {
-//                val jsCallback = "function() { PaylineSdkAndroid.didEndToken(); }"
-                val comm = "endToken('$additionalData', 'PaylineSdkAndroid.didEndToken', null, $handledByMerchant)"
+                val jsCallback = "function() { PaylineSdkAndroid.didEndToken(); }"
+                val comm = "endToken('$additionalData', $jsCallback, null, $handledByMerchant)"
                 return ScriptAction.commandWrapper(comm)
             }
     }

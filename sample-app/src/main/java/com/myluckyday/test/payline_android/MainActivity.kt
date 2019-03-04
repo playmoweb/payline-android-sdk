@@ -130,10 +130,12 @@ class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletContr
         paymentController.getContextInfo(ContextInfoKey.AMOUNT_SMALLEST_UNIT)
         paymentController.getContextInfo(ContextInfoKey.CURRENCY_DIGITS)
         paymentController.getContextInfo(ContextInfoKey.ORDER_DETAILS)
+
+//        paymentController.endToken(false, null)
     }
 
     override fun didCancelPaymentForm() {
-        // TODO:
+        Toast.makeText(this, "ended Token", Toast.LENGTH_LONG).show()
     }
 
     override fun didFinishPaymentForm() {

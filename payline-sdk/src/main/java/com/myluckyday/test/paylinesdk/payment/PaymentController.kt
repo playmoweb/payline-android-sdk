@@ -63,13 +63,6 @@ class PaymentController {
     }
 
     /**
-     * Ferme la liste des moyens de paiement
-     */
-    fun finishPaymentForm() {
-        //TODO
-    }
-
-    /**
      * Mise à jour des informations de la session de paiement (adresses, montant,...) après l'initialisation du widget
      * et avant la finalisation du paiement.
      */
@@ -87,7 +80,7 @@ class PaymentController {
     /**
      * Met fin à la vie du jeton de session web
      */
-    fun endToken(handledByMerchant: Boolean, additionalData: JSONObject) {
+    fun endToken(handledByMerchant: Boolean, additionalData: JSONObject?) {
         broadcastAction(PaymentSdkAction.EndToken(handledByMerchant, additionalData))
     }
 

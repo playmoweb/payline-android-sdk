@@ -9,11 +9,11 @@ sealed class ContextInfoResult: Parcelable {
     class Int(val key: ContextInfoKey, val value: kotlin.Int): ContextInfoResult() {
 
         override fun writeToParcel(dest: Parcel, flags: kotlin.Int) {
-            dest.writeString(key.toString())
+            dest.writeString(key.name)
             dest.writeInt(value)
         }
 
-        private constructor(parcel: Parcel): this(parcel.readInt())
+        private constructor(parcel: Parcel): this(ContextInfoKey.valueOf(parcel.readString()), parcel.readInt())
 
         override fun describeContents(): kotlin.Int = 0
 
@@ -29,11 +29,11 @@ sealed class ContextInfoResult: Parcelable {
     class String(val key: ContextInfoKey, val value: kotlin.String): ContextInfoResult() {
 
         override fun writeToParcel(dest: Parcel, flags: kotlin.Int) {
-            dest.writeString(key.toString())
+            dest.writeString(key.name)
             dest.writeString(value)
         }
 
-        private constructor(parcel: Parcel): this(parcel.readString()!!)
+        private constructor(parcel: Parcel): this(ContextInfoKey.valueOf(parcel.readString()), parcel.readString()!!)
 
         override fun describeContents(): kotlin.Int = 0
 
@@ -50,11 +50,11 @@ sealed class ContextInfoResult: Parcelable {
     class ObjectArray(val key: ContextInfoKey, val value: JSONArray): ContextInfoResult() {
 
         override fun writeToParcel(dest: Parcel, flags: kotlin.Int) {
-            dest.writeString(key.toString())
+            dest.writeString(key.name)
             dest.writeString(value.toString())
         }
 
-        private constructor(parcel: Parcel): this(JSONArray(parcel.readString()))
+        private constructor(parcel: Parcel): this(ContextInfoKey.valueOf(parcel.readString()), JSONArray(parcel.readString()))
 
         override fun describeContents(): kotlin.Int = 0
 

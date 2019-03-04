@@ -23,7 +23,7 @@ internal data class ScriptHandler(private val listener: (ScriptEvent)->Unit) {
 
     @JavascriptInterface
     fun didEndToken() {
-        Log.e("ScriptHandler", "didEndToken()")
+        listener(ScriptEvent.DidEndToken())
     }
 
     @JavascriptInterface

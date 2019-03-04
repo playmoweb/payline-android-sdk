@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.myluckyday.test.paylinesdk.R
 import com.myluckyday.test.paylinesdk.core.presentation.WebFragment
@@ -34,6 +35,10 @@ internal class PaymentActivity: AppCompatActivity() {
 
         viewModel = ViewModelProviders.of(this).get(WebViewModel::class.java)
 
+        viewModel.finishUi.observe(this, Observer<Boolean> {
+            if(it) { finish() }
+        })
+
         if (savedInstanceState == null) {
 
             supportFragmentManager.executePendingTransactions()
@@ -47,7 +52,7 @@ internal class PaymentActivity: AppCompatActivity() {
         }
 
         b_cancel_payment_activity.setOnClickListener {
-
+            viewModel.cancelPaymentForm.value = true
         }
     }
 
