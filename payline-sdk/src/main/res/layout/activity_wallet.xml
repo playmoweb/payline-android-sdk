@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                     android:layout_width="match_parent"
-                                                     android:layout_height="match_parent"
-                                                     xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/progressBar_wallet"
@@ -15,18 +16,8 @@
         android:visibility="gone" />
 
     <FrameLayout
-        android:id="@+id/bottomSheet_wallet"
+        android:id="@+id/frameLayout_fragmentContainer_wallet"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?android:colorBackground"
-        app:layout_behavior="@string/bottom_sheet_behavior"
-        app:behavior_hideable="true">
-
-        <FrameLayout
-            android:id="@+id/frameLayout_fragmentContainer_wallet"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </FrameLayout>
+        android:layout_height="wrap_content" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

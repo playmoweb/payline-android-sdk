@@ -18,18 +18,8 @@
         android:visibility="gone" />
 
     <FrameLayout
-        android:id="@+id/bottomSheet"
+        android:id="@+id/frameLayout_fragmentContainer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?android:colorBackground"
-        app:layout_behavior="@string/bottom_sheet_behavior"
-        app:behavior_hideable="true">
-
-        <FrameLayout
-            android:id="@+id/frameLayout_fragmentContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </FrameLayout>
+        android:layout_height="match_parent"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

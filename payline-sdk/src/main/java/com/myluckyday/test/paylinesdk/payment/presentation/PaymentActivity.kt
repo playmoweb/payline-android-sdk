@@ -22,7 +22,6 @@ internal class PaymentActivity: AppCompatActivity() {
     companion object {
 
         private var Intent.uri by IntentExtraDelegate.Uri("EXTRA_URI")
-        private const val BOTTOM_SHEET_ANIM_DURATION = 150
 
         fun buildIntent(context: Context, uri: Uri): Intent {
             return Intent(context, PaymentActivity::class.java).apply {
@@ -31,154 +30,25 @@ internal class PaymentActivity: AppCompatActivity() {
         }
     }
 
-    private val bottomSheetBehavior: BottomSheetBehavior<FrameLayout> by lazy {
-        BottomSheetBehavior.from(bottomSheet).apply {
-            state = BottomSheetBehavior.STATE_HIDDEN
-        }
-    }
-
-    private var bottomSheetValueAnimator: ValueAnimator? = null
-    private var targetPeekHeight = 0
-
     private lateinit var viewModel: WebViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_payment)
-//        overridePendingTransition(0, 0)
 
         viewModel = ViewModelProviders.of(this).get(WebViewModel::class.java)
 
-        bottomSheet.viewTreeObserver.addOnGlobalLayoutListener {
-
-//            val fragment = supportFragmentManager.findFragmentByTag(WebFragment::class.java.name) as? WebFragment
-//
-//            if (fragment != null && fragment.isVisible()) {
-//                transitionToPeekHeight(fragment.getDesiredPeekHeight())
-//            } else {
-                val newPeekHeight = bottomSheet.measuredHeight
-                transitionToPeekHeight(newPeekHeight)
-//            }
-        }
-
-//        getPaymentHandler().getPaymentSessionObservable()
-//            .observe(this, object : com.adyen.checkout.core.Observer<PaymentSession>() {
-//                fun onChanged(@NonNull paymentSession: PaymentSession) {
-//                    mCheckoutViewModel.updateCheckoutMethodsViewModel(paymentSession)
-//                }
-//            })
-
-//        ThemeUtil.applyPrimaryThemeColor(
-//            this,
-//            mProgressBar.getProgressDrawable(),
-//            mProgressBar.getIndeterminateDrawable()
-//        )
-
         if (savedInstanceState == null) {
-            // Post this, otherwise ContentLoadingProgressBar will remove the callbacks to show itself.
-            bottomSheet.post { progressBar.show() }
-//            mCheckoutViewModel.getCheckoutMethodsLiveData()
-//                .observeOnce(this, object : Observer<CheckoutMethodsModel>() {
-//                    fun onChanged(@Nullable checkoutMethodsModel: CheckoutMethodsModel) {
-//                        bottomSheet.post { progressBar.hide() }
-                        showRequiredFragment()
-//                    }
-//                })
-        }
 
-        bottomSheetBehavior.setBottomSheetCallback(BottomSheetCallback())
-    }
+            supportFragmentManager.executePendingTransactions()
 
-    private fun showRequiredFragment() {
-
-//        val paymentReference = getPaymentReference()
-
-        val fragmentManager = supportFragmentManager
-        fragmentManager.executePendingTransactions()
-
-        val uri = intent.uri ?: return
-        val webFragment = WebFragment.createInstance(uri)
-        fragmentManager
-            .beginTransaction()
-            .replace(R.id.frameLayout_fragmentContainer, webFragment, WebFragment::class.java.name)
-            .commit()
-
-//        if (mCheckoutViewModel.getCheckoutMethodsLiveData().getPreselectedCheckoutMethod() != null) {
-//            val fragment = PreselectedCheckoutMethodFragment.newInstance(paymentReference)
-//            fragmentManager
-//                .beginTransaction()
-//                .replace(R.id.frameLayout_fragmentContainer, fragment, PreselectedCheckoutMethodFragment.TAG)
-//                .addToBackStack(PreselectedCheckoutMethodFragment.TAG)
-//                .commit()
-//        }
-    }
-
-    private fun transitionToPeekHeight(newPeekHeight: Int) {
-
-        if (newPeekHeight <= 0 || newPeekHeight == targetPeekHeight) {
-            return
-        }
-
-        when(bottomSheetBehavior.getState()) {
-
-            BottomSheetBehavior.STATE_HIDDEN -> {
-                bottomSheetBehavior.peekHeight = newPeekHeight
-                bottomSheet.post {
-                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-                }
-                targetPeekHeight = newPeekHeight
-            }
-            BottomSheetBehavior.STATE_COLLAPSED -> {
-                startBottomSheetAnimation(Math.max(0, bottomSheetBehavior.peekHeight), newPeekHeight)
-                targetPeekHeight = newPeekHeight
-            }
-            BottomSheetBehavior.STATE_EXPANDED -> {
-                bottomSheetBehavior.peekHeight = newPeekHeight
-                targetPeekHeight = newPeekHeight
-            }
-            BottomSheetBehavior.STATE_DRAGGING, BottomSheetBehavior.STATE_SETTLING -> targetPeekHeight = newPeekHeight
-            else -> {}
-        }
-    }
-
-    private fun startBottomSheetAnimation(initialPeekHeight: Int, newPeekHeight: Int) {
-        cancelBottomSheetAnimation()
-        bottomSheetValueAnimator = ValueAnimator.ofInt(initialPeekHeight, newPeekHeight)
-        bottomSheetValueAnimator?.duration = PaymentActivity.BOTTOM_SHEET_ANIM_DURATION.toLong()
-        bottomSheetValueAnimator?.interpolator = DecelerateInterpolator()
-        bottomSheetValueAnimator?.addUpdateListener { animation ->
-            bottomSheetBehavior.peekHeight = animation.animatedValue as Int
-        }
-        bottomSheetValueAnimator?.start()
-    }
-
-    private fun cancelBottomSheetAnimation() {
-        if (bottomSheetValueAnimator != null) {
-            bottomSheetValueAnimator?.cancel()
-            bottomSheetValueAnimator = null
-        }
-    }
-
-    private inner class BottomSheetCallback : BottomSheetBehavior.BottomSheetCallback() {
-
-        override fun onStateChanged(bottomSheet: View, newState: Int) {
-            when(newState) {
-//            BottomSheetBehavior.STATE_HIDDEN -> cancelCheckoutActivity()
-                BottomSheetBehavior.STATE_COLLAPSED -> {
-                    val peekHeight = bottomSheetBehavior.getPeekHeight()
-
-                    if (peekHeight != targetPeekHeight) {
-                        startBottomSheetAnimation(peekHeight, targetPeekHeight)
-                    }
-                }
-                BottomSheetBehavior.STATE_EXPANDED -> bottomSheetBehavior.peekHeight = targetPeekHeight
-                else -> {}
-            }
-        }
-
-        override fun onSlide(p0: View, p1: Float) {
-            // n/a
+            val uri = intent.uri ?: return
+            val webFragment = WebFragment.createInstance(uri)
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.frameLayout_fragmentContainer, webFragment, WebFragment::class.java.name)
+                .commit()
         }
     }
 

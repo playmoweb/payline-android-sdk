@@ -5,10 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
-import androidx.core.app.ActivityOptionsCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.myluckyday.test.paylinesdk.app.domain.SdkResult
-import com.myluckyday.test.paylinesdk.payment.presentation.PaymentActivity
 import com.myluckyday.test.paylinesdk.wallet.domain.WalletSdkResult
 import com.myluckyday.test.paylinesdk.wallet.presentation.WalletActivity
 
