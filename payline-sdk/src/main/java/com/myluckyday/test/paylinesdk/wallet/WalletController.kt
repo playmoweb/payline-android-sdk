@@ -6,7 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.myluckyday.test.paylinesdk.app.domain.SdkResult
+import com.myluckyday.test.paylinesdk.core.domain.SdkResult
 import com.myluckyday.test.paylinesdk.wallet.domain.WalletSdkResult
 import com.myluckyday.test.paylinesdk.wallet.presentation.WalletActivity
 
@@ -54,12 +54,5 @@ class WalletController {
         val c = context ?: return
         val intent = WalletActivity.buildIntent(c, uri)
         c.startActivity(intent)
-    }
-
-    /**
-     * TODO: docs
-     */
-    fun finishManageWallet(){
-        //TODO
     }
 }

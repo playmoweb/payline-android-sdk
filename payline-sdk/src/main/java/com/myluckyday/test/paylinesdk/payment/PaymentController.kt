@@ -1,6 +1,5 @@
 package com.myluckyday.test.paylinesdk.payment
 
-import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -8,10 +7,9 @@ import android.content.IntentFilter
 import android.net.Uri
 import androidx.core.app.ActivityOptionsCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.myluckyday.test.paylinesdk.app.data.ContextInfoKey
-import com.myluckyday.test.paylinesdk.app.domain.SdkAction
-import com.myluckyday.test.paylinesdk.app.domain.SdkResult
-import com.myluckyday.test.paylinesdk.app.util.IntentExtraDelegate
+import com.myluckyday.test.paylinesdk.core.data.ContextInfoKey
+import com.myluckyday.test.paylinesdk.core.domain.SdkAction
+import com.myluckyday.test.paylinesdk.core.domain.SdkResult
 import com.myluckyday.test.paylinesdk.payment.domain.PaymentSdkAction
 import com.myluckyday.test.paylinesdk.payment.domain.PaymentSdkResult
 import com.myluckyday.test.paylinesdk.payment.presentation.PaymentActivity
@@ -89,7 +87,7 @@ class PaymentController {
     /**
      * Met fin à la vie du jeton de session web
      */
-    fun endToken(handledByMerchant: Boolean) {
+    fun endToken(handledByMerchant: Boolean, additionalData: JSONObject) {
         broadcastAction(PaymentSdkAction.EndToken(handledByMerchant))
     }
 

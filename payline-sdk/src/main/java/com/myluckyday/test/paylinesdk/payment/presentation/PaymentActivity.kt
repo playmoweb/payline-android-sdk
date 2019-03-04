@@ -1,21 +1,15 @@
 package com.myluckyday.test.paylinesdk.payment.presentation
 
-import android.animation.ValueAnimator
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.View
-import android.view.animation.DecelerateInterpolator
-import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.myluckyday.test.paylinesdk.R
-import com.myluckyday.test.paylinesdk.app.presentation.WebFragment
-import com.myluckyday.test.paylinesdk.app.presentation.WebViewModel
-import com.myluckyday.test.paylinesdk.app.util.IntentExtraDelegate
-import kotlinx.android.synthetic.main.activity_payment.*
+import com.myluckyday.test.paylinesdk.core.presentation.WebFragment
+import com.myluckyday.test.paylinesdk.core.presentation.WebViewModel
+import com.myluckyday.test.paylinesdk.core.util.IntentExtraDelegate
 
 internal class PaymentActivity: AppCompatActivity() {
 

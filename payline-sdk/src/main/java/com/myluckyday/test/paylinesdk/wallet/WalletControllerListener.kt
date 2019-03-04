@@ -7,9 +7,4 @@ interface WalletControllerListener {
      */
     fun didShowManageWebWallet()
 
-    /**
-     * TODO: doc
-     */
-    fun didFinishManageWebWallet()
-
 }

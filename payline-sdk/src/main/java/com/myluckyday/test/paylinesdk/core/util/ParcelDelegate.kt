@@ -1,4 +1,4 @@
-package com.myluckyday.test.paylinesdk.app.util
+package com.myluckyday.test.paylinesdk.core.util
 
 import android.os.Parcel
 import kotlin.properties.ReadWriteProperty

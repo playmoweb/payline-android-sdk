@@ -1,4 +1,4 @@
-package com.myluckyday.test.paylinesdk.app.data
+package com.myluckyday.test.paylinesdk.core.data
 
 import android.os.Parcel
 import android.os.Parcelable
@@ -6,7 +6,7 @@ import org.json.JSONArray
 
 sealed class ContextInfoResult: Parcelable {
 
-    class Int(val value: kotlin.Int): ContextInfoResult() {
+    class Int(val key: ContextInfoKey, val value: kotlin.Int): ContextInfoResult() {
 
         override fun writeToParcel(dest: Parcel, flags: kotlin.Int) {
             dest.writeInt(value)

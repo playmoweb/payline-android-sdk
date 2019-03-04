@@ -1,7 +1,7 @@
 package com.myluckyday.test.paylinesdk.payment.domain
 
-import com.myluckyday.test.paylinesdk.app.data.ContextInfoKey
-import com.myluckyday.test.paylinesdk.app.domain.ScriptAction
+import com.myluckyday.test.paylinesdk.core.data.ContextInfoKey
+import com.myluckyday.test.paylinesdk.core.domain.ScriptAction
 import org.json.JSONObject
 
 internal sealed class PaymentScriptAction: ScriptAction {
@@ -18,12 +18,13 @@ internal sealed class PaymentScriptAction: ScriptAction {
             get() = ScriptAction.commandWrapper("isSandbox()")
     }
 
-    data class EndToken(val handledByMerchant: Boolean): PaymentScriptAction() {
+    data class EndToken(val handledByMerchant: Boolean, val additionalData: JSONObject): PaymentScriptAction() {
 
         override val command: String
             get() {
-                // TODO: help!
-                return ScriptAction.commandWrapper("endToken('$handledByMerchant', 'null', 'PaylineSdkAndroid.endToken')")
+//                val jsCallback = "function() { PaylineSdkAndroid.didEndToken(); }"
+                val comm = "endToken('$additionalData', 'PaylineSdkAndroid.didEndToken', null, $handledByMerchant)"
+                return ScriptAction.commandWrapper(comm)
             }
     }
 

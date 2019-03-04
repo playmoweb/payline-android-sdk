@@ -1,4 +1,4 @@
-package com.myluckyday.test.paylinesdk.app.data
+package com.myluckyday.test.paylinesdk.core.data
 
 enum class ContextInfoKey(val value: String) {
 

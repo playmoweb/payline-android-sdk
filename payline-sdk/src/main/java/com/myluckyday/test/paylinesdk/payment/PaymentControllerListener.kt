@@ -1,8 +1,5 @@
 package com.myluckyday.test.paylinesdk.payment
 
-import com.myluckyday.test.paylinesdk.app.data.ContextInfoResult
-import org.json.JSONObject
-
 interface PaymentControllerListener {
 
     /**

@@ -1,4 +1,4 @@
-package com.myluckyday.test.paylinesdk.app.domain
+package com.myluckyday.test.paylinesdk.core.domain
 
 internal interface ScriptAction {
 
