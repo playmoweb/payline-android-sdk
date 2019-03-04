@@ -7,14 +7,6 @@
     android:layout_height="match_parent"
     tools:theme="@style/Theme.AppCompat">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_delete"
-        android:layout_gravity="end"
-        android:layout_margin="16dp"
-        android:id="@+id/b_cancel_payment_activity"/>
-
     <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/progressBar"
         style="@style/Widget.AppCompat.ProgressBar"
@@ -29,5 +21,13 @@
         android:id="@+id/frameLayout_fragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_delete"
+        android:layout_gravity="end"
+        android:layout_margin="16dp"
+        android:id="@+id/b_cancel_payment_activity"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

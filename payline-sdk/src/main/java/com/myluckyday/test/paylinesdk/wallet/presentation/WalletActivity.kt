@@ -49,8 +49,10 @@ internal class WalletActivity: AppCompatActivity() {
             .commit()
 
         b_cancel_wallet_activity.setOnClickListener {
-
+            finish()
         }
     }
+
+    override fun onBackPressed() {}
 
 }

@@ -61,4 +61,6 @@ internal class PaymentActivity: AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {}
+
 }
