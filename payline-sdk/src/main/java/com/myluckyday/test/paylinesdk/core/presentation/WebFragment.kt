@@ -87,34 +87,50 @@ internal class WebFragment: Fragment() {
      * Need to map SdkAction to ScriptAction and then produce correct SdkResult (based on SdkAction)
      */
     private fun handleSdkAction(action: SdkAction) {
-        when(action) {
-            is PaymentSdkAction -> {
-                when(action) {
-                    is PaymentSdkAction.GetLanguage -> viewModel.scriptHandler.execute(PaymentScriptAction.GetLanguage, web_view) { language ->
-                        broadcast(PaymentSdkResult.DidGetLanguage(language))
-                    }
-                    is PaymentSdkAction.IsSandbox -> viewModel.scriptHandler.execute(PaymentScriptAction.IsSandbox, web_view) { result ->
-                        broadcast(PaymentSdkResult.DidGetIsSandbox(result.toBoolean()))
-                    }
-                    is PaymentSdkAction.GetContextInfo -> viewModel.scriptHandler.execute(PaymentScriptAction.GetContextInfo(action.key), web_view) { contextInfoData ->
-
-                        val parsed = when(action.key){
-                            ContextInfoKey.AMOUNT_SMALLEST_UNIT -> ContextInfoResult.Int(action.key, contextInfoData.toInt())
-                            ContextInfoKey.CURRENCY_DIGITS -> ContextInfoResult.Int(action.key, contextInfoData.toInt())
-                            ContextInfoKey.ORDER_DETAILS -> {
-                                if(contextInfoData == "null") {
-                                    ContextInfoResult.ObjectArray(action.key, JSONArray())
-                                } else {
-                                    ContextInfoResult.ObjectArray(action.key, JSONArray(contextInfoData))
-                                }
-                            }
-                            else -> ContextInfoResult.String(action.key, contextInfoData)
-                        }
-
-                        broadcast(PaymentSdkResult.DidGetContextInfo(parsed))
-                    }
-                    is PaymentSdkAction.EndToken -> viewModel.scriptHandler.execute(PaymentScriptAction.EndToken(action.handledByMerchant, action.additionalData), web_view) {}
+        if (action is PaymentSdkAction) {
+            when (action) {
+                is PaymentSdkAction.GetLanguage -> viewModel.scriptHandler.execute(
+                    PaymentScriptAction.GetLanguage,
+                    web_view
+                ) { language ->
+                    broadcast(PaymentSdkResult.DidGetLanguage(language))
                 }
+                is PaymentSdkAction.IsSandbox -> viewModel.scriptHandler.execute(
+                    PaymentScriptAction.IsSandbox,
+                    web_view
+                ) { result ->
+                    broadcast(PaymentSdkResult.DidGetIsSandbox(result.toBoolean()))
+                }
+                is PaymentSdkAction.GetContextInfo -> viewModel.scriptHandler.execute(
+                    PaymentScriptAction.GetContextInfo(
+                        action.key
+                    ), web_view
+                ) { contextInfoData ->
+
+                    val parsed = when (action.key) {
+                        ContextInfoKey.AMOUNT_SMALLEST_UNIT -> ContextInfoResult.Int(
+                            action.key,
+                            contextInfoData.toInt()
+                        )
+                        ContextInfoKey.CURRENCY_DIGITS -> ContextInfoResult.Int(action.key, contextInfoData.toInt())
+                        ContextInfoKey.ORDER_DETAILS -> {
+                            if (contextInfoData == "null") {
+                                ContextInfoResult.ObjectArray(action.key, JSONArray())
+                            } else {
+                                ContextInfoResult.ObjectArray(action.key, JSONArray(contextInfoData))
+                            }
+                        }
+                        else -> ContextInfoResult.String(action.key, contextInfoData)
+                    }
+
+                    broadcast(PaymentSdkResult.DidGetContextInfo(parsed))
+                }
+                is PaymentSdkAction.EndToken -> viewModel.scriptHandler.execute(
+                    PaymentScriptAction.EndToken(
+                        action.handledByMerchant,
+                        action.additionalData
+                    ), web_view
+                ) {}
             }
         }
     }

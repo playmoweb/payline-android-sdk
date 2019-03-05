@@ -9,7 +9,9 @@ internal sealed class PaymentSdkResult: SdkResult {
 
     class DidShowPaymentForm(): PaymentSdkResult() {
 
-        override fun writeToParcel(dest: Parcel, flags: Int) {}
+        override fun writeToParcel(dest: Parcel, flags: Int) {
+            //The function doesn't have parameters
+        }
 
         private constructor(parcel: Parcel): this()
 
@@ -26,7 +28,9 @@ internal sealed class PaymentSdkResult: SdkResult {
 
     class DidCancelPaymentForm(): PaymentSdkResult() {
 
-        override fun writeToParcel(dest: Parcel, flags: Int) {}
+        override fun writeToParcel(dest: Parcel, flags: Int) {
+            //The function doesn't have parameters
+        }
 
         private constructor(parcel: Parcel): this()
 
@@ -43,7 +47,9 @@ internal sealed class PaymentSdkResult: SdkResult {
 
     class DidFinishPaymentForm(): PaymentSdkResult() {
 
-        override fun writeToParcel(dest: Parcel, flags: Int) {}
+        override fun writeToParcel(dest: Parcel, flags: Int) {
+            //The function doesn't have parameters
+        }
 
         private constructor(parcel: Parcel): this()
 

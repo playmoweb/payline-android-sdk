@@ -27,7 +27,9 @@ internal sealed class ScriptEvent: Parcelable {
 
     class DidEndToken(): ScriptEvent() {
 
-        override fun writeToParcel(dest: Parcel, flags: Int) {}
+        override fun writeToParcel(dest: Parcel, flags: Int) {
+            //The function doesn't have parameters
+        }
 
         private constructor(parcel: Parcel): this()
 

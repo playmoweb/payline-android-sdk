@@ -29,7 +29,9 @@ internal sealed class PaymentSdkAction: SdkAction {
 
     class IsSandbox(): PaymentSdkAction() {
 
-        override fun writeToParcel(dest: Parcel, flags: Int) {}
+        override fun writeToParcel(dest: Parcel, flags: Int) {
+            //The function doesn't have parameters
+        }
 
         private constructor(parcel: Parcel): this()
 
@@ -68,7 +70,9 @@ internal sealed class PaymentSdkAction: SdkAction {
 
     class GetLanguage(): PaymentSdkAction() {
 
-        override fun writeToParcel(dest: Parcel, flags: Int) {}
+        override fun writeToParcel(dest: Parcel, flags: Int) {
+            //The function doesn't have parameters
+        }
 
         private constructor(parcel: Parcel): this()
 

@@ -8,7 +8,9 @@ internal sealed class WalletSdkResult: SdkResult {
 
     class DidShowWebWallet(): WalletSdkResult() {
 
-        override fun writeToParcel(dest: Parcel, flags: Int) {}
+        override fun writeToParcel(dest: Parcel, flags: Int) {
+            //The function doesn't have parameters
+        }
 
         private constructor(parcel: Parcel): this()
 
@@ -25,7 +27,9 @@ internal sealed class WalletSdkResult: SdkResult {
 
     class DidFinishWebWallet(): WalletSdkResult() {
 
-        override fun writeToParcel(dest: Parcel, flags: Int) {}
+        override fun writeToParcel(dest: Parcel, flags: Int) {
+            //The function doesn't have parameters
+        }
 
         private constructor(parcel: Parcel): this()
 

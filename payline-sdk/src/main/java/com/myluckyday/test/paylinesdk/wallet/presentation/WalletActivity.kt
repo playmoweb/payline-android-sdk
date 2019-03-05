@@ -53,6 +53,8 @@ internal class WalletActivity: AppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() {}
+    override fun onBackPressed() {
+        //Disable button back pressed on this activity
+    }
 
 }
