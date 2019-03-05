@@ -76,6 +76,7 @@ class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletContr
                     put("orderRef", UUID.randomUUID().toString())
                     put("amount", 5)
                     put("currencyCode", "EUR")
+                    put("languageCode", "FR")
                     put("buyer", JSONObject().apply {
                         put("email", "John.Doe@gmail.com")
                         put("firstname", "John")
@@ -118,6 +119,7 @@ class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletContr
                         put("walletId", "12342414-DFD-13434141")
                     })
                     put("updatePersonalDetails", false)
+                    put("languageCode", "EN")
                 }
             )
         )
