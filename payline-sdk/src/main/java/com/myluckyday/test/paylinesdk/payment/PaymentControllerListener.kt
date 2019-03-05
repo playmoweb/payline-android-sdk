@@ -5,7 +5,7 @@ import com.myluckyday.test.paylinesdk.core.data.ContextInfoResult
 interface PaymentControllerListener {
 
     /**
-     * Appelée lorsque la liste des moyens de paiement a été affiché
+     * Appelée lorsque la liste des moyens de paiement a été affichée
      */
     fun didShowPaymentForm()
 
@@ -15,7 +15,7 @@ interface PaymentControllerListener {
     fun didCancelPaymentForm()
 
     /**
-     * TODO: doc
+     * Appelée lorsque le paiement a été terminé
      */
     fun didFinishPaymentForm()
 

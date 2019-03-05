@@ -3,7 +3,7 @@ package com.myluckyday.test.paylinesdk.wallet
 interface WalletControllerListener {
 
     /**
-     * TODO: doc
+     * Appelée lorsque le porte-monnaie a été affiché
      */
     fun didShowManageWebWallet()
 

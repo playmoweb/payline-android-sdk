@@ -42,10 +42,18 @@ internal class WebViewModel(app: Application): AndroidViewModel(app) {
                             }
                         )
                     }
-                    WidgetState.PAYMENT_METHOD_NEEDS_MORE_INFOS -> {}
-                    WidgetState.ACTIVE_WAITING -> {}
-                    WidgetState.PAYMENT_CANCELED_WITH_RETRY -> {}
-                    WidgetState.PAYMENT_FAILURE_WITH_RETRY -> {}
+                    WidgetState.PAYMENT_METHOD_NEEDS_MORE_INFOS -> {
+                        //TODO
+                    }
+                    WidgetState.ACTIVE_WAITING -> {
+                        //TODO
+                    }
+                    WidgetState.PAYMENT_CANCELED_WITH_RETRY -> {
+                        //TODO
+                    }
+                    WidgetState.PAYMENT_FAILURE_WITH_RETRY -> {
+                        //TODO
+                    }
                 }
             }
 

@@ -29,7 +29,7 @@ class WalletController {
     }
 
     /**
-     * S'inscris au broadcast qui permet de communiquer avec ... TODO
+     * S'inscris au broadcast qui permet de communiquer avec la webView
      */
     fun registerListener(listener: WalletControllerListener, context: Context) {
         this.listener = listener
@@ -38,7 +38,7 @@ class WalletController {
     }
 
     /**
-     * Se désinscris au broadcast qui permet de communiquer avec ... TODO
+     * Se désinscris au broadcast qui permet de communiquer avec la webView
      */
     fun unregisterListener(context: Context) {
         this.listener = null
@@ -46,7 +46,7 @@ class WalletController {
     }
 
     /**
-     * TODO: docs
+     * Affiche le porte-monnaie
      */
     fun showManageWallet(token: String, uri: Uri){
         //LocalBroadcastManager.getInstance()
