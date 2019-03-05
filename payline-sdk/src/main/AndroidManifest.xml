@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.myluckyday.test.paylinesdk">
 
-    <application>
+    <application
+        android:theme="@style/Theme.AppCompat.Light">
 
         <activity android:name=".payment.presentation.PaymentActivity"/>
         <activity android:name=".wallet.presentation.WalletActivity"/>
