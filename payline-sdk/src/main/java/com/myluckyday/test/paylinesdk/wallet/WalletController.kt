@@ -7,6 +7,7 @@ import android.content.IntentFilter
 import android.net.Uri
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.myluckyday.test.paylinesdk.core.domain.SdkResult
+import com.myluckyday.test.paylinesdk.payment.PaymentControllerListener
 import com.myluckyday.test.paylinesdk.wallet.domain.WalletSdkResult
 import com.myluckyday.test.paylinesdk.wallet.presentation.WalletActivity
 
@@ -30,6 +31,9 @@ class WalletController {
 
     /**
      * S'inscris au broadcast qui permet de communiquer avec la webView
+     *
+     * @param listener [PaymentControllerListener] utilisé pour la réception du résultat de la webView
+     * @param context context utilisé à la création de PaymentController
      */
     fun registerListener(listener: WalletControllerListener, context: Context) {
         this.listener = listener
@@ -39,6 +43,8 @@ class WalletController {
 
     /**
      * Se désinscris au broadcast qui permet de communiquer avec la webView
+     *
+     * @param context context utilisé à la création de PaymentController
      */
     fun unregisterListener(context: Context) {
         this.listener = null
@@ -47,6 +53,8 @@ class WalletController {
 
     /**
      * Affiche le porte-monnaie
+     *
+     * @param uri uri qui redirige la webView vers le porte-monnaie
      */
     fun showManageWallet(token: String, uri: Uri){
         //LocalBroadcastManager.getInstance()
