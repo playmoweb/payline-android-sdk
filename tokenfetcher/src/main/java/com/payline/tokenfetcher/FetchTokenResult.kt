@@ -1,4 +1,4 @@
-package com.myluckyday.test.payline_android.data
+package com.payline.tokenfetcher
 
 data class FetchTokenResult(
     val code: String,

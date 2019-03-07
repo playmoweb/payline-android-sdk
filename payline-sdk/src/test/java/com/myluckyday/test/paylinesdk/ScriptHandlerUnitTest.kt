@@ -1,19 +1,17 @@
 package com.myluckyday.test.paylinesdk
 
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.myluckyday.test.paylinesdk.core.data.WidgetState
 import com.myluckyday.test.paylinesdk.core.domain.ScriptEvent
 import com.myluckyday.test.paylinesdk.core.domain.ScriptHandler
-import com.myluckyday.test.paylinesdk.payment.presentation.PaymentActivity
 import org.json.JSONObject
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.Robolectric
-import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
-@RunWith(RobolectricTestRunner::class)
-@Config(manifest=Config.NONE)
+@RunWith(AndroidJUnit4::class)
+@Config(manifest= Config.NONE)
 class ScriptHandlerUnitTest {
 
     @Test

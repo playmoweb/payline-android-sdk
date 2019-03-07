@@ -1,1 +1,1 @@
-include ':sample-app', ':payline-sdk'
+include ':sample-app', ':payline-sdk', ':tokenfetcher'

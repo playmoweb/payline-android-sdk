@@ -1,9 +1,7 @@
-package com.myluckyday.test.payline_android.domain
+package com.payline.tokenfetcher
 
 import android.net.Uri
 import android.os.AsyncTask
-import com.myluckyday.test.payline_android.data.FetchTokenParams
-import com.myluckyday.test.payline_android.data.FetchTokenResult
 import org.json.JSONObject
 import java.io.BufferedOutputStream
 import java.lang.ref.WeakReference

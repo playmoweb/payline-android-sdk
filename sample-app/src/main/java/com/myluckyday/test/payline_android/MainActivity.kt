@@ -4,9 +4,9 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import com.myluckyday.test.payline_android.data.FetchTokenParams
-import com.myluckyday.test.payline_android.data.FetchTokenResult
-import com.myluckyday.test.payline_android.domain.TokenFetcher
+import com.payline.tokenfetcher.FetchTokenParams
+import com.payline.tokenfetcher.FetchTokenResult
+import com.payline.tokenfetcher.TokenFetcher
 import com.myluckyday.test.paylinesdk.core.data.ContextInfoKey
 import com.myluckyday.test.paylinesdk.core.data.ContextInfoResult
 import com.myluckyday.test.paylinesdk.payment.PaymentController
@@ -69,60 +69,11 @@ class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletContr
     }
 
     private fun fetchTokenForPayment() {
-        TokenFetcher(fetchTokenCallback).execute(
-            FetchTokenParams(
-                type = FetchTokenParams.Type.PAYMENT,
-                data = JSONObject().apply {
-                    put("orderRef", UUID.randomUUID().toString())
-                    put("amount", 5)
-                    put("currencyCode", "EUR")
-                    put("languageCode", "FR")
-                    put("buyer", JSONObject().apply {
-                        put("email", "John.Doe@gmail.com")
-                        put("firstname", "John")
-                        put("lastname", "Doe")
-                        put("mobilePhone", "0123456789")
-                        put("shippingAddress", JSONObject().apply {
-                            put("city", "Aix-en-Provence")
-                            put("country", "FR")
-                            put("firstname", "John")
-                            put("lastname", "Doe")
-                            put("phone", "0123456789")
-                            put("street1", "15 rue de Rue")
-                            put("zipCode", "69002")
-                        })
-                    })
-                }
-            )
-        )
+        TokenFetcher(fetchTokenCallback).execute(FetchTokenParams.testPaymentParams())
     }
 
     private fun fetchTokenForWallet() {
-        TokenFetcher(fetchTokenCallback).execute(
-            FetchTokenParams(
-                type = FetchTokenParams.Type.WALLET,
-                data = JSONObject().apply {
-                    put("buyer", JSONObject().apply {
-                        put("email", "John.Doe@gmail.com")
-                        put("firstname", "John")
-                        put("lastname", "Doe")
-                        put("mobilePhone", "0123456789")
-                        put("shippingAddress", JSONObject().apply {
-                            put("city", "Aix-en-Provence")
-                            put("country", "FR")
-                            put("firstname", "John")
-                            put("lastname", "Doe")
-                            put("phone", "0123456789")
-                            put("street1", "15 rue de Rue")
-                            put("zipCode", "69002")
-                        })
-                        put("walletId", "12342414-DFD-13434141")
-                    })
-                    put("updatePersonalDetails", false)
-                    put("languageCode", "EN")
-                }
-            )
-        )
+        TokenFetcher(fetchTokenCallback).execute(FetchTokenParams.testWalletParams())
     }
 
     override fun didShowPaymentForm() {
