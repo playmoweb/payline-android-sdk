@@ -43,12 +43,13 @@ class WalletController {
 
     /**
      * Se désinscris au broadcast qui permet de communiquer avec la webView
-     *
-     * @param context context utilisé à la création de PaymentController
      */
-    fun unregisterListener(context: Context) {
+    fun unregisterListener() {
         this.listener = null
-        LocalBroadcastManager.getInstance(context).unregisterReceiver(broadcastReceiver)
+        context?.let {
+            LocalBroadcastManager.getInstance(it).unregisterReceiver(broadcastReceiver)
+        }
+        this.context = null
     }
 
     /**
@@ -56,7 +57,7 @@ class WalletController {
      *
      * @param uri uri qui redirige la webView vers le porte-monnaie
      */
-    fun showManageWallet(token: String, uri: Uri){
+    fun showManageWallet(uri: Uri) {
         //LocalBroadcastManager.getInstance()
         val c = context ?: return
         val intent = WalletActivity.buildIntent(c, uri)

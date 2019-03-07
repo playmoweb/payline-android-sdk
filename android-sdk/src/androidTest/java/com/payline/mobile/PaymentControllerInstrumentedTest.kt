@@ -93,8 +93,6 @@ class PaymentControllerInstrumentedTest {
 
         commonTestInitWebWidget()
 
-        Truth.assertThat(testListener!!.didShowPaymentForm).isTrue()
-
         onView(withId(R.id.b_cancel_payment_activity))
             .perform(click())
 
@@ -102,11 +100,17 @@ class PaymentControllerInstrumentedTest {
     }
 
     @Test
-    fun paymentController_endToken() {
+    fun paymentController_didFinishPaymentForm_success() {
 
         commonTestInitWebWidget()
 
-        Truth.assertThat(testListener!!.didShowPaymentForm).isTrue()
+
+    }
+
+    @Test
+    fun paymentController_endToken() {
+
+        commonTestInitWebWidget()
 
         paymentController?.endToken(false, null)
 

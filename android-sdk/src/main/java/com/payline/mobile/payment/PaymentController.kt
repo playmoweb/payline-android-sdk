@@ -58,10 +58,9 @@ class PaymentController {
     /**
      * Affiche la liste des moyens de paiement
      *
-     * @param token
      * @param uri uri qui redirige la webView vers la liste des moyens de paiement
      */
-    fun showPaymentForm(token: String, uri: Uri) {
+    fun showPaymentForm(uri: Uri) {
         val c = context ?: return
         val intent = PaymentActivity.buildIntent(c, uri)
         val opts = ActivityOptionsCompat.makeCustomAnimation(c, 0, 0).toBundle()
