@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import com.payline.mobile.paylinesdk.R
@@ -12,7 +13,7 @@ import com.payline.mobile.core.presentation.WebViewModel
 import com.payline.mobile.core.util.IntentExtraDelegate
 import kotlinx.android.synthetic.main.activity_wallet.*
 
-internal class WalletActivity: AppCompatActivity() {
+internal class WalletActivity: AppCompatActivity(), WalletInterface {
 
     companion object {
 
@@ -33,6 +34,7 @@ internal class WalletActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_wallet)
 
+        progressBar_wallet.visibility = View.VISIBLE
         showWebFragment()
     }
 
@@ -57,4 +59,12 @@ internal class WalletActivity: AppCompatActivity() {
         //Disable button back pressed on this activity
     }
 
+    override fun stopWalletLoader() {
+        progressBar_wallet.visibility = View.GONE
+    }
+
+}
+
+interface WalletInterface {
+    fun stopWalletLoader()
 }

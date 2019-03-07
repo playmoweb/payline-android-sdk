@@ -5,16 +5,6 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.core.widget.ContentLoadingProgressBar
-        android:id="@+id/progressBar_wallet"
-        style="@style/Widget.AppCompat.ProgressBar"
-        android:layout_width="@dimen/progress_dialog_size"
-        android:layout_height="@dimen/progress_dialog_size"
-        android:layout_margin="@dimen/standard_margin"
-        android:layout_gravity="center"
-        android:indeterminate="true"
-        android:visibility="gone" />
-
     <FrameLayout
         android:id="@+id/frameLayout_fragmentContainer_wallet"
         android:layout_width="match_parent"
@@ -27,5 +17,15 @@
         android:layout_gravity="end"
         android:layout_margin="16dp"
         android:id="@+id/b_cancel_wallet_activity"/>
+
+    <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/progressBar_wallet"
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:layout_width="@dimen/progress_dialog_size"
+            android:layout_height="@dimen/progress_dialog_size"
+            android:layout_margin="@dimen/standard_margin"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:visibility="gone" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -23,6 +23,12 @@ import com.payline.mobile.payment.domain.PaymentSdkAction
 import com.payline.mobile.payment.domain.PaymentSdkResult
 import kotlinx.android.synthetic.main.fragment_web.*
 import org.json.JSONArray
+import android.webkit.WebViewClient
+import android.webkit.WebView
+import com.payline.mobile.payment.presentation.PaymentInterface
+import com.payline.mobile.wallet.presentation.WalletActivity
+import com.payline.mobile.wallet.presentation.WalletInterface
+
 
 internal class WebFragment: Fragment() {
 
@@ -67,6 +73,14 @@ internal class WebFragment: Fragment() {
         arguments?.uri?.let {
             web_view.loadUrl(it.toString())
         }
+
+        web_view.setWebViewClient(object : WebViewClient() {
+
+            override fun onPageFinished(view: WebView, url: String) {
+                if(activity is PaymentInterface) (activity as PaymentInterface).stopPaymentLoader()
+                else (activity as WalletInterface).stopWalletLoader()
+            }
+        })
     }
 
     override fun onDestroyView() {
