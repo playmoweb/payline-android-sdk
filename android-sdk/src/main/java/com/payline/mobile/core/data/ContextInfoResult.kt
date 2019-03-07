@@ -4,8 +4,20 @@ import android.os.Parcel
 import android.os.Parcelable
 import org.json.JSONArray
 
+/**
+ * Cette classe va être utilisée pour traiter le résultat obtenu par la wevView
+ * Trois types de données pourront être reçus : Int, String, ObjectArray
+ *
+ * @link <https://payline.atlassian.net/wiki/spaces/DT/pages/1329037328/PW+-+API+JavaScript>
+ */
 sealed class ContextInfoResult: Parcelable {
 
+    /**
+     * Cette classe traitera un résultat obtenu par la webView de type Int
+     *
+     * @param key key correspond à la clé de l'information que l'on obtient
+     * @param value value correspond à l'information de type Int que l'on obtient
+     */
     class Int(val key: ContextInfoKey, val value: kotlin.Int): ContextInfoResult() {
 
         override fun writeToParcel(dest: Parcel, flags: kotlin.Int) {
@@ -26,6 +38,12 @@ sealed class ContextInfoResult: Parcelable {
         }
     }
 
+    /**
+     * Cette classe traitera un résultat obtenu par la webView de type String
+     *
+     * @param key key correspond à la clé de l'information que l'on obtient
+     * @param value value correspond à l'information de type String que l'on obtient
+     */
     class String(val key: ContextInfoKey, val value: kotlin.String): ContextInfoResult() {
 
         override fun writeToParcel(dest: Parcel, flags: kotlin.Int) {
@@ -47,6 +65,12 @@ sealed class ContextInfoResult: Parcelable {
 
     }
 
+    /**
+     * Cette classe traitera un résultat obtenu par la webView de type JSONArray
+     *
+     * @param key key correspond à la clé de l'information que l'on obtient
+     * @param value value correspond à l'information de type JSONArray que l'on obtient
+     */
     class ObjectArray(val key: ContextInfoKey, val value: JSONArray): ContextInfoResult() {
 
         override fun writeToParcel(dest: Parcel, flags: kotlin.Int) {

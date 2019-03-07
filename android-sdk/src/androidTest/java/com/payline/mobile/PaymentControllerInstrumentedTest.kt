@@ -131,10 +131,9 @@ class PaymentControllerInstrumentedTest {
         await.atMost(MAX_WAIT, SECONDS).untilNotNull { result }
 
         Truth.assertThat(result?.redirectUrl).isNotNull()
-        Truth.assertThat(result?.token).isNotNull()
 
         val uri = Uri.parse(result!!.redirectUrl)
-        paymentController?.showPaymentForm(result!!.token, uri)
+        paymentController?.showPaymentForm(uri)
 
         await.atMost(MAX_WAIT, SECONDS).until { testListener!!.didShowPaymentForm }
 

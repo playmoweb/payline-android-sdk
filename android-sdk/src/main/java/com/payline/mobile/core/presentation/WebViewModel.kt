@@ -18,76 +18,87 @@ internal class WebViewModel(app: Application): AndroidViewModel(app) {
     internal val scriptHandler = ScriptHandler {
 
         when(it) {
-            is ScriptEvent.DidShowState -> {
+            is ScriptEvent.DidShowState -> didShowState(it)
 
-                when(it.state) {
+            is ScriptEvent.FinalStateHasBeenReached -> finalStateHasBeenReached(it)
 
-                    WidgetState.PAYMENT_METHODS_LIST -> {
-                        LocalBroadcastManager.getInstance(getApplication()).sendBroadcast(
-                            Intent(SdkResult.BROADCAST_SDK_RESULT).apply {
-                                putExtra(SdkResult.EXTRA_SDK_RESULT, PaymentSdkResult.DidShowPaymentForm())
-                            }
-                        )
-                    }
-                    WidgetState.PAYMENT_REDIRECT_NO_RESPONSE -> {
-                        Log.d("TAG", "PAYMENT_REDIRECT_NO_RESPONSE")
-                        // TODO:
-                    }
-                    WidgetState.MANAGE_WEB_WALLET -> {
-                        LocalBroadcastManager.getInstance(getApplication()).sendBroadcast(
-                            Intent(SdkResult.BROADCAST_SDK_RESULT).apply {
-                                putExtra(SdkResult.EXTRA_SDK_RESULT, WalletSdkResult.DidShowWebWallet())
-                            }
-                        )
-                    }
-                    WidgetState.PAYMENT_METHOD_NEEDS_MORE_INFOS -> {
-                        //TODO
-                    }
-                    WidgetState.ACTIVE_WAITING -> {
-                        //TODO
-                    }
-                    WidgetState.PAYMENT_CANCELED_WITH_RETRY -> {
-                        //TODO
-                    }
-                    WidgetState.PAYMENT_FAILURE_WITH_RETRY -> {
-                        //TODO
-                    }
-                }
+            is ScriptEvent.DidEndToken -> didEndToken()
+        }
+    }
+
+    private fun didEndToken() {
+        LocalBroadcastManager.getInstance(getApplication()).sendBroadcast(
+            Intent(SdkResult.BROADCAST_SDK_RESULT).apply {
+                putExtra(SdkResult.EXTRA_SDK_RESULT, PaymentSdkResult.DidCancelPaymentForm())
             }
+        )
+        finishUi.postValue(true)
+    }
 
-            is ScriptEvent.FinalStateHasBeenReached -> {
+    private fun didShowState(event: ScriptEvent.DidShowState) {
+        when (event.state) {
 
-                when(it.state) {
-
-                    WidgetState.PAYMENT_CANCELED -> {
-                        LocalBroadcastManager.getInstance(getApplication()).sendBroadcast(
-                            Intent(SdkResult.BROADCAST_SDK_RESULT).apply {
-                                putExtra(SdkResult.EXTRA_SDK_RESULT, PaymentSdkResult.DidCancelPaymentForm())
-                            }
-                        )
-                    }
-                    WidgetState.PAYMENT_SUCCESS,
-                    WidgetState.PAYMENT_FAILURE,
-                    WidgetState.TOKEN_EXPIRED,
-                    WidgetState.BROWSER_NOT_SUPPORTED,
-                    WidgetState.PAYMENT_ONHOLD_PARTNER,
-                    WidgetState.PAYMENT_SUCCESS_FORCE_TICKET_DISPLAY -> {
-                        LocalBroadcastManager.getInstance(getApplication()).sendBroadcast(
-                            Intent(SdkResult.BROADCAST_SDK_RESULT).apply {
-                                putExtra(SdkResult.EXTRA_SDK_RESULT, PaymentSdkResult.DidFinishPaymentForm())
-                            }
-                        )
-                    }
-                }
-            }
-
-            is ScriptEvent.DidEndToken -> {
+            WidgetState.PAYMENT_METHODS_LIST -> {
                 LocalBroadcastManager.getInstance(getApplication()).sendBroadcast(
                     Intent(SdkResult.BROADCAST_SDK_RESULT).apply {
-                        putExtra(SdkResult.EXTRA_SDK_RESULT, PaymentSdkResult.DidCancelPaymentForm())
+                        putExtra(SdkResult.EXTRA_SDK_RESULT, PaymentSdkResult.DidShowPaymentForm())
                     }
                 )
-                finishUi.postValue(true)
+            }
+            WidgetState.PAYMENT_REDIRECT_NO_RESPONSE -> {
+                Log.d("TAG", "PAYMENT_REDIRECT_NO_RESPONSE")
+                // TODO:
+            }
+            WidgetState.MANAGE_WEB_WALLET -> {
+                LocalBroadcastManager.getInstance(getApplication()).sendBroadcast(
+                    Intent(SdkResult.BROADCAST_SDK_RESULT).apply {
+                        putExtra(SdkResult.EXTRA_SDK_RESULT, WalletSdkResult.DidShowWebWallet())
+                    }
+                )
+            }
+            WidgetState.PAYMENT_METHOD_NEEDS_MORE_INFOS -> {
+                //TODO
+            }
+            WidgetState.ACTIVE_WAITING -> {
+                //TODO
+            }
+            WidgetState.PAYMENT_CANCELED_WITH_RETRY -> {
+                //TODO
+            }
+            WidgetState.PAYMENT_FAILURE_WITH_RETRY -> {
+                //TODO
+            }
+        }
+    }
+
+    private fun finalStateHasBeenReached(event: ScriptEvent.FinalStateHasBeenReached) {
+
+        when (event.state) {
+
+            WidgetState.PAYMENT_CANCELED -> {
+                LocalBroadcastManager.getInstance(getApplication()).sendBroadcast(
+                    Intent(SdkResult.BROADCAST_SDK_RESULT).apply {
+                        putExtra(
+                            SdkResult.EXTRA_SDK_RESULT,
+                            PaymentSdkResult.DidCancelPaymentForm()
+                        )
+                    }
+                )
+            }
+            WidgetState.PAYMENT_SUCCESS,
+            WidgetState.PAYMENT_FAILURE,
+            WidgetState.TOKEN_EXPIRED,
+            WidgetState.BROWSER_NOT_SUPPORTED,
+            WidgetState.PAYMENT_ONHOLD_PARTNER,
+            WidgetState.PAYMENT_SUCCESS_FORCE_TICKET_DISPLAY -> {
+                LocalBroadcastManager.getInstance(getApplication()).sendBroadcast(
+                    Intent(SdkResult.BROADCAST_SDK_RESULT).apply {
+                        putExtra(
+                            SdkResult.EXTRA_SDK_RESULT,
+                            PaymentSdkResult.DidFinishPaymentForm()
+                        )
+                    }
+                )
             }
         }
     }

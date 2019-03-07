@@ -1,8 +1,9 @@
 package com.payline.mobile.core.data
 
 /**
- * Blah blah
+ * Cette classe d'enumération liste les clés des informations que l'on souhaite récupérer avec la méthode getContextInfo().
  *
+ * @link <https://payline.atlassian.net/wiki/spaces/DT/pages/1329037328/PW+-+API+JavaScript>
  */
 enum class ContextInfoKey(val value: String) {
 
