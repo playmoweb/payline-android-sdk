@@ -20,18 +20,16 @@ class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletContr
     private lateinit var paymentController: PaymentController
     private lateinit var walletController: WalletController
 
-    private var token: String? = null
     private var uri: Uri? = null
 
     private val fetchTokenCallback: (FetchTokenResult?)->Unit = { result ->
-        token = result?.token
         result?.redirectUrl?.let {
             uri = Uri.parse(it)
         }
-        if(token == null) {
-            Toast.makeText(this@MainActivity, "Couldn't get new token", Toast.LENGTH_LONG).show()
+        if(uri == null) {
+            Toast.makeText(this@MainActivity, "Couldn't get new uri", Toast.LENGTH_LONG).show()
         } else {
-            Toast.makeText(this@MainActivity, "Got new token: $token", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@MainActivity, "Got new token: $uri", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -48,22 +46,20 @@ class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletContr
         walletTokenButton.setOnClickListener { fetchTokenForWallet() }
 
         paymentButton.setOnClickListener {
-            token ?: return@setOnClickListener
             uri ?: return@setOnClickListener
-            paymentController.showPaymentForm(token!!, uri!!)
+            paymentController.showPaymentForm(uri!!)
         }
 
         walletButton.setOnClickListener {
-            token ?: return@setOnClickListener
             uri ?: return@setOnClickListener
-            walletController.showManageWallet(token!!, uri!!)
+            walletController.showManageWallet(uri!!)
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
         paymentController.unregisterListener()
-        walletController.unregisterListener(this)
+        walletController.unregisterListener()
     }
 
     private fun fetchTokenForPayment() {
@@ -90,7 +86,7 @@ class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletContr
     }
 
     override fun didFinishPaymentForm() {
-        // TODO:
+
     }
 
     override fun didGetIsSandbox(isSandbox: Boolean) {
@@ -106,7 +102,7 @@ class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletContr
     }
 
     override fun didShowManageWebWallet() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 }
 
