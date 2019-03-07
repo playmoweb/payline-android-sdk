@@ -89,49 +89,65 @@ internal class WebFragment: Fragment() {
     private fun handleSdkAction(action: SdkAction) {
         if (action is PaymentSdkAction) {
             when (action) {
-                is PaymentSdkAction.GetLanguage -> viewModel.scriptHandler.execute(
-                    PaymentScriptAction.GetLanguage,
-                    web_view
-                ) { language ->
-                    broadcast(PaymentSdkResult.DidGetLanguage(language))
-                }
-                is PaymentSdkAction.IsSandbox -> viewModel.scriptHandler.execute(
-                    PaymentScriptAction.IsSandbox,
-                    web_view
-                ) { result ->
-                    broadcast(PaymentSdkResult.DidGetIsSandbox(result.toBoolean()))
-                }
-                is PaymentSdkAction.GetContextInfo -> viewModel.scriptHandler.execute(
-                    PaymentScriptAction.GetContextInfo(
-                        action.key
-                    ), web_view
-                ) { contextInfoData ->
-
-                    val parsed = when (action.key) {
-                        ContextInfoKey.AMOUNT_SMALLEST_UNIT -> ContextInfoResult.Int(
-                            action.key,
-                            contextInfoData.toInt()
-                        )
-                        ContextInfoKey.CURRENCY_DIGITS -> ContextInfoResult.Int(action.key, contextInfoData.toInt())
-                        ContextInfoKey.ORDER_DETAILS -> {
-                            if (contextInfoData == "null") {
-                                ContextInfoResult.ObjectArray(action.key, JSONArray())
-                            } else {
-                                ContextInfoResult.ObjectArray(action.key, JSONArray(contextInfoData))
-                            }
-                        }
-                        else -> ContextInfoResult.String(action.key, contextInfoData)
-                    }
-
-                    broadcast(PaymentSdkResult.DidGetContextInfo(parsed))
-                }
-                is PaymentSdkAction.EndToken -> viewModel.scriptHandler.execute(
-                    PaymentScriptAction.EndToken(
-                        action.handledByMerchant,
-                        action.additionalData
-                    ), web_view
-                ) {}
+                is PaymentSdkAction.GetLanguage -> getLanguage()
+                is PaymentSdkAction.IsSandbox -> isSandbox()
+                is PaymentSdkAction.GetContextInfo -> getContextInfo(action)
+                is PaymentSdkAction.EndToken -> endToken(action)
             }
+        }
+    }
+
+    private fun getLanguage() {
+        viewModel.scriptHandler.execute(
+            PaymentScriptAction.GetLanguage,
+            web_view
+        ) { language ->
+            broadcast(PaymentSdkResult.DidGetLanguage(language))
+        }
+    }
+
+    private fun isSandbox() {
+        viewModel.scriptHandler.execute(
+            PaymentScriptAction.IsSandbox,
+            web_view
+        ) { result ->
+            broadcast(PaymentSdkResult.DidGetIsSandbox(result.toBoolean()))
+        }
+    }
+
+    private fun endToken(action: PaymentSdkAction.EndToken) {
+        viewModel.scriptHandler.execute(
+            PaymentScriptAction.EndToken(
+                action.handledByMerchant,
+                action.additionalData
+            ), web_view
+        ) {}
+    }
+
+    private fun getContextInfo(action: PaymentSdkAction.GetContextInfo) {
+        viewModel.scriptHandler.execute(
+            PaymentScriptAction.GetContextInfo(
+                action.key
+            ), web_view
+        ) { contextInfoData ->
+
+            val parsed = when (action.key) {
+                ContextInfoKey.AMOUNT_SMALLEST_UNIT, ContextInfoKey.CURRENCY_DIGITS  -> ContextInfoResult.Int(
+                    action.key,
+                    contextInfoData.toInt()
+                )
+
+                ContextInfoKey.ORDER_DETAILS -> {
+                    if (contextInfoData == "null") {
+                        ContextInfoResult.ObjectArray(action.key, JSONArray())
+                    } else {
+                        ContextInfoResult.ObjectArray(action.key, JSONArray(contextInfoData))
+                    }
+                }
+                else -> ContextInfoResult.String(action.key, contextInfoData)
+            }
+
+            broadcast(PaymentSdkResult.DidGetContextInfo(parsed))
         }
     }
 
