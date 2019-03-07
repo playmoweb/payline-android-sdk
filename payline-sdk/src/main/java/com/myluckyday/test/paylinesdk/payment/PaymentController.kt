@@ -36,6 +36,9 @@ class PaymentController {
 
     /**
      * S'inscris au broadcast qui permet de communiquer avec la webView
+     *
+     * @param listener [PaymentControllerListener] utilisé pour la réception du résultat de la webView
+     * @param context context utilisé à la création de PaymentController
      */
     fun registerListener(listener: PaymentControllerListener, context: Context) {
         this.listener = listener
@@ -54,6 +57,8 @@ class PaymentController {
 
     /**
      * Affiche la liste des moyens de paiement
+     *
+     * @param uri uri qui redirige la webView vers la liste des moyens de paiement
      */
     fun showPaymentForm(token: String, uri: Uri) {
         val c = context ?: return
@@ -65,6 +70,9 @@ class PaymentController {
     /**
      * Mise à jour des informations de la session de paiement (adresses, montant,...) après l'initialisation du widget
      * et avant la finalisation du paiement.
+     *
+     * @param data données qui correspondent aux informations de paiement, de la commande et de l'acheteur
+     * @see <https://payline.atlassian.net/wiki/spaces/DT/pages/1329037328/PW+-+API+JavaScript>
      */
     fun updateWebPaymentData(data: JSONObject) {
         broadcastAction(PaymentSdkAction.UpdateWebPaymentData(data))
@@ -77,8 +85,13 @@ class PaymentController {
         broadcastAction(PaymentSdkAction.IsSandbox())
     }
 
+    //TODO Demander à quoi correspond le additionalData
     /**
      * Met fin à la vie du jeton de session web
+     *
+     * @param handledByMerchant handleByMerchant est à true si l'action de supprimer le jeton de session web vient du marchand
+     * @param additionalData
+     *
      */
     fun endToken(handledByMerchant: Boolean, additionalData: JSONObject?) {
         broadcastAction(PaymentSdkAction.EndToken(handledByMerchant, additionalData))
@@ -93,6 +106,9 @@ class PaymentController {
 
     /**
      * Renvoie une information du contexte grâce à sa clé
+     *
+     * @param key [ContextInfoKey] correspond à la clé de la donnée que l'on veut récupérer
+     * @see <https://payline.atlassian.net/wiki/spaces/DT/pages/1329037328/PW+-+API+JavaScript>
      */
     fun getContextInfo(key: ContextInfoKey) {
         broadcastAction(PaymentSdkAction.GetContextInfo(key))

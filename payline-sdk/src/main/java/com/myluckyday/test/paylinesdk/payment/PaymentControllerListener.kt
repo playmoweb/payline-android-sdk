@@ -10,7 +10,7 @@ interface PaymentControllerListener {
     fun didShowPaymentForm()
 
     /**
-     * Appelée lorsque la liste des moyens de paiement a été fermée sans avoir effectué ou sélectionné un moyen paiement
+     * Appelée lorsque la liste des moyens de paiement a été fermée sans avoir effectué ou sélectionné un moyen de paiement
      */
     fun didCancelPaymentForm()
 
@@ -21,11 +21,15 @@ interface PaymentControllerListener {
 
     /**
      * Appelée lorsque l'environnement est connu
+     *
+     * @param isSandbox isSandbox est à true si l'environnement une production et à false lorsque c'est une homologation
      */
     fun didGetIsSandbox(isSandbox: Boolean)
 
     /**
      * Appelée lorsque la clé du language du widget est connue
+     *
+     * @param language language correspond à la langue du widget
      */
     fun didGetLanguage(language: String)
 
