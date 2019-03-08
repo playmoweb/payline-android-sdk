@@ -30,16 +30,19 @@ internal class WebViewModel(app: Application): AndroidViewModel(app), SdkResultB
     }
 
     private fun didShowState(event: ScriptEvent.DidShowState) {
+
+        hideCancelButton.postValue(false)
+
         when(event.state) {
 
             WidgetState.PAYMENT_METHODS_LIST -> {
                 broadcast(PaymentSdkResult.DidShowPaymentForm())
             }
-            WidgetState.PAYMENT_REDIRECT_NO_RESPONSE -> {
-                // TODO: hide button
-            }
             WidgetState.MANAGE_WEB_WALLET -> {
                 broadcast(WalletSdkResult.DidShowWebWallet())
+            }
+            WidgetState.PAYMENT_REDIRECT_NO_RESPONSE -> {
+                hideCancelButton.postValue(true)
             }
             WidgetState.PAYMENT_METHOD_NEEDS_MORE_INFOS,
             WidgetState.ACTIVE_WAITING,
@@ -60,6 +63,10 @@ internal class WebViewModel(app: Application): AndroidViewModel(app), SdkResultB
     }
 
     val finishUi = MutableLiveData<Boolean>().apply {
+        value = false
+    }
+
+    val hideCancelButton = MutableLiveData<Boolean>().apply {
         value = false
     }
 

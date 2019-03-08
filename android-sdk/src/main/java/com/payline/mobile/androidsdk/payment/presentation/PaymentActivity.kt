@@ -42,6 +42,10 @@ internal class PaymentActivity: AppCompatActivity() {
             progressBar.visibility = if(it) View.VISIBLE else View.GONE
         })
 
+        viewModel.hideCancelButton.observe(this, Observer<Boolean> {
+            b_cancel_payment_activity.visibility = if(it) View.GONE else View.VISIBLE
+        })
+
         viewModel.finishUi.observe(this, Observer<Boolean> {
             if(it) { finish() }
         })
