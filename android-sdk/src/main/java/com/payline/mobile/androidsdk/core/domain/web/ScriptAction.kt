@@ -1,4 +1,4 @@
-package com.payline.mobile.androidsdk.core.domain
+package com.payline.mobile.androidsdk.core.domain.web
 
 internal interface ScriptAction {
 

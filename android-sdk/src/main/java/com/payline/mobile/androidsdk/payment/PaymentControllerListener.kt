@@ -1,6 +1,7 @@
 package com.payline.mobile.androidsdk.payment
 
 import com.payline.mobile.androidsdk.core.data.ContextInfoResult
+import com.payline.mobile.androidsdk.core.data.WidgetState
 
 interface PaymentControllerListener {
 
@@ -10,14 +11,9 @@ interface PaymentControllerListener {
     fun didShowPaymentForm()
 
     /**
-     * Appelée lorsque la liste des moyens de paiement a été fermée sans avoir effectué ou sélectionné un moyen de paiement
-     */
-    fun didCancelPaymentForm()
-
-    /**
      * Appelée lorsque le paiement a été terminé
      */
-    fun didFinishPaymentForm()
+    fun didFinishPaymentForm(state: WidgetState)
 
     /**
      * Appelée lorsque l'environnement est connu

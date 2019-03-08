@@ -9,28 +9,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.payline.mobile.androidsdk.R
-import com.payline.mobile.androidsdk.core.data.ContextInfoKey
-import com.payline.mobile.androidsdk.core.data.ContextInfoResult
 import com.payline.mobile.androidsdk.core.domain.SdkAction
 import com.payline.mobile.androidsdk.core.domain.SdkResult
+import com.payline.mobile.androidsdk.core.domain.SdkResultBroadcaster
+import com.payline.mobile.androidsdk.core.domain.web.ScriptAction
+import com.payline.mobile.androidsdk.core.domain.web.ScriptActionExecutor
+import com.payline.mobile.androidsdk.core.domain.web.WebSdkActionDelegate
 import com.payline.mobile.androidsdk.core.util.BundleDelegate
-import com.payline.mobile.androidsdk.payment.domain.PaymentScriptAction
-import com.payline.mobile.androidsdk.payment.domain.PaymentSdkAction
-import com.payline.mobile.androidsdk.payment.domain.PaymentSdkResult
 import kotlinx.android.synthetic.main.fragment_web.*
-import org.json.JSONArray
-import android.webkit.WebViewClient
-import android.webkit.WebView
-import com.payline.mobile.payment.presentation.PaymentInterface
-import com.payline.mobile.wallet.presentation.WalletActivity
-import com.payline.mobile.wallet.presentation.WalletInterface
 
-
-internal class WebFragment: Fragment() {
+internal class WebFragment: Fragment(), ScriptActionExecutor,
+    SdkResultBroadcaster {
 
     companion object {
 
@@ -47,10 +42,14 @@ internal class WebFragment: Fragment() {
 
     private lateinit var viewModel: WebViewModel
 
+    private val actionDelegate: WebSdkActionDelegate by lazy {
+        WebSdkActionDelegate(this, this)
+    }
+
     private val actionReceiver = object: BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val action = intent.getParcelableExtra<SdkAction?>(SdkAction.EXTRA_SDK_ACTION) ?: return
-            handleSdkAction(action)
+            actionDelegate.handleAction(action)
         }
     }
 
@@ -63,8 +62,9 @@ internal class WebFragment: Fragment() {
 
         viewModel = ViewModelProviders.of(activity!!).get(WebViewModel::class.java)
 
-        setupWebView()
-        injectScriptHandler()
+        // setup webView and inject script handler
+        web_view.settings.javaScriptEnabled = true
+        web_view.addJavascriptInterface(viewModel.scriptHandler, viewModel.scriptHandler.toString())
 
         // Listen for SdkAction broadcasts
         val actionFilter = IntentFilter(SdkAction.BROADCAST_SDK_ACTION)
@@ -74,13 +74,11 @@ internal class WebFragment: Fragment() {
             web_view.loadUrl(it.toString())
         }
 
-        web_view.setWebViewClient(object : WebViewClient() {
-
+        web_view.webViewClient = object: WebViewClient() {
             override fun onPageFinished(view: WebView, url: String) {
-                if(activity is PaymentInterface) (activity as PaymentInterface).stopPaymentLoader()
-                else (activity as WalletInterface).stopWalletLoader()
+                viewModel.isLoading.postValue(false)
             }
-        })
+        }
     }
 
     override fun onDestroyView() {
@@ -88,84 +86,11 @@ internal class WebFragment: Fragment() {
         LocalBroadcastManager.getInstance(activity!!).unregisterReceiver(actionReceiver)
     }
 
-    private fun setupWebView() {
-        web_view.settings.javaScriptEnabled = true
+    override fun executeScriptAction(action: ScriptAction, callback: (String)->Unit) {
+        viewModel.scriptHandler.execute(action, web_view, callback)
     }
 
-    private fun injectScriptHandler() {
-        web_view.addJavascriptInterface(viewModel.scriptHandler, viewModel.scriptHandler.toString())
-    }
-
-    /**
-     * TODO: need to externalize this
-     * Need to map SdkAction to ScriptAction and then produce correct SdkResult (based on SdkAction)
-     */
-    private fun handleSdkAction(action: SdkAction) {
-        if (action is PaymentSdkAction) {
-            when (action) {
-                is PaymentSdkAction.GetLanguage -> getLanguage()
-                is PaymentSdkAction.IsSandbox -> isSandbox()
-                is PaymentSdkAction.GetContextInfo -> getContextInfo(action)
-                is PaymentSdkAction.EndToken -> endToken(action)
-            }
-        }
-    }
-
-    private fun getLanguage() {
-        viewModel.scriptHandler.execute(
-            PaymentScriptAction.GetLanguage,
-            web_view
-        ) { language ->
-            broadcast(PaymentSdkResult.DidGetLanguage(language))
-        }
-    }
-
-    private fun isSandbox() {
-        viewModel.scriptHandler.execute(
-            PaymentScriptAction.IsSandbox,
-            web_view
-        ) { result ->
-            broadcast(PaymentSdkResult.DidGetIsSandbox(result.toBoolean()))
-        }
-    }
-
-    private fun endToken(action: PaymentSdkAction.EndToken) {
-        viewModel.scriptHandler.execute(
-            PaymentScriptAction.EndToken(
-                action.handledByMerchant,
-                action.additionalData
-            ), web_view
-        ) {}
-    }
-
-    private fun getContextInfo(action: PaymentSdkAction.GetContextInfo) {
-        viewModel.scriptHandler.execute(
-            PaymentScriptAction.GetContextInfo(
-                action.key
-            ), web_view
-        ) { contextInfoData ->
-
-            val parsed = when (action.key) {
-                ContextInfoKey.AMOUNT_SMALLEST_UNIT, ContextInfoKey.CURRENCY_DIGITS  -> ContextInfoResult.Int(
-                    action.key,
-                    contextInfoData.toInt()
-                )
-
-                ContextInfoKey.ORDER_DETAILS -> {
-                    if (contextInfoData == "null") {
-                        ContextInfoResult.ObjectArray(action.key, JSONArray())
-                    } else {
-                        ContextInfoResult.ObjectArray(action.key, JSONArray(contextInfoData))
-                    }
-                }
-                else -> ContextInfoResult.String(action.key, contextInfoData)
-            }
-
-            broadcast(PaymentSdkResult.DidGetContextInfo(parsed))
-        }
-    }
-
-    private fun broadcast(result: SdkResult) {
+    override fun broadcast(result: SdkResult) {
         LocalBroadcastManager.getInstance(activity!!).sendBroadcast(
             Intent(SdkResult.BROADCAST_SDK_RESULT).apply {
                 putExtra(SdkResult.EXTRA_SDK_RESULT, result)

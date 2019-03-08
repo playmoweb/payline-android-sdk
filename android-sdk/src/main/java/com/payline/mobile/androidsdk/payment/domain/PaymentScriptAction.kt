@@ -1,7 +1,7 @@
 package com.payline.mobile.androidsdk.payment.domain
 
 import com.payline.mobile.androidsdk.core.data.ContextInfoKey
-import com.payline.mobile.androidsdk.core.domain.ScriptAction
+import com.payline.mobile.androidsdk.core.domain.web.ScriptAction
 import org.json.JSONObject
 
 internal sealed class PaymentScriptAction: ScriptAction {

@@ -25,23 +25,4 @@ internal sealed class WalletSdkResult: SdkResult {
         }
     }
 
-    class DidFinishWebWallet(): WalletSdkResult() {
-
-        override fun writeToParcel(dest: Parcel, flags: Int) {
-            //The function doesn't have parameters
-        }
-
-        private constructor(parcel: Parcel): this()
-
-        override fun describeContents(): Int = 0
-
-        companion object {
-            @JvmField
-            val CREATOR = object: Parcelable.Creator<DidFinishWebWallet> {
-                override fun createFromParcel(source: Parcel): DidFinishWebWallet = DidFinishWebWallet(source)
-                override fun newArray(size: Int): Array<DidFinishWebWallet?> = arrayOfNulls(size)
-            }
-        }
-    }
-
 }

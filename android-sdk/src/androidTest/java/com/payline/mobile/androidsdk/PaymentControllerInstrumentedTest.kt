@@ -9,6 +9,7 @@ import androidx.test.espresso.web.sugar.Web.onWebView
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
 import com.google.common.truth.Truth
+import com.payline.mobile.androidsdk.core.data.ContextInfoKey
 import com.payline.mobile.androidsdk.core.data.WidgetState
 import com.payline.mobile.androidsdk.payment.PaymentController
 import com.payline.mobile.tokenfetcher.FetchTokenParams
@@ -31,7 +32,7 @@ class PaymentControllerInstrumentedTest {
     }
 
     private var paymentController: PaymentController? = null
-    private var testListener: TestListener? = null
+    private var testListener: TestPaymentListener? = null
 
     @Rule @JvmField
     val blankActivityRule = ActivityTestRule<BlankActivity>(BlankActivity::class.java)
@@ -39,23 +40,12 @@ class PaymentControllerInstrumentedTest {
     @Before
     fun init() {
         paymentController = PaymentController()
-        testListener = TestListener()
+        testListener = TestPaymentListener()
     }
 
     @Test
     fun didShowPaymentForm() {
         commonTestInitWebWidget()
-    }
-
-    @Test
-    fun didCancelPaymentForm() {
-
-        commonTestInitWebWidget()
-
-        onView(withId(R.id.b_cancel_payment_activity))
-            .perform(click())
-
-        await.atMost(MAX_WAIT, SECONDS).until { testListener!!.didCancelPaymentForm }
     }
 
     @Test
@@ -66,7 +56,8 @@ class PaymentControllerInstrumentedTest {
         onWebView()
             .perform(SimpleAtom("PaylineSdkAndroid.finalStateHasBeenReached('{\"state\":\"${WidgetState.PAYMENT_SUCCESS.name}\"}');"))
 
-        await.atMost(MAX_WAIT, SECONDS).until { testListener!!.didFinishPaymentForm }
+        await.atMost(MAX_WAIT, SECONDS).until { testListener?.didFinishPaymentForm }
+        Truth.assertThat(testListener?.didFinishPaymentFormState).isEqualTo(WidgetState.PAYMENT_SUCCESS)
     }
 
     @Test
@@ -77,18 +68,32 @@ class PaymentControllerInstrumentedTest {
         onWebView()
             .perform(SimpleAtom("PaylineSdkAndroid.finalStateHasBeenReached('{\"state\":\"${WidgetState.PAYMENT_FAILURE.name}\"}');"))
 
-        await.atMost(MAX_WAIT, SECONDS).until { testListener!!.didFinishPaymentForm }
+        await.atMost(MAX_WAIT, SECONDS).until { testListener?.didFinishPaymentForm }
+        Truth.assertThat(testListener?.didFinishPaymentFormState).isEqualTo(WidgetState.PAYMENT_FAILURE)
     }
 
     @Test
-    fun didFinishPaymentForm_canceled() {
+    fun didFinishPaymentForm_cancelled_inWebView() {
 
         commonTestInitWebWidget()
 
         onWebView()
             .perform(SimpleAtom("PaylineSdkAndroid.finalStateHasBeenReached('{\"state\":\"${WidgetState.PAYMENT_CANCELED.name}\"}');"))
 
-        await.atMost(MAX_WAIT, SECONDS).until { testListener!!.didFinishPaymentForm }
+        await.atMost(MAX_WAIT, SECONDS).until { testListener?.didFinishPaymentForm }
+        Truth.assertThat(testListener?.didFinishPaymentFormState).isEqualTo(WidgetState.PAYMENT_CANCELED)
+    }
+
+    @Test
+    fun didFinishPaymentForm_cancelled_byButtonClick() {
+
+        commonTestInitWebWidget()
+
+        onView(withId(R.id.b_cancel_payment_activity))
+            .perform(click())
+
+        await.atMost(MAX_WAIT, SECONDS).until { testListener?.didFinishPaymentForm }
+        Truth.assertThat(testListener?.didFinishPaymentFormState).isEqualTo(WidgetState.PAYMENT_CANCELED)
     }
 
     @Test
@@ -98,14 +103,29 @@ class PaymentControllerInstrumentedTest {
 
         paymentController?.endToken(false, null)
 
-        await.atMost(MAX_WAIT, SECONDS).until { testListener!!.didCancelPaymentForm }
+        await.atMost(MAX_WAIT, SECONDS).until { testListener?.didFinishPaymentForm }
+        Truth.assertThat(testListener?.didFinishPaymentFormState).isEqualTo(WidgetState.PAYMENT_CANCELED)
     }
 
     @Test
     fun isSandbox() {
         commonTestInitWebWidget()
         paymentController?.getIsSandbox()
-        await.atMost(MAX_WAIT, SECONDS).until { testListener!!.didGetIsSandbox }
+        await.atMost(MAX_WAIT, SECONDS).until { testListener?.didGetIsSandbox }
+    }
+
+    @Test
+    fun getLanguage() {
+        commonTestInitWebWidget()
+        paymentController?.getLanguage()
+        await.atMost(MAX_WAIT, SECONDS).until { testListener?.didGetLanguage }
+    }
+
+    @Test
+    fun getContextInfo_currencyCode() {
+        commonTestInitWebWidget()
+        paymentController?.getContextInfo(ContextInfoKey.CURRENCY_CODE)
+        await.atMost(MAX_WAIT, SECONDS).until { testListener?.didGetContextInfo }
     }
 
     private fun commonTestInitWebWidget() {
@@ -127,8 +147,6 @@ class PaymentControllerInstrumentedTest {
         paymentController?.showPaymentForm(uri)
 
         await.atMost(MAX_WAIT, SECONDS).until { testListener!!.didShowPaymentForm }
-
-        Truth.assertThat(testListener!!.didShowPaymentForm).isTrue()
     }
 
     @After

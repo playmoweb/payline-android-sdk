@@ -17,7 +17,7 @@ import com.payline.mobile.androidsdk.core.util.IntentExtraDelegate
 import com.payline.mobile.androidsdk.payment.domain.PaymentSdkAction
 import kotlinx.android.synthetic.main.activity_payment.*
 
-internal class PaymentActivity: AppCompatActivity(), PaymentInterface {
+internal class PaymentActivity: AppCompatActivity() {
 
     companion object {
 
@@ -36,8 +36,11 @@ internal class PaymentActivity: AppCompatActivity(), PaymentInterface {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment)
 
-        progressBar.visibility = View.VISIBLE
         viewModel = ViewModelProviders.of(this).get(WebViewModel::class.java)
+
+        viewModel.isLoading.observe(this, Observer<Boolean> {
+            progressBar.visibility = if(it) View.VISIBLE else View.GONE
+        })
 
         viewModel.finishUi.observe(this, Observer<Boolean> {
             if(it) { finish() }
@@ -66,12 +69,4 @@ internal class PaymentActivity: AppCompatActivity(), PaymentInterface {
         //Disable button back pressed on this activity
     }
 
-    override fun stopPaymentLoader() {
-        progressBar.visibility = View.GONE
-    }
-
-}
-
-interface PaymentInterface {
-    fun stopPaymentLoader()
 }

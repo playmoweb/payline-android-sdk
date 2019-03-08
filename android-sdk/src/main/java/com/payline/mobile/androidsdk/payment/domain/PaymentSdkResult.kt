@@ -3,6 +3,7 @@ package com.payline.mobile.androidsdk.payment.domain
 import android.os.Parcel
 import android.os.Parcelable
 import com.payline.mobile.androidsdk.core.data.ContextInfoResult
+import com.payline.mobile.androidsdk.core.data.WidgetState
 import com.payline.mobile.androidsdk.core.domain.SdkResult
 
 internal sealed class PaymentSdkResult: SdkResult {
@@ -26,32 +27,13 @@ internal sealed class PaymentSdkResult: SdkResult {
         }
     }
 
-    class DidCancelPaymentForm(): PaymentSdkResult() {
+    class DidFinishPaymentForm(val state: WidgetState): PaymentSdkResult() {
 
         override fun writeToParcel(dest: Parcel, flags: Int) {
-            //The function doesn't have parameters
+            dest.writeString(state.name)
         }
 
-        private constructor(parcel: Parcel): this()
-
-        override fun describeContents(): Int = 0
-
-        companion object {
-            @JvmField
-            val CREATOR = object: Parcelable.Creator<DidCancelPaymentForm> {
-                override fun createFromParcel(source: Parcel): DidCancelPaymentForm = DidCancelPaymentForm(source)
-                override fun newArray(size: Int): Array<DidCancelPaymentForm?> = arrayOfNulls(size)
-            }
-        }
-    }
-
-    class DidFinishPaymentForm(): PaymentSdkResult() {
-
-        override fun writeToParcel(dest: Parcel, flags: Int) {
-            //The function doesn't have parameters
-        }
-
-        private constructor(parcel: Parcel): this()
+        private constructor(parcel: Parcel): this(WidgetState.valueOf(parcel.readString()!!))
 
         override fun describeContents(): Int = 0
 

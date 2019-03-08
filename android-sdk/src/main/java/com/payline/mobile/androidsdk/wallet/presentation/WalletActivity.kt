@@ -6,12 +6,15 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.payline.mobile.androidsdk.R
 import com.payline.mobile.androidsdk.core.presentation.WebFragment
+import com.payline.mobile.androidsdk.core.presentation.WebViewModel
 import com.payline.mobile.androidsdk.core.util.IntentExtraDelegate
 import kotlinx.android.synthetic.main.activity_wallet.*
 
-internal class WalletActivity: AppCompatActivity(), WalletInterface {
+internal class WalletActivity: AppCompatActivity() {
 
     companion object {
 
@@ -24,29 +27,29 @@ internal class WalletActivity: AppCompatActivity(), WalletInterface {
         }
     }
 
-//    private val viewModel: WebViewModel by lazy {
-//        ViewModelProviders.of(this).get(WebViewModel::class.java)
-//    }
+    private val viewModel: WebViewModel by lazy {
+        ViewModelProviders.of(this).get(WebViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_wallet)
 
-        progressBar_wallet.visibility = View.VISIBLE
-        showWebFragment()
-    }
+        viewModel.isLoading.observe(this, Observer {
+            progressBar.visibility = if(it) View.VISIBLE else View.GONE
+        })
 
-    private fun showWebFragment() {
+        if(savedInstanceState == null) {
 
-        val fragmentManager = supportFragmentManager
-        fragmentManager.executePendingTransactions()
+            supportFragmentManager.executePendingTransactions()
 
-        val uri = intent.uri ?: return
-        val webFragment = WebFragment.createInstance(uri)
-        fragmentManager
-            .beginTransaction()
-            .replace(R.id.frameLayout_fragmentContainer_wallet, webFragment, WebFragment::class.java.name)
-            .commit()
+            val uri = intent.uri ?: return
+            val webFragment = WebFragment.createInstance(uri)
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.frameLayout_fragmentContainer_wallet, webFragment, WebFragment::class.java.name)
+                .commit()
+        }
 
         b_cancel_wallet_activity.setOnClickListener {
             finish()
@@ -57,12 +60,4 @@ internal class WalletActivity: AppCompatActivity(), WalletInterface {
         //Disable button back pressed on this activity
     }
 
-    override fun stopWalletLoader() {
-        progressBar_wallet.visibility = View.GONE
-    }
-
-}
-
-interface WalletInterface {
-    fun stopWalletLoader()
 }

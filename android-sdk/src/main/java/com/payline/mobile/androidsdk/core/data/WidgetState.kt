@@ -1,6 +1,9 @@
 package com.payline.mobile.androidsdk.core.data
 
-internal enum class WidgetState {
+/**
+ * TODO: document
+ */
+enum class WidgetState {
     PAYMENT_METHODS_LIST,
     PAYMENT_CANCELED,
     PAYMENT_SUCCESS,

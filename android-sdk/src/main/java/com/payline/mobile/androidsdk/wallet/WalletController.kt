@@ -57,7 +57,7 @@ class WalletController {
      *
      * @param uri uri qui redirige la webView vers le porte-monnaie
      */
-    fun showManageWallet(uri: Uri) {
+    fun manageWebWallet(uri: Uri) {
         //LocalBroadcastManager.getInstance()
         val c = context ?: return
         val intent = WalletActivity.buildIntent(c, uri)

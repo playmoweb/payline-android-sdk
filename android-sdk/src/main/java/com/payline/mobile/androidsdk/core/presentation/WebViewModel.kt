@@ -6,105 +6,72 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.payline.mobile.androidsdk.core.domain.ScriptEvent
-import com.payline.mobile.androidsdk.core.domain.ScriptHandler
+import com.payline.mobile.androidsdk.core.domain.web.ScriptEvent
+import com.payline.mobile.androidsdk.core.domain.web.ScriptHandler
 import com.payline.mobile.androidsdk.core.domain.SdkResult
 import com.payline.mobile.androidsdk.core.data.WidgetState
+import com.payline.mobile.androidsdk.core.domain.SdkResultBroadcaster
 import com.payline.mobile.androidsdk.payment.domain.PaymentSdkResult
 import com.payline.mobile.androidsdk.wallet.domain.WalletSdkResult
 
-internal class WebViewModel(app: Application): AndroidViewModel(app) {
+internal class WebViewModel(app: Application): AndroidViewModel(app), SdkResultBroadcaster {
 
     internal val scriptHandler = ScriptHandler {
-
-        when(it) {
+        when (it) {
             is ScriptEvent.DidShowState -> didShowState(it)
-
             is ScriptEvent.FinalStateHasBeenReached -> finalStateHasBeenReached(it)
-
             is ScriptEvent.DidEndToken -> didEndToken()
         }
     }
 
     private fun didEndToken() {
-        LocalBroadcastManager.getInstance(getApplication()).sendBroadcast(
-            Intent(SdkResult.BROADCAST_SDK_RESULT).apply {
-                putExtra(SdkResult.EXTRA_SDK_RESULT, PaymentSdkResult.DidCancelPaymentForm())
-            }
-        )
+        broadcast(PaymentSdkResult.DidFinishPaymentForm(WidgetState.PAYMENT_CANCELED))
         finishUi.postValue(true)
     }
 
     private fun didShowState(event: ScriptEvent.DidShowState) {
-        when (event.state) {
+        when(event.state) {
 
             WidgetState.PAYMENT_METHODS_LIST -> {
-                LocalBroadcastManager.getInstance(getApplication()).sendBroadcast(
-                    Intent(SdkResult.BROADCAST_SDK_RESULT).apply {
-                        putExtra(SdkResult.EXTRA_SDK_RESULT, PaymentSdkResult.DidShowPaymentForm())
-                    }
-                )
+                broadcast(PaymentSdkResult.DidShowPaymentForm())
             }
             WidgetState.PAYMENT_REDIRECT_NO_RESPONSE -> {
-                Log.d("TAG", "PAYMENT_REDIRECT_NO_RESPONSE")
-                // TODO:
+                // TODO: hide button
             }
             WidgetState.MANAGE_WEB_WALLET -> {
-                LocalBroadcastManager.getInstance(getApplication()).sendBroadcast(
-                    Intent(SdkResult.BROADCAST_SDK_RESULT).apply {
-                        putExtra(SdkResult.EXTRA_SDK_RESULT, WalletSdkResult.DidShowWebWallet())
-                    }
-                )
+                broadcast(WalletSdkResult.DidShowWebWallet())
             }
-            WidgetState.PAYMENT_METHOD_NEEDS_MORE_INFOS -> {
-                //TODO
-            }
-            WidgetState.ACTIVE_WAITING -> {
-                //TODO
-            }
-            WidgetState.PAYMENT_CANCELED_WITH_RETRY -> {
-                //TODO
-            }
+            WidgetState.PAYMENT_METHOD_NEEDS_MORE_INFOS,
+            WidgetState.ACTIVE_WAITING,
+            WidgetState.PAYMENT_CANCELED_WITH_RETRY,
             WidgetState.PAYMENT_FAILURE_WITH_RETRY -> {
-                //TODO
+                // TODO: anything?
             }
         }
     }
 
     private fun finalStateHasBeenReached(event: ScriptEvent.FinalStateHasBeenReached) {
+        broadcast(PaymentSdkResult.DidFinishPaymentForm(event.state))
+        finishUi.postValue(true)
+    }
 
-        when (event.state) {
-
-            WidgetState.PAYMENT_CANCELED -> {
-                LocalBroadcastManager.getInstance(getApplication()).sendBroadcast(
-                    Intent(SdkResult.BROADCAST_SDK_RESULT).apply {
-                        putExtra(
-                            SdkResult.EXTRA_SDK_RESULT,
-                            PaymentSdkResult.DidCancelPaymentForm()
-                        )
-                    }
-                )
-            }
-            WidgetState.PAYMENT_SUCCESS,
-            WidgetState.PAYMENT_FAILURE,
-            WidgetState.TOKEN_EXPIRED,
-            WidgetState.BROWSER_NOT_SUPPORTED,
-            WidgetState.PAYMENT_ONHOLD_PARTNER,
-            WidgetState.PAYMENT_SUCCESS_FORCE_TICKET_DISPLAY -> {
-                LocalBroadcastManager.getInstance(getApplication()).sendBroadcast(
-                    Intent(SdkResult.BROADCAST_SDK_RESULT).apply {
-                        putExtra(
-                            SdkResult.EXTRA_SDK_RESULT,
-                            PaymentSdkResult.DidFinishPaymentForm()
-                        )
-                    }
-                )
-            }
-        }
+    val isLoading = MutableLiveData<Boolean>().apply {
+        value = true
     }
 
     val finishUi = MutableLiveData<Boolean>().apply {
         value = false
+    }
+
+    override fun broadcast(result: SdkResult) {
+        LocalBroadcastManager.getInstance(getApplication()).sendBroadcast(
+            Intent(SdkResult.BROADCAST_SDK_RESULT).apply {
+                putExtra(
+                    SdkResult.EXTRA_SDK_RESULT,
+                    result
+                )
+            }
+        )
     }
 
 }

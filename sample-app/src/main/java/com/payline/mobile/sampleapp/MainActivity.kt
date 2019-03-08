@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.payline.mobile.androidsdk.core.data.ContextInfoKey
 import com.payline.mobile.androidsdk.core.data.ContextInfoResult
+import com.payline.mobile.androidsdk.core.data.WidgetState
 import com.payline.mobile.androidsdk.payment.PaymentController
 import com.payline.mobile.androidsdk.payment.PaymentControllerListener
 import com.payline.mobile.androidsdk.wallet.WalletController
@@ -52,7 +53,7 @@ class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletContr
 
         walletButton.setOnClickListener {
             uri ?: return@setOnClickListener
-            walletController.showManageWallet(uri!!)
+            walletController.manageWebWallet(uri!!)
         }
     }
 
@@ -83,12 +84,8 @@ class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletContr
 //        paymentController.endToken(false, null)
     }
 
-    override fun didCancelPaymentForm() {
-        Toast.makeText(this, "endedToken called", Toast.LENGTH_LONG).show()
-    }
-
-    override fun didFinishPaymentForm() {
-
+    override fun didFinishPaymentForm(state: WidgetState) {
+        Toast.makeText(this, "didFinishPayementForm called with $state", Toast.LENGTH_LONG).show()
     }
 
     override fun didGetIsSandbox(isSandbox: Boolean) {
@@ -104,7 +101,7 @@ class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletContr
     }
 
     override fun didShowManageWebWallet() {
-
+        Toast.makeText(this, "didShowManageWebWallet called", Toast.LENGTH_LONG).show()
     }
 }
 

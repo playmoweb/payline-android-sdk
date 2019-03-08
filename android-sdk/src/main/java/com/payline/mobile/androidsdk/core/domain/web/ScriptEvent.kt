@@ -1,4 +1,4 @@
-package com.payline.mobile.androidsdk.core.domain
+package com.payline.mobile.androidsdk.core.domain.web
 
 import android.os.Parcel
 import android.os.Parcelable
@@ -19,7 +19,8 @@ internal sealed class ScriptEvent: Parcelable {
         companion object {
             @JvmField
             val CREATOR = object: Parcelable.Creator<DidShowState> {
-                override fun createFromParcel(source: Parcel): DidShowState = DidShowState(source)
+                override fun createFromParcel(source: Parcel): DidShowState =
+                    DidShowState(source)
                 override fun newArray(size: Int): Array<DidShowState?> = arrayOfNulls(size)
             }
         }
@@ -38,7 +39,8 @@ internal sealed class ScriptEvent: Parcelable {
         companion object {
             @JvmField
             val CREATOR = object: Parcelable.Creator<DidEndToken> {
-                override fun createFromParcel(source: Parcel): DidEndToken = DidEndToken(source)
+                override fun createFromParcel(source: Parcel): DidEndToken =
+                    DidEndToken(source)
                 override fun newArray(size: Int): Array<DidEndToken?> = arrayOfNulls(size)
             }
         }
@@ -57,7 +59,8 @@ internal sealed class ScriptEvent: Parcelable {
         companion object {
             @JvmField
             val CREATOR = object: Parcelable.Creator<FinalStateHasBeenReached> {
-                override fun createFromParcel(source: Parcel): FinalStateHasBeenReached = FinalStateHasBeenReached(source)
+                override fun createFromParcel(source: Parcel): FinalStateHasBeenReached =
+                    FinalStateHasBeenReached(source)
                 override fun newArray(size: Int): Array<FinalStateHasBeenReached?> = arrayOfNulls(size)
             }
         }

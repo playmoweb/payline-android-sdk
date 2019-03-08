@@ -2,8 +2,8 @@ package com.payline.mobile.androidsdk
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.payline.mobile.androidsdk.core.data.WidgetState
-import com.payline.mobile.androidsdk.core.domain.ScriptEvent
-import com.payline.mobile.androidsdk.core.domain.ScriptHandler
+import com.payline.mobile.androidsdk.core.domain.web.ScriptEvent
+import com.payline.mobile.androidsdk.core.domain.web.ScriptHandler
 import org.json.JSONObject
 import org.junit.Assert
 import org.junit.Test
@@ -35,7 +35,7 @@ class ScriptHandlerUnitTest {
 
         val sh = ScriptHandler {
             Assert.assertTrue(it is ScriptEvent.DidShowState)
-            when(it) {
+            when (it) {
                 is ScriptEvent.DidShowState -> {
                     Assert.assertEquals(it.state, WidgetState.PAYMENT_METHODS_LIST)
                 }
@@ -51,7 +51,7 @@ class ScriptHandlerUnitTest {
 
         val sh = ScriptHandler {
             Assert.assertTrue(it is ScriptEvent.DidShowState)
-            when(it) {
+            when (it) {
                 is ScriptEvent.DidShowState -> {
                     Assert.assertEquals(it.state, WidgetState.MANAGE_WEB_WALLET)
                 }

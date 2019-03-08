@@ -19,7 +19,7 @@
         android:id="@+id/b_cancel_wallet_activity"/>
 
     <androidx.core.widget.ContentLoadingProgressBar
-            android:id="@+id/progressBar_wallet"
+            android:id="@+id/progressBar"
             style="@style/Widget.AppCompat.ProgressBar"
             android:layout_width="@dimen/progress_dialog_size"
             android:layout_height="@dimen/progress_dialog_size"

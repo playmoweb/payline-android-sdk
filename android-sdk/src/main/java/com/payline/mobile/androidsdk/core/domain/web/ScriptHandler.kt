@@ -1,4 +1,4 @@
-package com.payline.mobile.androidsdk.core.domain
+package com.payline.mobile.androidsdk.core.domain.web
 
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
