@@ -17,7 +17,7 @@ data class FetchTokenParams(
         @JvmStatic
         fun testPaymentParams(): FetchTokenParams {
             return FetchTokenParams(
-                type = com.payline.mobile.tokenfetcher.FetchTokenParams.Type.PAYMENT,
+                type = Type.PAYMENT,
                 data = JSONObject().apply {
                     put("orderRef", UUID.randomUUID().toString())
                     put("amount", 5)
@@ -45,7 +45,7 @@ data class FetchTokenParams(
         @JvmStatic
         fun testWalletParams(): FetchTokenParams {
             return FetchTokenParams(
-                type = com.payline.mobile.tokenfetcher.FetchTokenParams.Type.WALLET,
+                type = Type.WALLET,
                 data = JSONObject().apply {
                     put("buyer", JSONObject().apply {
                         put("email", "John.Doe@gmail.com")

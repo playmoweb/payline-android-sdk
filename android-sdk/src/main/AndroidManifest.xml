@@ -1,12 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.payline.mobile.paylinesdk">
+          package="com.payline.mobile.androidsdk">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <application>
 
-    <application android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
-        <activity android:name="com.payline.mobile.payment.presentation.PaymentActivity"/>
-        <activity android:name="com.payline.mobile.wallet.presentation.WalletActivity"/>
+        <activity android:name=".payment.presentation.PaymentActivity"/>
+        <activity android:name=".wallet.presentation.WalletActivity"/>
 
     </application>
 

@@ -2,8 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.payline.mobile.tokenfetcher">
 
-    <application>
-        <activity android:name=".BlankActivity"/>
-    </application>
+    <application/>
 
 </manifest>
