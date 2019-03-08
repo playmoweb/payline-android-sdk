@@ -1,30 +1,22 @@
 # PaylineSDK
 
-## Description
-
-Le SDK Payline est un kit de développement qui va permettre d'intéragir avec le service Payline afin d'effectuer un paiement ou de voir le porte-monnaie.
-
-## Installation
-
-????
-
 ## Utilisation
 
 ### Initialisation
 
-Pour l'initialisation du SDK, il faut tout d'abord instancier un  `PaymentController()` et un  `WalletController` et ensuite les associer à leur listener respectif qui seront décrits par la suite. Habituellement, cela est fait dans le  `onCreate()` de l'activité:
+Pour l'initialisation du SDK, il faut tout d'abord instancier un  `PaymentController()` et un  `WalletController()` et ensuite les associer à leur listener qui seront décrits par la suite. Habituellement, cela est fait dans le  `onCreate()` de l'activité:
 
 ```kotlin
 private var paymentController = PaymentController()
 paymentController.registerListener(listener, context)
 
 private var walletController = WalletController()
-paymentController.registerListener(listener, context)
+walletController.registerListener(listener, context)
 ```
 La méthode d'initialisation du paiement requiert deux paramètres: un "paymentControllerListener" et le context
-La méthode d'initialisation du paiement requiert deux paramètres: un "walletControllerListener" et le context
+La méthode d'initialisation du porte-monnaie requiert deux paramètres: un "walletControllerListener" et le context
 
-Cependant, il faut aussi dissocier le listener lorsque vous avez fini avec l'utilisatation du SDK. Habituellement, cela est fait dans le  `onDestroy()` de l'activité:
+Cependant, il faut aussi dissocier le listener lorsque vous avez fini d'utiliser le SDK. Habituellement, cela est fait dans le  `onDestroy()` de l'activité:
 
 ```kotlin
 paymentController.unregisterListener()
@@ -39,7 +31,7 @@ class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletContr
 
 ### Configuration
 
-Les méthodes `showPaymentForm` and `showWalletForm` sont utilisées pour afficher la page des moyens de paiement ou la page du porte-monnaie.
+La méthode `showPaymentForm` est utilisée pour afficher la page des moyens de paiement.
 
 ```kotlin
 private val paymentController = PaymentController()
@@ -47,6 +39,8 @@ paymentController.showPaymentForm(uri)
 ```
 
 OR
+
+La méthode `showManageWallet` est utilisée pour afficher la page du porte-monnaie.
 
 ```kotlin
 private val walletController = WalletController()
@@ -67,7 +61,7 @@ fun updateWebPaymentData(data: JSONObject)
 ```kotlin
 fun getIsSandbox()
 ```
-`getIsSandbox` permet de connaitre l'environnement, savoir si c'est une production ou une homologation.
+`getIsSandbox` permet de savoir si l'environnement est une production ou une homologation.
 
 
 ```kotlin
@@ -86,7 +80,7 @@ fun getLanguage()
 fun getContextInfo(key: ContextInfoKey)
 ```
 `getContextInfo` permet de connaitre l'information dont la clé est passée en paramètre.
-Les différentes clés possible pour cette fonction sont les suivantes:
+Les différentes clés disponibles pour cette fonction sont les suivantes:
 
     - AMOUNT_SMALLEST_UNIT("PaylineAmountSmallestUnit")
     - CURRENCY_DIGITS("PaylineCurrencyDigits")
@@ -112,7 +106,7 @@ Les différentes clés possible pour cette fonction sont les suivantes:
 
 ### PaymentControllerListener
 
-Le `PaymentControllerListener` va permettre d'avertir les classes qui l'implement lorsque des données ou des actions sont reçues. Il contient différentes méthodes: 
+Le `PaymentControllerListener` va permettre d'avertir les classes qui l'implémentent lorsque des données ou des actions sont reçues. Il contient différentes méthodes:
 
 ```kotlin
 fun didShowPaymentForm()
@@ -147,11 +141,11 @@ fun didGetLanguage(language: String)
 ```kotlin
 fun didGetContextInfo(key: ContextInfoKey)
 ```
-`didGetContextInfo` est la méthode appelée lorsque l'information du contexte est connue
+`didGetContextInfo` est la méthode appelée lorsque l'information du contexte est connue.
 
 ### WalletControllerListener
 
-Le `WalletControllerListener` va permettre d'avertir les classes qui l'implement lorsque des données ou des actions sont reçues. Il contient une méthode: 
+Le `WalletControllerListener` va permettre d'avertir les classes qui l'implémentent lorsque des données ou des actions sont reçues. Il contient une méthode:
 
 ```kotlin
 fun didShowManageWebWallet()
@@ -167,11 +161,9 @@ class TestApp: AppCompatActivity(), PaymentControllerListener {
 
     private lateinit var paymentController: PaymentController
 
-    private var token: String? = null
     private var uri: Uri? = null
     
     private val fetchTokenCallback: (FetchTokenResult?)->Unit = { result ->
-        token = result?.token
         result?.redirectUrl?.let {
             uri = Uri.parse(it)
         }
@@ -187,9 +179,8 @@ class TestApp: AppCompatActivity(), PaymentControllerListener {
         fetchTokenForPayment()
         
         paymentButton.setOnClickListener {
-            token ?: return@setOnClickListener
             uri ?: return@setOnClickListener
-            paymentController.showPaymentForm(token!!, uri!!)
+            paymentController.showPaymentForm(uri!!)
         }
     }
     
@@ -199,32 +190,7 @@ class TestApp: AppCompatActivity(), PaymentControllerListener {
     }
     
     private fun fetchTokenForPayment() {
-        TokenFetcher(fetchTokenCallback).execute(
-            FetchTokenParams(
-                type = FetchTokenParams.Type.PAYMENT,
-                data = JSONObject().apply {
-                    put("orderRef", UUID.randomUUID().toString())
-                    put("amount", 5)
-                    put("currencyCode", "EUR")
-                    put("languageCode", "FR")
-                    put("buyer", JSONObject().apply {
-                        put("email", "John.Doe@gmail.com")
-                        put("firstname", "John")
-                        put("lastname", "Doe")
-                        put("mobilePhone", "0123456789")
-                        put("shippingAddress", JSONObject().apply {
-                            put("city", "Aix-en-Provence")
-                            put("country", "FR")
-                            put("firstname", "John")
-                            put("lastname", "Doe")
-                            put("phone", "0123456789")
-                            put("street1", "15 rue de Rue")
-                            put("zipCode", "69002")
-                        })
-                    })
-                }
-            )
-        )
+        TokenFetcher(fetchTokenCallback).execute(FetchTokenParams(...))
     }
     
     override fun didShowPaymentForm() {
@@ -265,7 +231,6 @@ class TestApp: AppCompatActivity(), WalletControllerListener {
     private var uri: Uri? = null
 
     private val fetchTokenCallback: (FetchTokenResult?)->Unit = { result ->
-        token = result?.token
         result?.redirectUrl?.let {
             uri = Uri.parse(it)
         }
@@ -281,9 +246,8 @@ class TestApp: AppCompatActivity(), WalletControllerListener {
         walletTokenButton.setOnClickListener { fetchTokenForWallet() }
 
         walletButton.setOnClickListener {
-            token ?: return@setOnClickListener
             uri ?: return@setOnClickListener
-            walletController.showManageWallet(token!!, uri!!)
+            walletController.showManageWallet(uri!!)
         }
     }
 
@@ -302,10 +266,4 @@ class TestApp: AppCompatActivity(), WalletControllerListener {
 
 }
 ```
-
-## Payline Documentation
-
-La documentation de Payline peut être trouvé [here](https://support.payline.com/hc/fr/categories/360000068528-API-Reference). Elle offre une vue d'ensemble du sytème, des détails et des explications sur certains sujets.
-
----
 

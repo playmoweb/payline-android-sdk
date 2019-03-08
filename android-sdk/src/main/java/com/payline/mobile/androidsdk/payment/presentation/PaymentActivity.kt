@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -16,7 +17,7 @@ import com.payline.mobile.androidsdk.core.util.IntentExtraDelegate
 import com.payline.mobile.androidsdk.payment.domain.PaymentSdkAction
 import kotlinx.android.synthetic.main.activity_payment.*
 
-internal class PaymentActivity: AppCompatActivity() {
+internal class PaymentActivity: AppCompatActivity(), PaymentInterface {
 
     companion object {
 
@@ -33,9 +34,9 @@ internal class PaymentActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_payment)
 
+        progressBar.visibility = View.VISIBLE
         viewModel = ViewModelProviders.of(this).get(WebViewModel::class.java)
 
         viewModel.finishUi.observe(this, Observer<Boolean> {
@@ -65,4 +66,12 @@ internal class PaymentActivity: AppCompatActivity() {
         //Disable button back pressed on this activity
     }
 
+    override fun stopPaymentLoader() {
+        progressBar.visibility = View.GONE
+    }
+
+}
+
+interface PaymentInterface {
+    fun stopPaymentLoader()
 }
