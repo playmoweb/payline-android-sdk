@@ -25,9 +25,7 @@ class PaymentController {
             val sdkResult = intent.getParcelableExtra<PaymentSdkResult>(SdkResult.EXTRA_SDK_RESULT)
             when(sdkResult) {
                 is PaymentSdkResult.DidShowPaymentForm -> listener?.didShowPaymentForm()
-                is PaymentSdkResult.DidFinishPaymentForm -> {
-                    listener?.didFinishPaymentForm(sdkResult.state)
-                }
+                is PaymentSdkResult.DidFinishPaymentForm -> listener?.didFinishPaymentForm(sdkResult.state)
                 is PaymentSdkResult.DidGetLanguage -> listener?.didGetLanguage(sdkResult.language)
                 is PaymentSdkResult.DidGetIsSandbox -> listener?.didGetIsSandbox(sdkResult.isSandbox)
                 is PaymentSdkResult.DidGetContextInfo -> listener?.didGetContextInfo(sdkResult.result)
@@ -63,9 +61,11 @@ class PaymentController {
      */
     fun showPaymentForm(uri: Uri) {
         val c = context ?: return
-        val intent = PaymentActivity.buildIntent(c, uri)
-        val opts = ActivityOptionsCompat.makeCustomAnimation(c, 0, 0).toBundle()
-        c.startActivity(intent, opts)
+        PaymentActivity.buildIntent(c, uri).apply {
+            c.startActivity(this)
+//            val opts = ActivityOptionsCompat.makeCustomAnimation(c, 0, 0).toBundle()
+//            c.startActivity(this, opts)
+        }
     }
 
     /**
@@ -86,7 +86,6 @@ class PaymentController {
         broadcastAction(PaymentSdkAction.IsSandbox())
     }
 
-    //TODO Demander à quoi correspond le additionalData
     /**
      * Met fin à la vie du jeton de session web
      *
@@ -94,7 +93,7 @@ class PaymentController {
      * @param additionalData
      *
      */
-    fun endToken(handledByMerchant: Boolean, additionalData: JSONObject?) {
+    fun endToken(handledByMerchant: Boolean, additionalData: String?) {
         broadcastAction(PaymentSdkAction.EndToken(handledByMerchant, additionalData))
     }
 
@@ -117,8 +116,7 @@ class PaymentController {
 
     private val bman: LocalBroadcastManager?
         get() {
-            val c = context ?: return null
-            return LocalBroadcastManager.getInstance(c)
+            return context?.let { LocalBroadcastManager.getInstance(it) }
         }
 
     private fun broadcastAction(action: PaymentSdkAction) {

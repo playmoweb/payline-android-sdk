@@ -46,16 +46,16 @@ internal sealed class PaymentSdkAction: SdkAction {
         }
     }
 
-    class EndToken(val handledByMerchant: Boolean, additionalData: JSONObject?): PaymentSdkAction() {
+    class EndToken(val handledByMerchant: Boolean, additionalData: String?): PaymentSdkAction() {
 
-        val additionalData: JSONObject = additionalData ?: JSONObject()
+        val additionalData: String = additionalData ?: ""
 
         override fun writeToParcel(dest: Parcel, flags: Int) {
             dest.writeInt(if(handledByMerchant) 1 else 0)
-            dest.writeString(additionalData.toString())
+            dest.writeString(additionalData)
         }
 
-        private constructor(parcel: Parcel): this(parcel.readInt() == 1, JSONObject(parcel.readString()))
+        private constructor(parcel: Parcel): this(parcel.readInt() == 1, parcel.readString())
 
         override fun describeContents(): Int = 0
 

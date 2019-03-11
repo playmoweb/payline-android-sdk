@@ -46,10 +46,14 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    testImplementation 'junit:junit:4.12'
-    testImplementation 'org.robolectric:robolectric:4.2'
+    testImplementation 'androidx.test:runner:1.1.1'
+//    testImplementation 'androidx.test:rules:1.1.1'
     testImplementation 'androidx.test.ext:junit:1.1.0'
-    testImplementation 'androidx.test.ext:truth:1.1.0'
+//    testImplementation 'androidx.test.ext:truth:1.1.0'
+    testImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    testImplementation 'org.robolectric:robolectric:4.2'
+//    testImplementation 'org.awaitility:awaitility-kotlin:3.1.6'
+//    testImplementation project(":tokenfetcher")
 
     androidTestImplementation 'androidx.test:rules:1.1.1'
     androidTestImplementation 'androidx.test:runner:1.1.1'

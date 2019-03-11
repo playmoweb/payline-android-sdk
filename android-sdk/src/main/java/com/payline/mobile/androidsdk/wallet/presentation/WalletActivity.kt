@@ -50,10 +50,6 @@ internal class WalletActivity: AppCompatActivity() {
                 .replace(R.id.frameLayout_fragmentContainer_wallet, webFragment, WebFragment::class.java.name)
                 .commit()
         }
-
-        b_cancel_wallet_activity.setOnClickListener {
-            finish()
-        }
     }
 
 }

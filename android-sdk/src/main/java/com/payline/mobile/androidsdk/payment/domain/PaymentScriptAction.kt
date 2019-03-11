@@ -18,7 +18,7 @@ internal sealed class PaymentScriptAction: ScriptAction {
             get() = ScriptAction.commandWrapper("isSandbox()")
     }
 
-    data class EndToken(val handledByMerchant: Boolean, val additionalData: JSONObject): PaymentScriptAction() {
+    data class EndToken(val handledByMerchant: Boolean, val additionalData: String): PaymentScriptAction() {
 
         override val command: String
             get() {
