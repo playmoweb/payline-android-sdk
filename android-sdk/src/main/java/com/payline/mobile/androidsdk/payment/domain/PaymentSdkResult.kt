@@ -90,7 +90,7 @@ internal sealed class PaymentSdkResult: SdkResult {
             dest.writeParcelable(result, 0)
         }
 
-        private constructor(parcel: Parcel): this(parcel.readParcelable<ContextInfoResult>(ContextInfoResult::class.java.classLoader))
+        private constructor(parcel: Parcel): this(parcel.readParcelable<ContextInfoResult>(ContextInfoResult::class.java.classLoader)!!)
 
         override fun describeContents(): Int = 0
 

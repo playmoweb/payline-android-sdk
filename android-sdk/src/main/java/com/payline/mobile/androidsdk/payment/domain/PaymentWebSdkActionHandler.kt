@@ -14,13 +14,14 @@ internal object PaymentWebSdkActionHandler: WebSdkActionDelegate.Handler {
         return action is PaymentSdkAction
     }
 
-    override fun handle(action: SdkAction, scriptExecutor: ScriptActionExecutor, broadcaster: SdkResultBroadcaster) {
+    override fun handle(action: SdkAction, actionExecutor: ScriptActionExecutor, broadcaster: SdkResultBroadcaster) {
 
         if(action !is PaymentSdkAction) return
 
         when(action) {
+
             is PaymentSdkAction.GetLanguage -> {
-                scriptExecutor.executeScriptAction(PaymentScriptAction.GetLanguage) {
+                actionExecutor.executeAction(PaymentScriptAction.GetLanguage) {
                     broadcaster.broadcast(
                         PaymentSdkResult.DidGetLanguage(
                             it
@@ -28,8 +29,9 @@ internal object PaymentWebSdkActionHandler: WebSdkActionDelegate.Handler {
                     )
                 }
             }
+
             is PaymentSdkAction.IsSandbox -> {
-                scriptExecutor.executeScriptAction(PaymentScriptAction.IsSandbox) {
+                actionExecutor.executeAction(PaymentScriptAction.IsSandbox) {
                     broadcaster.broadcast(
                         PaymentSdkResult.DidGetIsSandbox(
                             it.toBoolean()
@@ -37,17 +39,14 @@ internal object PaymentWebSdkActionHandler: WebSdkActionDelegate.Handler {
                     )
                 }
             }
+
             is PaymentSdkAction.GetContextInfo -> {
-                scriptExecutor.executeScriptAction(
-                    PaymentScriptAction.GetContextInfo(
-                        action.key
-                    )
-                ) {
+                actionExecutor.executeAction(PaymentScriptAction.GetContextInfo(action.key)) {
+
                     val parsed = when (action.key) {
-                        ContextInfoKey.AMOUNT_SMALLEST_UNIT, ContextInfoKey.CURRENCY_DIGITS -> ContextInfoResult.Int(
-                            action.key,
-                            it.toInt()
-                        )
+
+                        ContextInfoKey.AMOUNT_SMALLEST_UNIT, ContextInfoKey.CURRENCY_DIGITS ->
+                            ContextInfoResult.Int(action.key, it.toInt())
 
                         ContextInfoKey.ORDER_DETAILS -> {
                             if (it == "null") {
@@ -62,8 +61,10 @@ internal object PaymentWebSdkActionHandler: WebSdkActionDelegate.Handler {
                                 )
                             }
                         }
-                        else -> ContextInfoResult.String(action.key, it)
+                        else ->
+                            ContextInfoResult.String(action.key, it)
                     }
+
                     broadcaster.broadcast(
                         PaymentSdkResult.DidGetContextInfo(
                             parsed
@@ -71,8 +72,9 @@ internal object PaymentWebSdkActionHandler: WebSdkActionDelegate.Handler {
                     )
                 }
             }
+
             is PaymentSdkAction.EndToken -> {
-                scriptExecutor.executeScriptAction(
+                actionExecutor.executeAction(
                     PaymentScriptAction.EndToken(
                         action.handledByMerchant,
                         action.additionalData

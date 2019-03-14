@@ -15,6 +15,9 @@ import com.payline.mobile.androidsdk.payment.domain.PaymentSdkResult
 import com.payline.mobile.androidsdk.payment.presentation.PaymentActivity
 import org.json.JSONObject
 
+/**
+ * TODO: needs doc
+ */
 class PaymentController {
 
     private var listener: PaymentControllerListener? = null

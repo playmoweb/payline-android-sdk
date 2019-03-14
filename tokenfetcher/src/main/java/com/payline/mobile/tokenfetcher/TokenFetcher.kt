@@ -2,6 +2,7 @@ package com.payline.mobile.tokenfetcher
 
 import android.net.Uri
 import android.os.AsyncTask
+import android.util.Log
 import org.json.JSONObject
 import java.io.BufferedOutputStream
 import java.lang.ref.WeakReference
@@ -49,6 +50,7 @@ class TokenFetcher(callback: (FetchTokenResult?)->Unit): AsyncTask<FetchTokenPar
             val jsonResponse = JSONObject(responseString)
 
             return FetchTokenResult(
+                type = params.type,
                 code = jsonResponse.getString("code"),
                 message = jsonResponse.getString("message"),
                 redirectUrl = jsonResponse.getString("redirectUrl"),
@@ -56,6 +58,7 @@ class TokenFetcher(callback: (FetchTokenResult?)->Unit): AsyncTask<FetchTokenPar
             )
 
         } catch(t: Throwable) {
+            Log.e("TokenFetcher", "error getting token", t)
             t.printStackTrace()
             return null
         }

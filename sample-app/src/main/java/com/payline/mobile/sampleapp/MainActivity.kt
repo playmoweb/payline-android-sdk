@@ -18,21 +18,17 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletControllerListener {
 
+    //region Properties
+
     private lateinit var paymentController: PaymentController
     private lateinit var walletController: WalletController
 
-    private var uri: Uri? = null
+    private var paymentUri: Uri? = null
+    private var walletUri: Uri? = null
 
-    private val fetchTokenCallback: (FetchTokenResult?)->Unit = { result ->
-        result?.redirectUrl?.let {
-            uri = Uri.parse(it)
-        }
-        if(uri == null) {
-            Toast.makeText(this@MainActivity, "Couldn't get new uri", Toast.LENGTH_LONG).show()
-        } else {
-            Toast.makeText(this@MainActivity, "Got new uri: $uri", Toast.LENGTH_SHORT).show()
-        }
-    }
+    //endregion Properties
+
+    //region System
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,18 +39,7 @@ class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletContr
         walletController = WalletController()
         walletController.registerListener(this, this)
 
-        paymentTokenButton.setOnClickListener { fetchTokenForPayment() }
-        walletTokenButton.setOnClickListener { fetchTokenForWallet() }
-
-        paymentButton.setOnClickListener {
-            uri ?: return@setOnClickListener
-            paymentController.showPaymentForm(uri!!)
-        }
-
-        walletButton.setOnClickListener {
-            uri ?: return@setOnClickListener
-            walletController.manageWebWallet(uri!!)
-        }
+        setupButtons()
     }
 
     override fun onDestroy() {
@@ -63,15 +48,9 @@ class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletContr
         walletController.unregisterListener()
     }
 
-    private fun fetchTokenForPayment() {
-        TokenFetcher(fetchTokenCallback)
-            .execute(FetchTokenParams.testPaymentParams())
-    }
+    //endregion System
 
-    private fun fetchTokenForWallet() {
-        TokenFetcher(fetchTokenCallback)
-            .execute(FetchTokenParams.testWalletParams())
-    }
+    //region implements PaymentControllerListener
 
     override fun didShowPaymentForm() {
         paymentController.getLanguage()
@@ -100,8 +79,67 @@ class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletContr
         Toast.makeText(this, "got ContextInfo: $info", Toast.LENGTH_SHORT).show()
     }
 
+    //endregion implements PaymentControllerListener
+
+    //region implements WalletControllerListener
+
     override fun didShowManageWebWallet() {
         Toast.makeText(this, "didShowManageWebWallet called", Toast.LENGTH_LONG).show()
     }
+
+    //endregion implements WalletControllerListener
+
+    //region private token fetching
+
+    private fun setupButtons() {
+
+        paymentTokenButton.setOnClickListener { fetchTokenForPayment() }
+        walletTokenButton.setOnClickListener { fetchTokenForWallet() }
+
+        paymentButton.setOnClickListener {
+            paymentUri ?: return@setOnClickListener
+            paymentController.showPaymentForm(paymentUri!!)
+        }
+
+        walletButton.setOnClickListener {
+            paymentUri ?: return@setOnClickListener
+            walletController.manageWebWallet(paymentUri!!)
+        }
+    }
+
+    private fun fetchTokenForPayment() {
+        TokenFetcher(fetchTokenCallback)
+            .execute(FetchTokenParams.testPaymentParams())
+    }
+
+    private fun fetchTokenForWallet() {
+        TokenFetcher(fetchTokenCallback)
+            .execute(FetchTokenParams.testWalletParams())
+    }
+
+    private val fetchTokenCallback: (FetchTokenResult?)->Unit = { result ->
+        result?.redirectUrl?.let {
+            when(result.type) {
+                FetchTokenParams.Type.PAYMENT -> {
+                    paymentUri = Uri.parse(it)
+                    printFetchTokenResult(paymentUri)
+                }
+                FetchTokenParams.Type.WALLET -> {
+                    walletUri = Uri.parse(it)
+                    printFetchTokenResult(walletUri)
+                }
+            }
+        }
+    }
+
+    private fun printFetchTokenResult(uri: Uri?) {
+        if(uri == null) {
+            Toast.makeText(this@MainActivity, "Couldn't get new uri", Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(this@MainActivity, "Got new uri: $uri", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    //endregion private token fetching
 }
 

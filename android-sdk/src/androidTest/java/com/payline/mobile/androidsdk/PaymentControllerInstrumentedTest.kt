@@ -135,9 +135,10 @@ class PaymentControllerInstrumentedTest {
         paymentController!!.registerListener(testListener!!, activity)
 
         var result: FetchTokenResult? = null
-        val fetch = TokenFetcher {
+        val callback: (FetchTokenResult?)->Unit = {
             result = it
         }
+        val fetch = TokenFetcher(callback)
         fetch.execute(FetchTokenParams.testPaymentParams())
         await.atMost(MAX_WAIT, SECONDS).untilNotNull { result }
 

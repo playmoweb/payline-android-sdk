@@ -25,7 +25,7 @@ sealed class ContextInfoResult: Parcelable {
             dest.writeInt(value)
         }
 
-        private constructor(parcel: Parcel): this(ContextInfoKey.valueOf(parcel.readString()), parcel.readInt())
+        private constructor(parcel: Parcel): this(ContextInfoKey.valueOf(parcel.readString()!!), parcel.readInt())
 
         override fun describeContents(): kotlin.Int = 0
 
@@ -51,7 +51,7 @@ sealed class ContextInfoResult: Parcelable {
             dest.writeString(value)
         }
 
-        private constructor(parcel: Parcel): this(ContextInfoKey.valueOf(parcel.readString()), parcel.readString()!!)
+        private constructor(parcel: Parcel): this(ContextInfoKey.valueOf(parcel.readString()!!), parcel.readString()!!)
 
         override fun describeContents(): kotlin.Int = 0
 
@@ -78,7 +78,7 @@ sealed class ContextInfoResult: Parcelable {
             dest.writeString(value.toString())
         }
 
-        private constructor(parcel: Parcel): this(ContextInfoKey.valueOf(parcel.readString()), JSONArray(parcel.readString()))
+        private constructor(parcel: Parcel): this(ContextInfoKey.valueOf(parcel.readString()!!), JSONArray(parcel.readString()))
 
         override fun describeContents(): kotlin.Int = 0
 

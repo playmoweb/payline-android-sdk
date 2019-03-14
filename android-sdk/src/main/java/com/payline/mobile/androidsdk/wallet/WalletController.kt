@@ -11,6 +11,9 @@ import com.payline.mobile.androidsdk.payment.PaymentControllerListener
 import com.payline.mobile.androidsdk.wallet.domain.WalletSdkResult
 import com.payline.mobile.androidsdk.wallet.presentation.WalletActivity
 
+/**
+ * TODO: needs doc
+ */
 class WalletController {
 
     internal companion object {

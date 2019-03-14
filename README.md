@@ -56,7 +56,7 @@ walletController.showManageWallet(uri)
 ```
 Ces deux méthodes requièrent l'uri de la page vers laquelle nous devons être redirigés.
 
-# Dalenys Documentation
+# Payline Documentation
 
 La documentation de Payline peut être trouvé [here](https://payline.atlassian.net/wiki/spaces/DT/overview). Elle offre une vue d'ensemble du sytème, des détails et des explications sur certains sujets.
 
