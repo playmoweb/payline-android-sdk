@@ -15,12 +15,12 @@ data class FetchTokenParams(
     companion object {
 
         @JvmStatic
-        fun testPaymentParams(): FetchTokenParams {
+        fun testPaymentParams(amount: Double): FetchTokenParams {
             return FetchTokenParams(
                 type = Type.PAYMENT,
                 data = JSONObject().apply {
                     put("orderRef", UUID.randomUUID().toString())
-                    put("amount", 5)
+                    put("amount", amount)
                     put("currencyCode", "EUR")
                     put("languageCode", "FR")
                     put("buyer", JSONObject().apply {

@@ -7,16 +7,34 @@
     android:layout_height="match_parent"
     tools:context="com.payline.mobile.sampleapp.MainActivity">
 
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guidelineTop"
+        app:layout_constraintGuide_percent="0.2"
+        android:orientation="horizontal"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberSigned"
+        android:ems="10"
+        android:id="@+id/editText"
+        app:layout_constraintTop_toTopOf="@+id/guidelineTop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/paymentTokenButton"
+        app:layout_constraintVertical_chainStyle="spread"/>
+
     <Button
         android:id="@+id/paymentTokenButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Generate Payment Token"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/paymentButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintBottom_toTopOf="@+id/walletTokenButton"/>
+        app:layout_constraintBottom_toTopOf="@+id/walletTokenButton"
+        app:layout_constraintTop_toBottomOf="@+id/editText"/>
 
     <Button
         android:text="Pay"
@@ -25,7 +43,6 @@
         android:id="@+id/paymentButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/paymentTokenButton"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintTop_toTopOf="@+id/paymentTokenButton"
         app:layout_constraintBottom_toBottomOf="@+id/paymentTokenButton"/>
 
@@ -35,9 +52,9 @@
         android:layout_height="wrap_content"
         android:text="Generate Wallet Token"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/paymentTokenButton" app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintEnd_toStartOf="@+id/walletButton"/>
+        app:layout_constraintTop_toBottomOf="@+id/paymentTokenButton"
+        app:layout_constraintEnd_toStartOf="@+id/walletButton"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineBottom"/>
 
     <Button
         android:id="@+id/walletButton"
@@ -45,9 +62,25 @@
         android:layout_height="wrap_content"
         android:text="Manage Wallet"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/walletTokenButton" app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/walletTokenButton"
         app:layout_constraintTop_toTopOf="@+id/walletTokenButton"
         app:layout_constraintBottom_toBottomOf="@+id/walletTokenButton"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guidelineBottom"
+        app:layout_constraintGuide_percent="0.8"
+        android:orientation="horizontal"/>
+
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/progressBar"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

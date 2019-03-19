@@ -15,6 +15,7 @@ import com.payline.mobile.tokenfetcher.FetchTokenParams
 import com.payline.mobile.tokenfetcher.FetchTokenResult
 import com.payline.mobile.tokenfetcher.TokenFetcher
 import kotlinx.android.synthetic.main.activity_main.*
+import java.lang.NumberFormatException
 
 class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletControllerListener {
 
@@ -102,22 +103,34 @@ class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletContr
         }
 
         walletButton.setOnClickListener {
-            paymentUri ?: return@setOnClickListener
-            walletController.manageWebWallet(paymentUri!!)
+            walletUri ?: return@setOnClickListener
+            walletController.manageWebWallet(walletUri!!)
         }
     }
 
     private fun fetchTokenForPayment() {
-        TokenFetcher(fetchTokenCallback)
-            .execute(FetchTokenParams.testPaymentParams())
+        try {
+
+            val amount = editText.text.toString().toDouble()
+            if(amount <= 0) throw NumberFormatException()
+
+            progressBar.show()
+            TokenFetcher(fetchTokenCallback)
+                .execute(FetchTokenParams.testPaymentParams(amount))
+
+        } catch(t: NumberFormatException) {
+            Toast.makeText(this, "Invalid amount", Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun fetchTokenForWallet() {
+        progressBar.show()
         TokenFetcher(fetchTokenCallback)
             .execute(FetchTokenParams.testWalletParams())
     }
 
     private val fetchTokenCallback: (FetchTokenResult?)->Unit = { result ->
+        progressBar.hide()
         result?.redirectUrl?.let {
             when(result.type) {
                 FetchTokenParams.Type.PAYMENT -> {

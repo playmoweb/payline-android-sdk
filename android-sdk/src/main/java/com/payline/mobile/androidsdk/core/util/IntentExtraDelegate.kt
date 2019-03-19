@@ -12,14 +12,4 @@ internal sealed class IntentExtraDelegate<T>(protected val key: String): ReadWri
             thisRef.putExtra(key, value)
         }
     }
-
-    class PaymentSdkResult(key: String): IntentExtraDelegate<com.payline.mobile.androidsdk.payment.domain.PaymentSdkResult>(key) {
-        override fun getValue(thisRef: Intent, property: KProperty<*>): com.payline.mobile.androidsdk.payment.domain.PaymentSdkResult {
-            return thisRef.getParcelableExtra(key)
-        }
-
-        override fun setValue(thisRef: Intent, property: KProperty<*>, value: com.payline.mobile.androidsdk.payment.domain.PaymentSdkResult) {
-            thisRef.putExtra(key, value)
-        }
-    }
 }

@@ -3,8 +3,13 @@
 
     <application>
 
-        <activity android:name=".payment.presentation.PaymentActivity"/>
-        <activity android:name=".wallet.presentation.WalletActivity"/>
+        <activity
+            android:name=".payment.presentation.PaymentActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
+        <activity
+            android:name=".wallet.presentation.WalletActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
     </application>
 
