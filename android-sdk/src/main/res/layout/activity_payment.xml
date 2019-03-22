@@ -21,13 +21,13 @@
         android:id="@+id/b_cancel_payment_activity"/>
 
     <androidx.core.widget.ContentLoadingProgressBar
-            android:id="@+id/progressBar"
-            style="@style/Widget.AppCompat.ProgressBar"
-            android:layout_width="@dimen/progress_dialog_size"
-            android:layout_height="@dimen/progress_dialog_size"
-            android:layout_margin="@dimen/standard_margin"
-            android:layout_gravity="center"
-            android:indeterminate="true"
-            android:visibility="gone" />
+        android:id="@+id/progressBar"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="@dimen/progress_dialog_size"
+        android:layout_height="@dimen/progress_dialog_size"
+        android:layout_margin="@dimen/standard_margin"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:visibility="gone" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

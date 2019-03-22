@@ -15,7 +15,7 @@ data class FetchTokenParams(
     companion object {
 
         @JvmStatic
-        fun testPaymentParams(amount: Double): FetchTokenParams {
+        fun testPaymentParams(amount: Double, walletId: String): FetchTokenParams {
             return FetchTokenParams(
                 type = Type.PAYMENT,
                 data = JSONObject().apply {
@@ -37,13 +37,14 @@ data class FetchTokenParams(
                             put("street1", "15 rue de Rue")
                             put("zipCode", "69002")
                         })
+                        put("walletId", walletId)
                     })
                 }
             )
         }
 
         @JvmStatic
-        fun testWalletParams(): FetchTokenParams {
+        fun testWalletParams(walletId: String): FetchTokenParams {
             return FetchTokenParams(
                 type = Type.WALLET,
                 data = JSONObject().apply {
@@ -61,7 +62,7 @@ data class FetchTokenParams(
                             put("street1", "15 rue de Rue")
                             put("zipCode", "69002")
                         })
-                        put("walletId", "12342414-DFD-13434141")
+                        put("walletId", walletId)
                     })
                     put("updatePersonalDetails", false)
                     put("languageCode", "EN")

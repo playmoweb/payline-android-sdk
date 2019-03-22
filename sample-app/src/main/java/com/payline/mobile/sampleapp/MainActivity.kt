@@ -1,5 +1,7 @@
 package com.payline.mobile.sampleapp
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
@@ -16,6 +18,7 @@ import com.payline.mobile.tokenfetcher.FetchTokenResult
 import com.payline.mobile.tokenfetcher.TokenFetcher
 import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.NumberFormatException
+import java.util.*
 
 class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletControllerListener {
 
@@ -92,6 +95,15 @@ class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletContr
 
     //region private token fetching
 
+    private fun getWalletId(): String {
+        val sharedPreferences = getPreferences(Context.MODE_PRIVATE)
+        val walletId = sharedPreferences.getString("WalletId", UUID.randomUUID().toString())!!
+        if(!sharedPreferences.contains("WalletId")) {
+            sharedPreferences.edit().putString("WalletId", walletId).apply()
+        }
+        return walletId
+    }
+
     private fun setupButtons() {
 
         paymentTokenButton.setOnClickListener { fetchTokenForPayment() }
@@ -116,7 +128,7 @@ class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletContr
 
             progressBar.show()
             TokenFetcher(fetchTokenCallback)
-                .execute(FetchTokenParams.testPaymentParams(amount))
+                .execute(FetchTokenParams.testPaymentParams(amount, getWalletId()))
 
         } catch(t: NumberFormatException) {
             Toast.makeText(this, "Invalid amount", Toast.LENGTH_LONG).show()
@@ -126,7 +138,7 @@ class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletContr
     private fun fetchTokenForWallet() {
         progressBar.show()
         TokenFetcher(fetchTokenCallback)
-            .execute(FetchTokenParams.testWalletParams())
+            .execute(FetchTokenParams.testWalletParams(getWalletId()))
     }
 
     private val fetchTokenCallback: (FetchTokenResult?)->Unit = { result ->
