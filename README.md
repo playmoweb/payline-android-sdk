@@ -2,7 +2,7 @@
 
 ## Description
 
-Le SDK Payline est un kit de développement qui va permettre d'intéragir avec le service Payline afin d'effectuer un paiement ou de voir le porte-monnaie.
+Le SDK Payline est un kit de développement qui va permettre d'intéragir avec le service Payline afin d'effectuer un paiement ou de voir le portefeuille.
 
 ## Installation
 
@@ -21,8 +21,8 @@ paymentController.registerListener(listener, context)
 private var walletController = WalletController()
 walletController.registerListener(listener, context)
 ```
-La méthode d'initialisation du paiement requiert deux paramètres: un "paymentControllerListener" et le context
-La méthode d'initialisation du porte-monnaie requiert deux paramètres: un "walletControllerListener" et le context
+La méthode d'initialisation du paiement requiert deux paramètres : un "paymentControllerListener" et le context
+La méthode d'initialisation du portefeuille requiert deux paramètres : un "walletControllerListener" et le context
 
 Cependant, il faut aussi dissocier le listener lorsque vous avez fini d'utiliser le SDK. Habituellement, cela est fait dans le  `onDestroy()` de l'activité:
 
@@ -48,7 +48,7 @@ paymentController.showPaymentForm(uri)
 
 OR
 
-La méthode `showManageWallet` est utilisée pour afficher la page du porte-monnaie.
+La méthode `showManageWallet` est utilisée pour afficher la page de gestion du portefeuille.
 
 ```kotlin
 private val walletController = WalletController()
