@@ -8,7 +8,7 @@ import org.json.JSONArray
  * Cette classe va être utilisée pour traiter le résultat obtenu par la wevView
  * Trois types de données pourront être reçus : Int, String, ObjectArray
  *
- * @link <https://payline.atlassian.net/wiki/spaces/DT/pages/1329037328/PW+-+API+JavaScript>
+ * @link <https://support.payline.com/hc/fr/articles/360017949833-PW-API-JavaScript>
  */
 sealed class ContextInfoResult: Parcelable {
 

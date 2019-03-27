@@ -1,16 +1,16 @@
 # PaylineSDK
 
-# Description
+## Description
 
 Le SDK Payline est un kit de développement qui va permettre d'intéragir avec le service Payline afin d'effectuer un paiement ou de voir le porte-monnaie.
 
-# Installation
+## Installation
 
 ????
 
 # Utilisation
 
-## Initialisation
+### Initialisation
 
 Pour l'initialisation du SDK, il faut tout d'abord instancier un  `PaymentController()` et un  `WalletController()` et ensuite les associer à leur listener qui seront décrits par la suite. Habituellement, cela est fait dans le  `onCreate()` de l'activité:
 
@@ -37,7 +37,7 @@ Pour que votre activité agisse comme un listener, vous devez implémenter les i
 class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletControllerListener
 ```
 
-## Configuration
+### Configuration
 
 La méthode `showPaymentForm` est utilisée pour afficher la page des moyens de paiement.
 
@@ -52,12 +52,22 @@ La méthode `showManageWallet` est utilisée pour afficher la page du porte-monn
 
 ```kotlin
 private val walletController = WalletController()
-walletController.showManageWallet(uri)
+walletController.manageWebWallet(uri)
 ```
-Ces deux méthodes requièrent l'uri de la page vers laquelle nous devons être redirigés.
+Ces deux méthodes requièrent l'uri de la page vers laquelle nous devons être redirigés. La récupération du paramètre `uri` se fera selon vos choix d'implementation.
+Pour plus d'informations, veuillez vous référer à la documentation Payline en cliquant [ici](https://support.payline.com/hc/fr/articles/360000844007-PW-Int%C3%A9gration-Widget)
+
 
 # Payline Documentation
 
-La documentation de Payline peut être trouvé [here](https://payline.atlassian.net/wiki/spaces/DT/overview). Elle offre une vue d'ensemble du sytème, des détails et des explications sur certains sujets.
+La documentation de Payline peut être trouvé [here](https://support.payline.com/hc/fr/articles/360000844007-PW-Int%C3%A9gration-Widget). Elle offre une vue d'ensemble du sytème, des détails et des explications sur certains sujets.
 
 ---
+
+## Author
+
+Payline, support@payline.com
+
+## License
+
+PaylineSDK is available under the MIT license. See the LICENSE file for more info.

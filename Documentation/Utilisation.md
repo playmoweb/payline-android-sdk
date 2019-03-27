@@ -44,9 +44,10 @@ La méthode `showManageWallet` est utilisée pour afficher la page du porte-monn
 
 ```kotlin
 private val walletController = WalletController()
-walletController.showManageWallet(uri)
+walletController.manageWebWallet(uri)
 ```
-Ces deux méthodes requièrent l'uri de la page vers laquelle nous devons être redirigés.
+Ces deux méthodes requièrent l'uri de la page vers laquelle nous devons être redirigés. La récupération du paramètre `uri` se fera selon vos choix d'implementation. 
+Pour plus d'informations, veuillez vous référer à la documentation Payline en cliquant [ici](https://support.payline.com/hc/fr/articles/360000844007-PW-Int%C3%A9gration-Widget)
 
 ### PaymentController
 
@@ -106,7 +107,7 @@ Les différentes clés disponibles pour cette fonction sont les suivantes:
 
 ### PaymentControllerListener
 
-Le `PaymentControllerListener` va permettre d'avertir les classes qui l'implémentent lorsque des données ou des actions sont reçues. Il contient différentes méthodes:
+Le `PaymentControllerListener` est une interface qui définit la communication entre l'application et le PaymentController. Il va permettre d'avertir la classe qui l'implémente lorsque des données ou des actions sont reçues. Il contient différentes méthodes:
 
 ```kotlin
 fun didShowPaymentForm()
@@ -115,15 +116,24 @@ fun didShowPaymentForm()
 
 
 ```kotlin
-fun didCancelPaymentForm()
+fun didFinishPaymentForm(state: WidgetState)
 ```
-`didCancelPaymentForm` est la méthode appelée lorsque la liste des moyens de paiement a été fermée sans avoir effectué ou sélectionné un moyen de paiement.
+`didFinishPaymentForm` est la méthode appelée lorsque le paiement a été terminé. Elle reçoit en paramètre un objet de type  `widgetState` qui correspond aux différents états possible lors de la fin du paiement. Cet objet peut prendre les valeurs suivantes:
 
-
-```kotlin
-fun didFinishPaymentForm()
-```
-`didFinishPaymentForm` est la méthode appelée lorsque le paiement a été terminé.
+    - PAYMENT_METHODS_LIST
+    - PAYMENT_CANCELED
+    - PAYMENT_SUCCESS
+    - PAYMENT_FAILURE
+    - PAYMENT_FAILURE_WITH_RETRY
+    - TOKEN_EXPIRED
+    - BROWSER_NOT_SUPPORTED
+    - PAYMENT_METHOD_NEEDS_MORE_INFOS
+    - PAYMENT_REDIRECT_NO_RESPONSE
+    - MANAGE_WEB_WALLET
+    - ACTIVE_WAITING
+    - PAYMENT_CANCELED_WITH_RETRY
+    - PAYMENT_ONHOLD_PARTNER
+    - PAYMENT_SUCCESS_FORCE_TICKET_DISPLAY
 
 
 ```kotlin
@@ -145,7 +155,7 @@ fun didGetContextInfo(key: ContextInfoKey)
 
 ### WalletControllerListener
 
-Le `WalletControllerListener` va permettre d'avertir les classes qui l'implémentent lorsque des données ou des actions sont reçues. Il contient une méthode:
+Le `WalletControllerListener` est une interface qui définit la communication entre l'application et le WalletController. Il va permettre d'avertir la classe qui l'implémente lorsque des données ou des actions sont reçues. Il contient une méthode:
 
 ```kotlin
 fun didShowManageWebWallet()
@@ -161,11 +171,11 @@ class TestApp: AppCompatActivity(), PaymentControllerListener {
 
     private lateinit var paymentController: PaymentController
 
-    private var uri: Uri? = null
+    private var paymentUri: Uri? = null
     
     private val fetchTokenCallback: (FetchTokenResult?)->Unit = { result ->
         result?.redirectUrl?.let {
-            uri = Uri.parse(it)
+            paymentUri = Uri.parse(it)
         }
     }
     
@@ -176,11 +186,12 @@ class TestApp: AppCompatActivity(), PaymentControllerListener {
         paymentController = PaymentController()
         paymentController.registerListener(this, this)
         
-        fetchTokenForPayment()
+        paymentTokenButton.setOnClickListener { fetchTokenForPayment() }
         
         paymentButton.setOnClickListener {
-            uri ?: return@setOnClickListener
-            paymentController.showPaymentForm(uri!!)
+            paymentUri ?: return@setOnClickListener
+            //On appelle la méthode showPaymentForm avec l'url du tunnel de paiement récupéré en fonction de votre implémentation
+            paymentController.showPaymentForm(paymentUri!!)
         }
     }
     
@@ -194,27 +205,23 @@ class TestApp: AppCompatActivity(), PaymentControllerListener {
     }
     
     override fun didShowPaymentForm() {
-
+        //Gérer l'action ici
     }
     
-    override fun didCancelPaymentForm() {
-
-    }
-    
-    override fun didFinishPaymentForm() {
-
+    override fun didFinishPaymentForm(state: WidgetState) {
+        //Gérer l'action ici
     }
     
     override fun didGetIsSandbox(isSandbox: Boolean) {
-
+        //Gérer l'action ici
     }
     
     override fun didGetLanguage(language: String) {
-
+        //Gérer l'action ici
     }
     
     override fun didGetContextInfo(info: ContextInfoResult) {
-
+        //Gérer l'action ici
     }
 
 }
@@ -227,12 +234,11 @@ class TestApp: AppCompatActivity(), WalletControllerListener {
 
     private lateinit var walletController: WalletController
 
-    private var token: String? = null
-    private var uri: Uri? = null
+    private var walletUri: Uri? = null
 
     private val fetchTokenCallback: (FetchTokenResult?)->Unit = { result ->
         result?.redirectUrl?.let {
-            uri = Uri.parse(it)
+            walletUri = Uri.parse(it)
         }
     }
 
@@ -246,8 +252,9 @@ class TestApp: AppCompatActivity(), WalletControllerListener {
         walletTokenButton.setOnClickListener { fetchTokenForWallet() }
 
         walletButton.setOnClickListener {
-            uri ?: return@setOnClickListener
-            walletController.showManageWallet(uri!!)
+            walletUri ?: return@setOnClickListener
+            //On appelle la méthode manageWebWallet avec l'url du wallet récupéré en fonction de votre implémentation.
+            walletController.manageWebWallet(walletUri!!)
         }
     }
 
@@ -261,7 +268,7 @@ class TestApp: AppCompatActivity(), WalletControllerListener {
     }
 
     override fun didShowManageWebWallet() {
-        
+        //Gérer l'action ici
     }
 
 }

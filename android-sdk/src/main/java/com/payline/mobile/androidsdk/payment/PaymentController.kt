@@ -76,7 +76,7 @@ class PaymentController {
      * et avant la finalisation du paiement.
      *
      * @param data données qui correspondent aux informations de paiement, de la commande et de l'acheteur
-     * @link https://payline.atlassian.net/wiki/spaces/DT/pages/1329037328/PW+-+API+JavaScript
+     * @link <https://support.payline.com/hc/fr/articles/360017949833-PW-API-JavaScript>
      */
     fun updateWebPaymentData(data: JSONObject) {
         broadcastAction(PaymentSdkAction.UpdateWebPaymentData(data))
@@ -111,7 +111,7 @@ class PaymentController {
      * Renvoie une information du contexte grâce à sa clé
      *
      * @param key [ContextInfoKey] correspond à la clé de la donnée que l'on veut récupérer
-     * @link <https://payline.atlassian.net/wiki/spaces/DT/pages/1329037328/PW+-+API+JavaScript>
+     * @link <https://support.payline.com/hc/fr/articles/360017949833-PW-API-JavaScript>
      */
     fun getContextInfo(key: ContextInfoKey) {
         broadcastAction(PaymentSdkAction.GetContextInfo(key))
