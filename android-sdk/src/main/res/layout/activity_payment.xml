@@ -15,7 +15,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_delete"
+        android:src="@drawable/ic_cross"
         android:layout_gravity="end"
         android:layout_margin="16dp"
         android:id="@+id/b_cancel_payment_activity"/>

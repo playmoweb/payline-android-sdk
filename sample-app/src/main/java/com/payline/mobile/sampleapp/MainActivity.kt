@@ -68,6 +68,8 @@ class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletContr
     }
 
     override fun didFinishPaymentForm(state: WidgetState) {
+        paymentButton.isEnabled = false
+        paymentUri = null
         Toast.makeText(this, "didFinishPayementForm called with $state", Toast.LENGTH_LONG).show()
     }
 
@@ -148,10 +150,13 @@ class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletContr
                 FetchTokenParams.Type.PAYMENT -> {
                     paymentUri = Uri.parse(it)
                     printFetchTokenResult(paymentUri)
+                    paymentButton.isEnabled = true
+
                 }
                 FetchTokenParams.Type.WALLET -> {
                     walletUri = Uri.parse(it)
                     printFetchTokenResult(walletUri)
+                    walletButton.isEnabled = true
                 }
             }
         }

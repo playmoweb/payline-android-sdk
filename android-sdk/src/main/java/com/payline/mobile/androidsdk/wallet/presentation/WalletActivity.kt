@@ -8,7 +8,9 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.payline.mobile.androidsdk.R
+import com.payline.mobile.androidsdk.core.domain.SdkAction
 import com.payline.mobile.androidsdk.core.presentation.WebFragment
 import com.payline.mobile.androidsdk.core.presentation.WebViewModel
 import com.payline.mobile.androidsdk.core.util.IntentExtraDelegate
@@ -39,6 +41,10 @@ internal class WalletActivity: AppCompatActivity() {
             progressBar.visibility = if(it) View.VISIBLE else View.GONE
         })
 
+        viewModel.hideCancelButton.observe(this, Observer<Boolean> {
+            b_cancel_wallet_activity.visibility = if(it) View.GONE else View.VISIBLE
+        })
+
         if(savedInstanceState == null) {
 
             supportFragmentManager.executePendingTransactions()
@@ -49,6 +55,10 @@ internal class WalletActivity: AppCompatActivity() {
                 .beginTransaction()
                 .replace(R.id.frameLayout_fragmentContainer_wallet, webFragment, WebFragment::class.java.name)
                 .commit()
+        }
+
+        b_cancel_wallet_activity.setOnClickListener {
+            finish()
         }
     }
 
