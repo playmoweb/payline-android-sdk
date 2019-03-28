@@ -13,10 +13,10 @@ paymentController.registerListener(listener, context)
 private var walletController = WalletController()
 walletController.registerListener(listener, context)
 ```
-La méthode d'initialisation du paiement requiert deux paramètres : un "paymentControllerListener" et le context.
-La méthode d'initialisation du portefeuille requiert deux paramètres : un "walletControllerListener" et le context.
+La méthode d'initialisation du paiement requiert deux paramètres : un "paymentControllerListener" et le "context".
+La méthode d'initialisation du portefeuille requiert deux paramètres : un "walletControllerListener" et le "context".
 
-Cependant, il faut aussi dissocier le listener lorsque vous avez fini d'utiliser le SDK. Habituellement, cela est fait dans le  `onDestroy()` de l'activité:
+Cependant, il faut aussi dissocier le listener lorsque vous avez fini d'utiliser le SDK. Habituellement, cela est fait dans le  `onDestroy()` de l'activité :
 
 ```kotlin
 paymentController.unregisterListener()
@@ -38,8 +38,6 @@ private val paymentController = PaymentController()
 paymentController.showPaymentForm(uri)
 ```
 
-OR
-
 La méthode `showManageWallet` est utilisée pour afficher la page de gestion du portefeuille.
 
 ```kotlin
@@ -51,7 +49,7 @@ Pour plus d'informations, veuillez vous référer à la documentation Payline en
 
 ### PaymentController
 
-Une fois que la page des moyens de paiement a été affichée, plusieurs méthodes sont accessibles:
+Une fois que la page des moyens de paiement a été affichée, plusieurs méthodes sont accessibles :
 
 ```kotlin
 fun updateWebPaymentData(data: JSONObject)
@@ -81,7 +79,7 @@ fun getLanguage()
 fun getContextInfo(key: ContextInfoKey)
 ```
 `getContextInfo` permet de connaitre l'information dont la clé est passée en paramètre.
-Les différentes clés disponibles pour cette fonction sont les suivantes:
+Les différentes clés disponibles pour cette fonction sont les suivantes :
 
     - AMOUNT_SMALLEST_UNIT("PaylineAmountSmallestUnit")
     - CURRENCY_DIGITS("PaylineCurrencyDigits")
@@ -107,7 +105,7 @@ Les différentes clés disponibles pour cette fonction sont les suivantes:
 
 ### PaymentControllerListener
 
-Le `PaymentControllerListener` est une interface qui définit la communication entre l'application et le PaymentController. Il va permettre d'avertir la classe qui l'implémente lorsque des données ou des actions sont reçues. Il contient différentes méthodes:
+Le `PaymentControllerListener` est une interface qui définit la communication entre l'application et le PaymentController. Il va permettre d'avertir la classe qui l'implémente lorsque des données ou des actions sont reçues. Il contient différentes méthodes :
 
 ```kotlin
 fun didShowPaymentForm()
@@ -118,7 +116,7 @@ fun didShowPaymentForm()
 ```kotlin
 fun didFinishPaymentForm(state: WidgetState)
 ```
-`didFinishPaymentForm` est la méthode appelée lorsque le paiement a été terminé. Elle reçoit en paramètre un objet de type  `widgetState` qui correspond aux différents états possible lors de la fin du paiement. Cet objet peut prendre les valeurs suivantes:
+`didFinishPaymentForm` est la méthode appelée lorsque le paiement a été terminé. Elle reçoit en paramètre un objet de type  `widgetState` qui correspond aux différents états possible lors de la fin du paiement. Cet objet peut prendre les valeurs suivantes :
 
     - PAYMENT_METHODS_LIST
     - PAYMENT_CANCELED
@@ -151,20 +149,20 @@ fun didGetLanguage(language: String)
 ```kotlin
 fun didGetContextInfo(key: ContextInfoKey)
 ```
-`didGetContextInfo` est la méthode appelée lorsque l'information du contexte est connue.
+`didGetContextInfo` est la méthode appelée lorsque l'information du contexte est connue. Le paramètre `key` est de type `ContextInfoResult`. Il s'agit d'une classe qui va être utilisée pour traiter le résultat obtenu par la webView. Trois types de données pourront être reçus : "Int", "String" ou "ObjectArray".
 
 ### WalletControllerListener
 
-Le `WalletControllerListener` est une interface qui définit la communication entre l'application et le WalletController. Il va permettre d'avertir la classe qui l'implémente lorsque des données ou des actions sont reçues. Il contient une méthode:
+Le `WalletControllerListener` est une interface qui définit la communication entre l'application et le WalletController. Il va permettre d'avertir la classe qui l'implémente lorsque des données ou des actions sont reçues. Il contient une méthode :
 
 ```kotlin
 fun didShowManageWebWallet()
 ```
 `didShowManageWebWallet` est la méthode appelée lorsque la page de gestion du portefeuille a été affiché.
 
-## Example Usage
+## Exemple d'utilisation
 
-### Initialisation du moyen de paiement
+### Utilisation du moyen de paiement
 
 ```kotlin
 class TestApp: AppCompatActivity(), PaymentControllerListener {
@@ -209,6 +207,7 @@ class TestApp: AppCompatActivity(), PaymentControllerListener {
     }
     
     override fun didFinishPaymentForm(state: WidgetState) {
+        paymentUri = null
         //Gérer l'action ici
     }
     
@@ -227,7 +226,7 @@ class TestApp: AppCompatActivity(), PaymentControllerListener {
 }
 ```
 
-### Initialisation du portefeuille
+### Utilisation du portefeuille
 
 ```kotlin
 class TestApp: AppCompatActivity(), WalletControllerListener {

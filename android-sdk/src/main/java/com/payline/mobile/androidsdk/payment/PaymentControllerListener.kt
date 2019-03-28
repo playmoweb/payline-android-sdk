@@ -15,6 +15,8 @@ interface PaymentControllerListener {
 
     /**
      * Appelée lorsque le paiement a été terminé
+     *
+     * @param state [WidgetState] correspond aux différents états possibles lors de la fin du paiement
      */
     fun didFinishPaymentForm(state: WidgetState)
 

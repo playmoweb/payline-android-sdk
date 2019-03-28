@@ -12,7 +12,7 @@ Le SDK Payline est un kit de développement qui va permettre d'intéragir avec l
 
 ### Initialisation
 
-Pour l'initialisation du SDK, il faut tout d'abord instancier un  `PaymentController()` et un  `WalletController()` et ensuite les associer à leur listener qui seront décrits par la suite. Habituellement, cela est fait dans le  `onCreate()` de l'activité:
+Pour l'initialisation du SDK, il faut tout d'abord instancier un  `PaymentController()` et un  `WalletController()` et ensuite les associer à leur listener qui seront décrits par la suite. Habituellement, cela est fait dans le  `onCreate()` de l'activité :
 
 ```kotlin
 private var paymentController = PaymentController()
@@ -21,17 +21,17 @@ paymentController.registerListener(listener, context)
 private var walletController = WalletController()
 walletController.registerListener(listener, context)
 ```
-La méthode d'initialisation du paiement requiert deux paramètres : un "paymentControllerListener" et le context
-La méthode d'initialisation du portefeuille requiert deux paramètres : un "walletControllerListener" et le context
+La méthode d'initialisation du paiement requiert deux paramètres : un "paymentControllerListener" et le "context".
+La méthode d'initialisation du portefeuille requiert deux paramètres : un "walletControllerListener" et le "context".
 
-Cependant, il faut aussi dissocier le listener lorsque vous avez fini d'utiliser le SDK. Habituellement, cela est fait dans le  `onDestroy()` de l'activité:
+Cependant, il faut aussi dissocier le listener lorsque vous avez fini d'utiliser le SDK. Habituellement, cela est fait dans le  `onDestroy()` de l'activité :
 
 ```kotlin
 paymentController.unregisterListener()
 walletController.unregisterListener()
 ```
 
-Pour que votre activité agisse comme un listener, vous devez implémenter les interfaces `PaymentControllerListener` et `WalletControllerListener`:
+Pour que votre activité agisse comme un listener, vous devez implémenter les interfaces `PaymentControllerListener` et `WalletControllerListener` :
 
 ```kotlin
 class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletControllerListener
