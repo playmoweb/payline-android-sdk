@@ -65,7 +65,7 @@ internal sealed class PaymentSdkResult: SdkResult {
         }
     }
 
-    data class DidGetLanguage(val language: String): PaymentSdkResult() {
+    data class DidGetLanguageCode(val language: String): PaymentSdkResult() {
 
         override fun writeToParcel(dest: Parcel, flags: Int) {
             dest.writeString(language)
@@ -77,9 +77,9 @@ internal sealed class PaymentSdkResult: SdkResult {
 
         companion object {
             @JvmField
-            val CREATOR = object: Parcelable.Creator<DidGetLanguage> {
-                override fun createFromParcel(source: Parcel): DidGetLanguage = DidGetLanguage(source)
-                override fun newArray(size: Int): Array<DidGetLanguage?> = arrayOfNulls(size)
+            val CREATOR = object: Parcelable.Creator<DidGetLanguageCode> {
+                override fun createFromParcel(source: Parcel): DidGetLanguageCode = DidGetLanguageCode(source)
+                override fun newArray(size: Int): Array<DidGetLanguageCode?> = arrayOfNulls(size)
             }
         }
     }

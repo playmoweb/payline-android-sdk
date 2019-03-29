@@ -20,10 +20,10 @@ internal object PaymentWebSdkActionHandler: WebSdkActionDelegate.Handler {
 
         when(action) {
 
-            is PaymentSdkAction.GetLanguage -> {
-                actionExecutor.executeAction(PaymentScriptAction.GetLanguage) {
+            is PaymentSdkAction.GetLanguageCode -> {
+                actionExecutor.executeAction(PaymentScriptAction.GetLanguageCode) {
                     broadcaster.broadcast(
-                        PaymentSdkResult.DidGetLanguage(
+                        PaymentSdkResult.DidGetLanguageCode(
                             it
                         )
                     )

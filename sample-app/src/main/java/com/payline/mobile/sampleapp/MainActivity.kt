@@ -1,7 +1,6 @@
 package com.payline.mobile.sampleapp
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
@@ -57,7 +56,7 @@ class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletContr
     //region implements PaymentControllerListener
 
     override fun didShowPaymentForm() {
-        paymentController.getLanguage()
+        paymentController.getLanguageCode()
         paymentController.getIsSandbox()
         paymentController.getContextInfo(ContextInfoKey.CURRENCY_CODE)
         paymentController.getContextInfo(ContextInfoKey.AMOUNT_SMALLEST_UNIT)
@@ -77,7 +76,7 @@ class MainActivity : AppCompatActivity(), PaymentControllerListener, WalletContr
         Toast.makeText(this, "got isSandbox: $isSandbox", Toast.LENGTH_SHORT).show()
     }
 
-    override fun didGetLanguage(language: String) {
+    override fun didGetLanguageCode(language: String) {
         Toast.makeText(this, "got language: $language", Toast.LENGTH_SHORT).show()
     }
 

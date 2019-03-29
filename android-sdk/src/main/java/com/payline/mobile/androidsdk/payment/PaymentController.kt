@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
-import androidx.core.app.ActivityOptionsCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.payline.mobile.androidsdk.core.data.ContextInfoKey
 import com.payline.mobile.androidsdk.core.domain.SdkAction
@@ -29,7 +28,7 @@ class PaymentController {
             when(sdkResult) {
                 is PaymentSdkResult.DidShowPaymentForm -> listener?.didShowPaymentForm()
                 is PaymentSdkResult.DidFinishPaymentForm -> listener?.didFinishPaymentForm(sdkResult.state)
-                is PaymentSdkResult.DidGetLanguage -> listener?.didGetLanguage(sdkResult.language)
+                is PaymentSdkResult.DidGetLanguageCode -> listener?.didGetLanguageCode(sdkResult.language)
                 is PaymentSdkResult.DidGetIsSandbox -> listener?.didGetIsSandbox(sdkResult.isSandbox)
                 is PaymentSdkResult.DidGetContextInfo -> listener?.didGetContextInfo(sdkResult.result)
             }
@@ -103,8 +102,8 @@ class PaymentController {
     /**
      * Renvoie la clé du language du widget (passé dans la trame DoWebPayment)
      */
-    fun getLanguage() {
-        broadcastAction(PaymentSdkAction.GetLanguage())
+    fun getLanguageCode() {
+        broadcastAction(PaymentSdkAction.GetLanguageCode())
     }
 
     /**

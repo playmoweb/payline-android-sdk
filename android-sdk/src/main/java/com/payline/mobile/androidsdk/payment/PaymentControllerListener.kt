@@ -32,7 +32,7 @@ interface PaymentControllerListener {
      *
      * @param language language correspond à la langue du widget
      */
-    fun didGetLanguage(language: String)
+    fun didGetLanguageCode(language: String)
 
     /**
      * Appelée lorsque l'information du contexte est connue

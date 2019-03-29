@@ -68,7 +68,7 @@ internal sealed class PaymentSdkAction: SdkAction {
         }
     }
 
-    class GetLanguage(): PaymentSdkAction() {
+    class GetLanguageCode(): PaymentSdkAction() {
 
         override fun writeToParcel(dest: Parcel, flags: Int) {
             //The function doesn't have parameters
@@ -80,9 +80,9 @@ internal sealed class PaymentSdkAction: SdkAction {
 
         companion object {
             @JvmField
-            val CREATOR = object: Parcelable.Creator<GetLanguage> {
-                override fun createFromParcel(source: Parcel): GetLanguage = GetLanguage(source)
-                override fun newArray(size: Int): Array<GetLanguage?> = arrayOfNulls(size)
+            val CREATOR = object: Parcelable.Creator<GetLanguageCode> {
+                override fun createFromParcel(source: Parcel): GetLanguageCode = GetLanguageCode(source)
+                override fun newArray(size: Int): Array<GetLanguageCode?> = arrayOfNulls(size)
             }
         }
     }

@@ -10,7 +10,7 @@ class TestPaymentListener: PaymentControllerListener {
     var didFinishPaymentForm = false
     var didFinishPaymentFormState: WidgetState? = null
     var didGetIsSandbox = false
-    var didGetLanguage = false
+    var didGetLanguageCode = false
     var didGetContextInfo = false
     var didGetContextInfoResult: ContextInfoResult? = null
 
@@ -27,8 +27,8 @@ class TestPaymentListener: PaymentControllerListener {
         didGetIsSandbox = true
     }
 
-    override fun didGetLanguage(language: String) {
-        didGetLanguage = true
+    override fun didGetLanguageCode(language: String) {
+        didGetLanguageCode = true
     }
 
     override fun didGetContextInfo(info: ContextInfoResult) {

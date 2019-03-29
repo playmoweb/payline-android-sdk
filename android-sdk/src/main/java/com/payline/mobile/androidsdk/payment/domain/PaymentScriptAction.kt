@@ -28,10 +28,10 @@ internal sealed class PaymentScriptAction: ScriptAction {
             }
     }
 
-    object GetLanguage: PaymentScriptAction() {
+    object GetLanguageCode: PaymentScriptAction() {
 
         override val command: String
-            get() = ScriptAction.commandWrapper("getLanguage()")
+            get() = ScriptAction.commandWrapper("getLanguageCode()")
     }
 
     data class GetContextInfo(val key: ContextInfoKey): PaymentScriptAction() {

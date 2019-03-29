@@ -115,10 +115,10 @@ class PaymentControllerInstrumentedTest {
     }
 
     @Test
-    fun getLanguage() {
+    fun getLanguageCode() {
         commonTestInitWebWidget()
-        paymentController?.getLanguage()
-        await.atMost(MAX_WAIT, SECONDS).until { testListener?.didGetLanguage }
+        paymentController?.getLanguageCode()
+        await.atMost(MAX_WAIT, SECONDS).until { testListener?.didGetLanguageCode }
     }
 
     @Test
