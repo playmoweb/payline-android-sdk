@@ -2,6 +2,10 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
 apply plugin: 'org.jetbrains.dokka-android'
+apply plugin: 'maven-publish'
+
+def artifactId = 'android-sdk'
+def groupId = 'com.payline.mobile'
 
 android {
 
@@ -63,6 +67,15 @@ dependencies {
     androidTestImplementation project(":tokenfetcher")
 }
 
-repositories {
-    mavenCentral()
+publishing {
+    publications {
+        library(MavenPublication) {
+            setGroupId(groupId)
+            setArtifactId(artifactId)
+            version android.defaultConfig.versionName
+            artifact(bundleReleaseAar)
+        }
+    }
 }
+
+
