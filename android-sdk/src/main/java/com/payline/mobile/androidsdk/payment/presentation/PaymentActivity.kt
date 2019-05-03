@@ -70,7 +70,7 @@ internal class PaymentActivity: AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        //Disable button back pressed on this activity
+        b_cancel_payment_activity.performClick()
     }
 
 }

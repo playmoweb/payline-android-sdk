@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'org.jetbrains.dokka-android'
 apply plugin: 'maven-publish'
 
@@ -67,13 +67,32 @@ dependencies {
     androidTestImplementation project(":tokenfetcher")
 }
 
-publishing {
-    publications {
-        library(MavenPublication) {
-            setGroupId(groupId)
-            setArtifactId(artifactId)
-            version android.defaultConfig.versionName
-            artifact(bundleReleaseAar)
+def publishingPath = "${System.getProperty('user.home')}/Desktop/payline/android/sdk"
+
+project.afterEvaluate {
+    publishing {
+        publications {
+            library(MavenPublication) {
+                setGroupId(groupId)
+                setArtifactId(artifactId)
+                version android.defaultConfig.versionName
+                artifact(bundleReleaseAar)
+
+                // maven-publish doesn't pick up on android library dependencies so we are manually adding them here
+                pom.withXml() {
+                    def dependenciesNode = asNode().appendNode('dependencies')
+
+                    configurations.implementation.allDependencies.each {
+                        def dependencyNode = dependenciesNode.appendNode("dependency")
+                        dependencyNode.appendNode('groupId', it.group)
+                        dependencyNode.appendNode('artifactId', it.name)
+                        dependencyNode.appendNode('version', it.version)
+                    }
+                }
+            }
+        }
+        repositories {
+            maven { url publishingPath }
         }
     }
 }
