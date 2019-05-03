@@ -38,8 +38,8 @@ data class FetchTokenParams(
                             put("zipCode", "69002")
                         })
                         put("walletId", walletId)
-                        put("customPaymentPageCode", "TEMPLATE_Gx74VpEkJts")
                     })
+                    put("customPaymentPageCode", "TEMPLATE_Gx74VpEkJts")
                 }
             )
         }

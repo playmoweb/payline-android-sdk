@@ -5,11 +5,11 @@
 
         <activity
             android:name=".payment.presentation.PaymentActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+            android:theme="@style/AppTheme.PaylineSDK"/>
 
         <activity
             android:name=".wallet.presentation.WalletActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+            android:theme="@style/AppTheme.PaylineSDK"/>
 
     </application>
 
