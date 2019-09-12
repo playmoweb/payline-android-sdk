@@ -4,7 +4,7 @@ import com.payline.mobile.androidsdk.core.data.ContextInfoResult
 import com.payline.mobile.androidsdk.core.data.WidgetState
 
 /**
- * TODO: needs doc
+ * Listener pour [PaymentController]
  */
 interface PaymentControllerListener {
 

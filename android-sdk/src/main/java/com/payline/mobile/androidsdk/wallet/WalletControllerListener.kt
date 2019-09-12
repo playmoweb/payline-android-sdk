@@ -1,7 +1,7 @@
 package com.payline.mobile.androidsdk.wallet
 
 /**
- * TODO: needs doc
+ * Listener pour [WalletController]
  */
 interface WalletControllerListener {
 

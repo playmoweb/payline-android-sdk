@@ -1,7 +1,7 @@
 package com.payline.mobile.androidsdk.core.data
 
 /**
- * TODO: document
+ * États du widget possibles
  */
 enum class WidgetState {
     PAYMENT_METHODS_LIST,

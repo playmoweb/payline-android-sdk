@@ -15,7 +15,7 @@ import com.payline.mobile.androidsdk.payment.presentation.PaymentActivity
 import org.json.JSONObject
 
 /**
- * TODO: needs doc
+ * Interface pour les opérations de paiement
  */
 class PaymentController {
 

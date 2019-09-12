@@ -12,7 +12,7 @@ import com.payline.mobile.androidsdk.wallet.domain.WalletSdkResult
 import com.payline.mobile.androidsdk.wallet.presentation.WalletActivity
 
 /**
- * TODO: needs doc
+ * Interface pour les fonctionnalités portefeuille
  */
 class WalletController {
 
