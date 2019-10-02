@@ -129,9 +129,7 @@ internal class WebFragment: Fragment(), ScriptActionExecutor, SdkResultBroadcast
             WidgetState.PAYMENT_METHOD_NEEDS_MORE_INFOS,
             WidgetState.ACTIVE_WAITING,
             WidgetState.PAYMENT_CANCELED_WITH_RETRY,
-            WidgetState.PAYMENT_FAILURE_WITH_RETRY -> {
-                // TODO: anything?
-            }
+            WidgetState.PAYMENT_FAILURE_WITH_RETRY -> {}
         }
     }
 

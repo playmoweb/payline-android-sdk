@@ -65,8 +65,6 @@ class PaymentController {
         val c = context ?: return
         PaymentActivity.buildIntent(c, uri).apply {
             c.startActivity(this)
-//            val opts = ActivityOptionsCompat.makeCustomAnimation(c, 0, 0).toBundle()
-//            c.startActivity(this, opts)
         }
     }
 
