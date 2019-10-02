@@ -126,10 +126,6 @@ internal class WebFragment: Fragment(), ScriptActionExecutor, SdkResultBroadcast
             WidgetState.PAYMENT_REDIRECT_NO_RESPONSE -> {
                 viewModel.hideCancelButton.postValue(true)
             }
-            WidgetState.PAYMENT_METHOD_NEEDS_MORE_INFOS,
-            WidgetState.ACTIVE_WAITING,
-            WidgetState.PAYMENT_CANCELED_WITH_RETRY,
-            WidgetState.PAYMENT_FAILURE_WITH_RETRY -> {}
         }
     }
 

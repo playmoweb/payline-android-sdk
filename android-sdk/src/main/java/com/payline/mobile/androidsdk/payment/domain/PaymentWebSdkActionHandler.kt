@@ -66,14 +66,8 @@ internal object PaymentWebSdkActionHandler: WebSdkActionDelegate.Handler {
         }
     }
 
-    private fun endToken(action: PaymentSdkAction.EndToken, actionExecutor: ScriptActionExecutor, broadcaster: SdkResultBroadcaster) {
-        actionExecutor.executeAction(
-            PaymentScriptAction.EndToken(
-                action.handledByMerchant,
-                action.additionalData
-            ),
-            {}
-        )
+    private fun endToken(action: PaymentSdkAction.EndToken, actionExecutor: ScriptActionExecutor) {
+        actionExecutor.executeAction(PaymentScriptAction.EndToken(action.handledByMerchant, action.additionalData)) {}
     }
 
     override fun handle(action: SdkAction, actionExecutor: ScriptActionExecutor, broadcaster: SdkResultBroadcaster) {
@@ -84,7 +78,7 @@ internal object PaymentWebSdkActionHandler: WebSdkActionDelegate.Handler {
             is PaymentSdkAction.GetLanguageCode -> getLanguageCode(actionExecutor, broadcaster)
             is PaymentSdkAction.IsSandbox -> getIsSandbox(actionExecutor, broadcaster)
             is PaymentSdkAction.GetContextInfo -> getContextInfo(action, actionExecutor, broadcaster)
-            is PaymentSdkAction.EndToken -> endToken(action, actionExecutor, broadcaster)
+            is PaymentSdkAction.EndToken -> endToken(action, actionExecutor)
         }
     }
 }
