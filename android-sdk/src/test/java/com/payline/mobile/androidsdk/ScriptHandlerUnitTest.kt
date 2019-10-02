@@ -1,5 +1,6 @@
 package com.payline.mobile.androidsdk
 
+import android.os.Build
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.payline.mobile.androidsdk.core.data.WidgetState
 import com.payline.mobile.androidsdk.core.domain.web.ScriptEvent
@@ -11,7 +12,7 @@ import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 
 @RunWith(AndroidJUnit4::class)
-@Config(manifest= Config.NONE)
+@Config(manifest= Config.NONE, sdk = [Build.VERSION_CODES.P])
 class ScriptHandlerUnitTest {
 
     @Test
