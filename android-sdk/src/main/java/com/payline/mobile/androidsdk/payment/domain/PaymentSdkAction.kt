@@ -93,7 +93,7 @@ internal sealed class PaymentSdkAction: SdkAction {
             dest.writeString(key.name)
         }
 
-        private constructor(parcel: Parcel): this(ContextInfoKey.valueOf(parcel.readString()))
+        private constructor(parcel: Parcel): this(ContextInfoKey.valueOf(parcel.readString() ?: ""))
 
         override fun describeContents(): Int = 0
 
