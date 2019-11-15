@@ -45,7 +45,7 @@ publishing {
             }
             pom {
                 name = 'Payline Android SDK'
-                description = 'This SDK features Payline's Mobile SDK, which allows a merchant's mobile application to use Payline services to realize an online payment or manage the wallet.'
+                description = "This SDK features Payline's Mobile SDK, which allows a merchant's mobile application to use Payline services to realize an online payment or manage the wallet."
                 url = 'https://github.com/PaylineByMonext/payline-android-sdk'
                 
                 licenses {
