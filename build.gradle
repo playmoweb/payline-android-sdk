@@ -13,11 +13,6 @@ buildscript {
     }
 }
 
-plugins {
-    id 'maven-publish'
-    id 'signing'
-}
-
 group = 'com.payline'
 version = '0.1'
 
@@ -26,71 +21,5 @@ allprojects {
         google()
         jcenter()
         mavenCentral()
-    }
-}
-
-project.afterEvaluate {
-    publishing {
-        publications {
-            aar(MavenPublication) {
-                artifactId = 'android-sdk'
-                
-                artifact bundleReleaseAar
-                artifact sourcesJar
-                artifact packageJavadoc
-                
-                versionMapping {
-                    usage('java-api') {
-                        fromResolutionOf('runtimeClasspath')
-                    }
-                    usage('java-runtime') {
-                        fromResolutionResult()
-                    }
-                }
-                pom {
-                    name = 'Payline Android SDK'
-                    description = "This SDK features Payline's Mobile SDK, which allows a merchant's mobile application to use Payline services to realize an online payment or manage the wallet."
-                    url = 'https://github.com/PaylineByMonext/payline-android-sdk'
-
-                    licenses {
-                        license {
-                            name = 'GNU Lesser General Public License (LGPLv3)'
-                            url = 'http://www.gnu.org/copyleft/lesser.html'
-                        }
-                    }
-                    developers {
-                        developer {
-                            id = 'payline_dev'
-                            name = 'Payline Dev Team'
-                            email = 'support@payline.com'
-                        }
-                    }
-                    scm {
-                        connection = 'scm:git:git://example.com/my-library.git'
-                        developerConnection = 'scm:git:ssh://git@github.com:PaylineByMonext/payline-android-sdk.git'
-                        url = 'https://github.com/PaylineByMonext/payline-java-sdk'
-                    }
-                }
-            }
-        }
-        repositories {
-            maven {
-                // change URLs to point to your repos, e.g. http://my.org/repo
-                def releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
-                def snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots"
-                url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
-            }
-        }
-    }
-
-    signing {
-        sign publishing.publications.aar
-    }
-}
-
-
-javadoc {
-    if(JavaVersion.current().isJava9Compatible()) {
-        options.addBooleanOption('html5', true)
     }
 }

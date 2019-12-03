@@ -3,9 +3,10 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'org.jetbrains.dokka-android'
 apply plugin: 'maven-publish'
+apply plugin: 'signing'
 
 def artifactId = 'android-sdk'
-def groupId = 'com.payline.mobile'
+def groupId = 'com.payline'
 
 android {
 
@@ -15,7 +16,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
-        versionName "1.0.0"
+        versionName "0.9.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -65,8 +66,6 @@ dependencies {
     androidTestImplementation project(":tokenfetcher")
 }
 
-def publishingPath = "${System.getProperty('user.home')}/Desktop/payline/android/sdk"
-
 project.afterEvaluate {
     publishing {
         publications {
@@ -87,11 +86,43 @@ project.afterEvaluate {
                         dependencyNode.appendNode('version', it.version)
                     }
                 }
+                pom {
+                    name = 'Payline Android SDK'
+                    description = "This SDK features Payline's Mobile SDK, which allows a merchant's mobile application to use Payline services to realize an online payment or manage the wallet."
+                    url = 'https://github.com/PaylineByMonext/payline-android-sdk'
+
+                    licenses {
+                        license {
+                            name = 'GNU Lesser General Public License (LGPLv3)'
+                            url = 'http://www.gnu.org/copyleft/lesser.html'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = 'payline_dev'
+                            name = 'Payline Dev Team'
+                            email = 'support@payline.com'
+                        }
+                    }
+                    scm {
+                        connection = 'scm:git:ssh://git@github.com:PaylineByMonext/payline-android-sdk.git'
+                        developerConnection = 'scm:git:ssh://git@github.com:PaylineByMonext/payline-android-sdk.git'
+                        url = 'https://github.com/PaylineByMonext/payline-java-sdk'
+                    }
+                }
             }
         }
         repositories {
-            maven { url publishingPath }
+            maven {
+                def releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+                def snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots"
+                url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+                credentials { username ossrhUser; password ossrhPassword}
+            }
         }
+    }
+    signing {
+        sign publishing.publications.library
     }
 }
 

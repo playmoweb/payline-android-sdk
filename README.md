@@ -17,7 +17,7 @@ Le SDK est disponible sur Maven Central. Pour l’installer :
 1. Ajouter la dépendance suivante :
     ```groovy
     dependencies {
-        implementation ‘com.payline.mobile:android-sdk:1.0.0’
+        implementation ‘com.payline:android-sdk:0.9.0’
     }
     ```
 
