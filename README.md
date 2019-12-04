@@ -1,4 +1,5 @@
 # PaylineSDK
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.payline/android-sdk/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.payline/android-sdk)
 
 ## Description
 
