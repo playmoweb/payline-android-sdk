@@ -1,5 +1,6 @@
 package com.payline.mobile.androidsdk.core.presentation
 
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
@@ -16,5 +17,7 @@ internal class WebViewModel: ViewModel() {
     val hideCancelButton = MutableLiveData<Boolean>().apply {
         value = false
     }
+
+    var currentUrl: Uri? = null
 
 }

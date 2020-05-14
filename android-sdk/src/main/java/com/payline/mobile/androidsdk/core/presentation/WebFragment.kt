@@ -25,11 +25,12 @@ import com.payline.mobile.androidsdk.payment.domain.PaymentSdkResult
 import com.payline.mobile.androidsdk.wallet.domain.WalletSdkResult
 import kotlinx.android.synthetic.main.fragment_web.*
 
-internal class WebFragment: Fragment(), ScriptActionExecutor, SdkResultBroadcaster {
+internal class WebFragment : Fragment(), ScriptActionExecutor, SdkResultBroadcaster {
 
     companion object {
+        private const val EXTRA_URI = "EXTRA_URI"
 
-        private var Bundle.uri by BundleDelegate.Uri("EXTRA_URI")
+        private var Bundle.uri by BundleDelegate.Uri(EXTRA_URI)
 
         fun createInstance(uri: Uri): WebFragment {
             return WebFragment().apply {
@@ -46,7 +47,7 @@ internal class WebFragment: Fragment(), ScriptActionExecutor, SdkResultBroadcast
         WebSdkActionDelegate(this, this)
     }
 
-    private val actionReceiver = object: BroadcastReceiver() {
+    private val actionReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val action = intent.getParcelableExtra<SdkAction?>(SdkAction.EXTRA_SDK_ACTION) ?: return
             actionDelegate.handleAction(action)
@@ -78,15 +79,27 @@ internal class WebFragment: Fragment(), ScriptActionExecutor, SdkResultBroadcast
         val actionFilter = IntentFilter(SdkAction.BROADCAST_SDK_ACTION)
         LocalBroadcastManager.getInstance(activity!!).registerReceiver(actionReceiver, actionFilter)
 
-        arguments?.uri?.let {
+        viewModel.currentUrl = if (savedInstanceState == null) {
+            arguments?.uri
+        } else {
+            Uri.parse(savedInstanceState.getString(EXTRA_URI))
+        }
+
+        viewModel.currentUrl?.let {
             web_view.loadUrl(it.toString())
         }
 
-        web_view.webViewClient = object: WebViewClient() {
+        web_view.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView, url: String) {
+                viewModel.currentUrl = Uri.parse(url)
                 viewModel.isLoading.postValue(false)
             }
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(EXTRA_URI, viewModel.currentUrl.toString())
     }
 
     override fun onDestroyView() {
@@ -94,15 +107,15 @@ internal class WebFragment: Fragment(), ScriptActionExecutor, SdkResultBroadcast
         LocalBroadcastManager.getInstance(activity!!).unregisterReceiver(actionReceiver)
     }
 
-    override fun executeAction(action: ScriptAction, callback: (String)->Unit) {
+    override fun executeAction(action: ScriptAction, callback: (String) -> Unit) {
         scriptHandler.execute(action, web_view, callback)
     }
 
     override fun broadcast(result: SdkResult) {
         LocalBroadcastManager.getInstance(activity!!).sendBroadcast(
-            Intent(SdkResult.BROADCAST_SDK_RESULT).apply {
-                putExtra(SdkResult.EXTRA_SDK_RESULT, result)
-            }
+                Intent(SdkResult.BROADCAST_SDK_RESULT).apply {
+                    putExtra(SdkResult.EXTRA_SDK_RESULT, result)
+                }
         )
     }
 
@@ -115,7 +128,7 @@ internal class WebFragment: Fragment(), ScriptActionExecutor, SdkResultBroadcast
 
         viewModel.hideCancelButton.postValue(false)
 
-        when(event.state) {
+        when (event.state) {
 
             WidgetState.PAYMENT_METHODS_LIST -> {
                 broadcast(PaymentSdkResult.DidShowPaymentForm())
