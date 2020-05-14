@@ -1,5 +1,5 @@
 # PaylineSDK
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.payline/android-sdk/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.payline/android-sdk)
+[![](https://jitpack.io/v/playmoweb/payline-android-sdk.svg)](https://jitpack.io/#playmoweb/payline-android-sdk)
 
 ## Description
 
@@ -12,13 +12,13 @@ Le SDK est disponible sur Maven Central. Pour l’installer :
 1. Vérifier que vous avez ajouté le repository Maven Central à votre projet
     ```groovy
     repositories {
-       mavenCentral()
+       maven { url 'https://jitpack.io' }
     }
     ```
 1. Ajouter la dépendance suivante :
     ```groovy
     dependencies {
-        implementation ‘com.payline:android-sdk:0.9.0’
+        implementation 'com.github.playmoweb:payline-android-sdk:0.10.2'
     }
     ```
 
