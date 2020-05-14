@@ -71,6 +71,18 @@ walletController.manageWebWallet(uri)
 Ces deux méthodes requièrent l'uri de la page vers laquelle nous devons être redirigés. La récupération du paramètre `uri` se fera selon vos choix d'implementation.
 Pour plus d'informations, veuillez vous référer à la documentation Payline en cliquant [ici](https://support.payline.com/hc/fr/articles/360000844007-PW-Int%C3%A9gration-Widget)
 
+### Personnalisation
+
+Vous pouvez personnaliser certains attributs de la page de paiement et de la page de gestion du portefeuille en surchargeant le theme du SDK.
+
+```xml
+    <!-- Override Payline Theme -->
+    <style name="AppTheme.PaylineSDK">
+        <item name="closeButtonColor">@color/my_button_color</item>
+    </style>
+```
+
+- `closeButtonColor` : Couleur de la croix permettant de fermer la page.
 
 # Payline Documentation
 

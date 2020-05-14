@@ -3,9 +3,12 @@
 
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar"/>
 
-    <style name="AppTheme.PaylineSDK">
+    <style name="AppTheme.BasePaylineSDK">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
+        <item name="closeButtonColor">@color/black</item>
     </style>
+
+    <style name="AppTheme.PaylineSDK" parent="AppTheme.BasePaylineSDK" />
 
 </resources>
